@@ -7,6 +7,7 @@ public class Universals {
     public static boolean brakeMode = false;
     public static double wait = 0;
     public static boolean zoomMode = false;
+    public static boolean slowMode = false;
 
 
 }
