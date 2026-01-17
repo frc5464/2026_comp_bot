@@ -14,4 +14,12 @@ public class IntakeSubsystem extends SubsystemBase{
         intake.set(1);
     }
 
+    public void outake(){
+        intake.set(-1);
+    }
+
+    public void stop(){
+        intake.set(0);
+    }
+
 }
