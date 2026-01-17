@@ -23,18 +23,38 @@ import edu.wpi.first.math.geometry.Pose3d;
 import org.photonvision.simulation.VisionSystemSim; 
 
 public class Vision {
-    // these values should be user-configured as needed
+    /* Main class for vision sub-routine
+     * Available functions:
+     *  public double getTargetInfoDouble (int fiducialID, String targetField)
+     *      Get yaw/pitch/area/skew as specified in targetField. Loops through results
+     * 
+     *  public Transform3d getTargetInfoPose (int fiducialID)
+     *      Uses same method but returns robot pose. Seperate function as it's a seperate return value
+     * 
+     *  public List<TargetCorner> getTargetInfoCorners (int fiducialID)
+     *      See above, gets corners of given AprilField
+     * 
+     *  public Pose3d robotPose ()
+     *      Returns the robot's pose using the modern AprilTag method
+     * 
+     *  public void visionUpdateLoop()
+     *      Automatically called in all mentioned functions, includes call counter for function declaration
+     * 
+     * 
+     *  private AprilTagFieldLayout constructAprilField(String jsonPath)
+     *      Primarily for internal declaration and use. safely constructs AprilFields using the passed path (relative)
+     */
+    // These values should be user-configured as needed
     private PhotonCamera camera = new PhotonCamera("null");
     private final String aprilDataPath = "src\\main\\java\\frc\\robot\\subsystems\\april_tag_layouts\\2026-rebuilt-welded.json";
     AprilTagFieldLayout aprilField = constructAprilField(aprilDataPath);
     
-    // these values pull from the aformentioned ones and can stay the same
+    // These values pull from the aformentioned ones and can stay the same
     private List<PhotonPipelineResult> results = camera.getAllUnreadResults();
     private PhotonPipelineResult result = results.get(results.size()-1);
     private VisionSystemSim visionLayout = new VisionSystemSim("primary");
     
-
-    // TODO: Fill in real values
+    // TODO: Fill in placeholder values with real values
     private SwerveDriveKinematics swerveDriveKin;
     private Rotation2d swerveGyroAngle;
     private SwerveModulePosition[] swerveModPos;
@@ -52,7 +72,7 @@ public class Vision {
         
     );
     
-    // apriltag super constructor with t/c
+    // Apriltag super constructor with try/catch
     private AprilTagFieldLayout constructAprilField(String jsonPath){
         try {
             return new AprilTagFieldLayout(aprilDataPath);
@@ -67,11 +87,11 @@ public class Vision {
     //# of times loopthrough, used for variable declaration
     private int loopCount = 0;
 
-    private void visionUpdateLoop(){
+    public void visionUpdateLoop(){
         if (loopCount == 0){
             visionLayout.addAprilTags(aprilField);
-        }
-        loopCount++;
+        } loopCount++;
+
         // re-read from camera
         results=camera.getAllUnreadResults();
         result = results.get(results.size()-1);
@@ -80,25 +100,28 @@ public class Vision {
         mainPoseEst.update(swerveGyroAngle, swerveModPos);
     }
    
-    // internal function used for getting double values, requires fiducialID and what value is needed (yaw, pitch, area, etc etc)
+    // Internal function used for getting double values, requires fiducialID and what value is needed (yaw, pitch, area, etc etc)
     public double getTargetInfoDouble (int fiducialID, String targetField) {
         visionUpdateLoop();
-        if (result.hasTargets()){
-            for (PhotonTrackedTarget i : result.getTargets()) {
-                if (i.getFiducialId() == fiducialID){
-                    switch (targetField) {
-                        case "yaw":
-                            return i.getYaw();
-                        case "pitch":
-                            return i.getPitch();
-                        case "area":
-                            return i.getArea();
-                        case "skew":
-                            return i.getSkew();
-                        default:
-                            continue;
-                    }
-                }
+        if (!result.hasTargets()){
+            return (double) 0;
+        }
+        for (PhotonTrackedTarget i : result.getTargets()) {
+            if (i.getFiducialId() != fiducialID){
+                continue;
+            }
+
+            switch (targetField) {
+                case "yaw":
+                    return i.getYaw();
+                case "pitch":
+                    return i.getPitch();
+                case "area":
+                    return i.getArea();
+                case "skew":
+                    return i.getSkew();
+                default:
+                    continue;
             }
         }
         // return zero if no AprilTag found
@@ -126,6 +149,9 @@ public class Vision {
     }
 
     public Pose3d robotPose (){
+        if (!result.hasTargets()){
+            return null;
+        }
         for (PhotonTrackedTarget i : result.getTargets()) {
             if (aprilField.getTagPose(i.getFiducialId()).isPresent()) {
                 return PhotonUtils.estimateFieldToRobotAprilTag(
