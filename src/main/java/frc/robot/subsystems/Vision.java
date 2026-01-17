@@ -27,6 +27,7 @@ public class Vision {
     private PhotonCamera camera = new PhotonCamera("null");
     private final String aprilDataPath = "src\\main\\java\\frc\\robot\\subsystems\\april_tag_layouts\\2026-rebuilt-welded.json";
     AprilTagFieldLayout aprilField = constructAprilField(aprilDataPath);
+    
     // these values pull from the aformentioned ones and can stay the same
     private List<PhotonPipelineResult> results = camera.getAllUnreadResults();
     private PhotonPipelineResult result = results.get(results.size()-1);
@@ -55,14 +56,17 @@ public class Vision {
     private AprilTagFieldLayout constructAprilField(String jsonPath){
         try {
             return new AprilTagFieldLayout(aprilDataPath);
-        } catch (IOException e) {
+        } 
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
     }
+   
     //# of times loopthrough, used for variable declaration
     private int loopCount = 0;
+
     private void visionUpdateLoop(){
         if (loopCount == 0){
             visionLayout.addAprilTags(aprilField);
@@ -75,6 +79,7 @@ public class Vision {
         // position estimates
         mainPoseEst.update(swerveGyroAngle, swerveModPos);
     }
+   
     // internal function used for getting double values, requires fiducialID and what value is needed (yaw, pitch, area, etc etc)
     public double getTargetInfoDouble (int fiducialID, String targetField) {
         visionUpdateLoop();
@@ -123,7 +128,10 @@ public class Vision {
     public Pose3d robotPose (){
         for (PhotonTrackedTarget i : result.getTargets()) {
             if (aprilField.getTagPose(i.getFiducialId()).isPresent()) {
-                return PhotonUtils.estimateFieldToRobotAprilTag(i.getBestCameraToTarget(),aprilField.getTagPose(i.getFiducialId()).get(),getTargetInfoPose(i.getFiducialId()));
+                return PhotonUtils.estimateFieldToRobotAprilTag(
+                    i.getBestCameraToTarget(),
+                    aprilField.getTagPose(i.getFiducialId()).get(),
+                    getTargetInfoPose(i.getFiducialId()));
             }
         }
         return null;
