@@ -1,32 +1,52 @@
 package frc.robot.subsystems;
+import java.lang.ref.Cleaner;
 import java.util.List;
 
-//import javax.xml.crypto.dsig.Transform;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
-//import org.photonvision.targeting.PhotonPipelineResult;
-//import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-public class Vision {
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 
-    PhotonCamera camera = new PhotonCamera("null");
+import org.photonvision.PhotonUtils;
+import org.photonvision.simulation.VisionSystemSim;
+public class Vision {
+    
+    private PhotonCamera camera = new PhotonCamera("null");
     private List<PhotonPipelineResult> results = camera.getAllUnreadResults();
     private PhotonPipelineResult result = results.get(results.size()-1);
+    private VisionSystemSim visionLayout = new VisionSystemSim("primary");
+    
+    //private final DifferentialDrivePoseEstimator robotPose = 
+    //    new DifferentialDrivePoseEstimator(
+    //        
+    //    );
 
+    //# of times loopthrough, used for variable declaration
+    private int loopCount = 0;
     private void visionUpdateLoop(){
+        if (loopCount == 0){
+            visionLayout.addAprilTags(null);
+            //setup AprilTag layout
+        }
+        loopCount++;
+        
+        // re-read from camera
         results=camera.getAllUnreadResults();
         result = results.get(results.size()-1);
 
     }
-    //private PhotonCamera camera = new PhotonCamera("default");
     
-    public double getTargetInfoDouble (int fidicalID, String targetField) {
+    public double getTargetInfoDouble (int fiducialID, String targetField) {
         visionUpdateLoop();
         if (result.hasTargets()){
             for (PhotonTrackedTarget i : result.getTargets()) {
-                if (i.getFiducialId() == fidicalID){
+                if (i.getFiducialId() == fiducialID){
                     switch (targetField) {
                         case "yaw":
                             return i.getYaw();
@@ -44,6 +64,11 @@ public class Vision {
         }
         // return zero if no AprilTag found
         return (double) 0;
+    }
+
+    public void RelativePosition() {
+            // TODO: make it work
+        return; 
     }
  
 }

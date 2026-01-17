@@ -1,0 +1,5 @@
+include aprilTag json files to be used in ../Vision.java
+currently they can be found at:
+https://github.com/wpilibsuite/allwpilib/tree/main/apriltag/src/main/native/resources/edu/wpi/first/apriltag
+provide used path in the variable "aprilTagVersion" using relative file paths
+example: "aprilTagVersion = "april_tag_layouts/2026-rebuilt-welded.json"
