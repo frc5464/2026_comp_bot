@@ -4,10 +4,14 @@ import java.util.List;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.targeting.TargetCorner;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Rotation2d;
+
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
@@ -23,6 +27,7 @@ public class Vision {
     private List<PhotonPipelineResult> results = camera.getAllUnreadResults();
     private PhotonPipelineResult result = results.get(results.size()-1);
     private VisionSystemSim visionLayout = new VisionSystemSim("primary");
+    
 
     // TODO: Fill in real values
     private SwerveDriveKinematics swerveDriveKin;
@@ -59,7 +64,7 @@ public class Vision {
         // re-read from camera
         results=camera.getAllUnreadResults();
         result = results.get(results.size()-1);
-        
+
         // position estimates
         mainPoseEst.update(swerveGyroAngle, swerveModPos);
     }
@@ -85,7 +90,28 @@ public class Vision {
             }
         }
         // return zero if no AprilTag found
-        return (double) 0;
+        return ((double) 0);
     }
+
+    public Transform3d getTargetInfoPose (int fiducialID) {
+        visionUpdateLoop();
+        for (PhotonTrackedTarget i : result.getTargets()) {
+            if (i.getFiducialId() == fiducialID){
+                return i.getBestCameraToTarget();
+            }    
+        }
+        return (null);
+    }
+
+    public List<TargetCorner> getTargetInfoCorners (int fiducialID){
+        visionUpdateLoop();
+        for (PhotonTrackedTarget i : result.getTargets()) {
+            if (i.getFiducialId() == fiducialID){
+                return i.getDetectedCorners();
+            }
+        }
+        return (null);
+    }
+
  
 }
