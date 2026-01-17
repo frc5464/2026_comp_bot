@@ -78,7 +78,6 @@ public class Vision {
             return new AprilTagFieldLayout(aprilDataPath);
         } 
         catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
