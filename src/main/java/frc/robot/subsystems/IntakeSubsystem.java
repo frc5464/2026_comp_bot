@@ -7,19 +7,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase{
     
-    public SparkMax intake = new SparkMax(10, MotorType.kBrushless);
-   
 
-    public void intake(){
-        intake.set(1);
-    }
+    
+    private final SparkMax leftRotator = new SparkMax(50, MotorType.kBrushless);
+    private final SparkMax rightRotator = new SparkMax(51, MotorType.kBrushless);
+    private final SparkMax intakeRod = new SparkMax(52, MotorType.kBrushless);
 
-    public void outake(){
-        intake.set(-1);
-    }
-
-    public void stop(){
-        intake.set(0);
-    }
 
 }
