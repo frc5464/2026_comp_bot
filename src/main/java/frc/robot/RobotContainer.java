@@ -30,9 +30,12 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
     Universals universals = new Universals();
-    private double MaxSpeed = 0.25 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
-    // private SubsystemManager subsystemManager;
+    private double MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    
+    private double SlowSpeed = 0.1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);// private SubsystemManager subsystemManager;
+    private double SlowAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond);
+    
     // /**
     //  * Connects this to joysticks
     //  * 
@@ -49,9 +52,14 @@ public class RobotContainer {
     // private final SendableChooser<Command> autoChooser;
     
     /* Setting up bindings for necessary control of the swerve drive platform */
+    private final SwerveRequest.FieldCentric slowdrive = new SwerveRequest.FieldCentric()
+            .withDeadband(SlowSpeed * 0.1).withRotationalDeadband(SlowSpeed * 0.2)
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.2) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
@@ -88,6 +96,28 @@ public class RobotContainer {
         if(Math.abs(driveRot) < 0.1){ driveRot = 0;}
     }
 
+    // public void driveNormal(){
+    //     // Note that X is defined as forward according to WPILib convention,
+    //     // and Y is defined as to the left according to WPILib convention.
+    //     drivetrain.setDefaultCommand(
+    //         // Drivetrain will execute this command periodically
+    //         drivetrain.applyRequest(() ->
+    //             drive.withVelocityX(joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+    //                 .withVelocityY(joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+    //                 .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+    //         )
+    //     );
+    // }
+
+    // public void slowMode(){
+    //     drivetrain.setDefaultCommand(
+    //         drivetrain.applyRequest(() -> 
+    //             slowdrive.withVelocityX(joystick.getLeftY() * SlowSpeed)
+    //                     .withVelocityY(joystick.getLeftX() * SlowSpeed)
+    //                     .withRotationalRate(-joystick.getRightX() * SlowAngularRate)
+    //         )
+    //     );
+    // }
     public void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
@@ -98,7 +128,14 @@ public class RobotContainer {
                     .withVelocityY(joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
-        );
+        );    
+
+        // drivetrain.applyRequest(() -> 
+        //         slowdrive.withVelocityX(joystick.getLeftY() * SlowSpeed)
+        //                 .withVelocityY(joystick.getLeftX() * SlowSpeed)
+        //                 .withRotationalRate(-joystick.getRightX() * SlowAngularRate)
+        // )
+        //     );
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -110,10 +147,13 @@ public class RobotContainer {
         //Brake Mode
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
 
-        //???? Mode
+        //point Mode
         joystick.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         ));
+
+        //slow mode
+        joystick.x().whileTrue(drivetrain.applyRequest(() -> slowdrive));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -124,10 +164,12 @@ public class RobotContainer {
 
         
 
+        
+
         //joystick.leftTrigger(0.1).whileTrue(new IntakeCommand(intake, true));
         
         // Zero Gyro              //Reset the field-centric heading on left bumper press.
-        joystick.back().onTrue(new ZeroGyroCommand(drivetrain));
+        joystick.start().onTrue(new ZeroGyroCommand(drivetrain));
         // joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         //joystick2.leftBumper().whileTrue(new IntakeCommand(intake, false));
@@ -137,6 +179,10 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
         
     }
+
+
+        
+
 
     public Command getAutonomousCommand() {
         // return autoChooser.getSelected();
