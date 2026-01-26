@@ -14,16 +14,27 @@ public class IntakeSubsystem extends SubsystemBase{
     private final SparkMax rightRotator = new SparkMax(51, MotorType.kBrushless);
     private final SparkMax intakeRod = new SparkMax(52, MotorType.kBrushless);
 
-    public Command firstCommand(){
+    public Command intakeRod(){
         return runOnce(
             () -> {
-                //run whatever here
+                intakeRod.set(1);
             });
     }
 
-    public boolean condition(){
-        //Check for  boolean condition
-        return false;
+    public Command rotateUp(){
+        return runOnce(
+            () -> {
+                leftRotator.set(.25);
+                rightRotator.set(.25);
+            });
+    }
+    
+    public Command goDown(){
+        return runOnce(
+            () -> {
+                leftRotator.set(-.25);
+                rightRotator.set(-.25);
+            });
     }
 
     @Override
