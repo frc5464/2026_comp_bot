@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 import java.io.IOException;
 import java.util.List;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
+import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
@@ -10,17 +12,14 @@ import org.photonvision.targeting.TargetCorner;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-
-import org.photonvision.simulation.VisionSystemSim; 
+import edu.wpi.first.math.numbers.N3; 
 
 public class Vision {
     /* Main class for vision sub-routine
@@ -43,7 +42,13 @@ public class Vision {
      * 
      *  private AprilTagFieldLayout constructAprilField(String jsonPath)
      *      Primarily for internal declaration and use. safely constructs AprilFields using the passed path (relative)
+     * 
+     *  public double aprilTagDistance(double atMD, int fiducialID)
+     *      return distance to AT as double (0-1), with 1 being 100% of the screen filled.
+     *      offset by atMD (april tag minimum distance)
      */
+
+
     // These values should be user-configured as needed
     private PhotonCamera camera = new PhotonCamera("null");
     private final String aprilDataPath = "src\\main\\java\\frc\\robot\\subsystems\\april_tag_layouts\\2026-rebuilt-welded.json";
@@ -148,6 +153,7 @@ public class Vision {
     }
 
     public Pose3d robotPose (){
+        visionUpdateLoop();
         if (!result.hasTargets()){
             return null;
         }
@@ -161,5 +167,24 @@ public class Vision {
         }
         return null;
     }
+
+    public double aprilTagDistance(double atMD, int fiducialID){
+        //returns 0.0 if april tag not found
+        //returns 1.0 if april tag area >= atMS
+
+        final double ATArea = getTargetInfoDouble(fiducialID, "area")*0.01;
+
+        if (ATArea == 0){
+            return (double) 0;
+        }
+
+        if (ATArea >= 1-atMD){
+            return (double) 1;
+        } else{
+            return ATArea;
+        }
+    }
+
+    
  
 }
