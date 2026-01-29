@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 2.5
+        "x": 7.8,
+        "y": 5.2
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8928932188134526,
-        "y": 3.2071067811865475
+        "x": 6.799999999999999,
+        "y": 5.2
       },
       "isLocked": false,
-      "linkedName": "RSL3"
+      "linkedName": "BL2"
+    },
+    {
+      "anchor": {
+        "x": 4.625,
+        "y": 5.5
+      },
+      "prevControl": {
+        "x": 5.125,
+        "y": 5.5
+      },
+      "nextControl": {
+        "x": 3.125,
+        "y": 5.5
+      },
+      "isLocked": false,
+      "linkedName": "B1"
     },
     {
       "anchor": {
         "x": 1.5,
-        "y": 3.3
+        "y": 4.25
       },
       "prevControl": {
         "x": 2.2071067811865475,
-        "y": 2.592893218813452
+        "y": 4.957106781186548
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TW2"
+      "linkedName": "TW1"
     }
   ],
   "rotationTargets": [],

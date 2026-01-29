@@ -7,31 +7,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL2_B2_BL3"
+            "pathName": "RSL3_B2_BL4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL3_B2_RSL2"
+            "pathName": "BL4_B2_RSL3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "RSL2_B2_BL3"
+            "pathName": "RSL3_B2_BL5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL3_B2_RSL2"
+            "pathName": "BL5_B2_D"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "RSL2_TW2"
+            "pathName": "D_O"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "O_TW2"
           }
         }
       ]

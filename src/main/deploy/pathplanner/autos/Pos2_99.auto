@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL1_B1_BL1"
+            "pathName": "RSL2_B2_BL3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL1_BL6"
+            "pathName": "BL3_B2_RSL3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL5_BL8"
+            "pathName": "RSL3_B2_BL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL4_B2_TW2"
           }
         }
       ]

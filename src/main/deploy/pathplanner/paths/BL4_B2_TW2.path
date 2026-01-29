@@ -3,16 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 2.5
+        "x": 7.8,
+        "y": 3.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8928932188134526,
-        "y": 3.2071067811865475
+        "x": 7.092893218813452,
+        "y": 2.2928932188134525
       },
       "isLocked": false,
-      "linkedName": "RSL3"
+      "linkedName": "BL4"
+    },
+    {
+      "anchor": {
+        "x": 4.625,
+        "y": 2.5
+      },
+      "prevControl": {
+        "x": 5.125,
+        "y": 2.5
+      },
+      "nextControl": {
+        "x": 4.125,
+        "y": 2.5
+      },
+      "isLocked": false,
+      "linkedName": "B2"
     },
     {
       "anchor": {
@@ -20,8 +36,8 @@
         "y": 3.3
       },
       "prevControl": {
-        "x": 2.2071067811865475,
-        "y": 2.592893218813452
+        "x": 2.319152044288992,
+        "y": 2.7264235636489538
       },
       "nextControl": null,
       "isLocked": false,

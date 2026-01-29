@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 2.5
+        "x": 0.4,
+        "y": 0.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8928932188134526,
-        "y": 3.2071067811865475
+        "x": 1.1071067811865474,
+        "y": 1.3571067811865474
       },
       "isLocked": false,
-      "linkedName": "RSL3"
+      "linkedName": "Outpost"
     },
     {
       "anchor": {
-        "x": 1.5,
-        "y": 3.3
+        "x": 4.625,
+        "y": 2.5
       },
       "prevControl": {
-        "x": 2.2071067811865475,
-        "y": 2.592893218813452
+        "x": 4.125,
+        "y": 2.5
+      },
+      "nextControl": {
+        "x": 5.125,
+        "y": 2.5
+      },
+      "isLocked": false,
+      "linkedName": "B2"
+    },
+    {
+      "anchor": {
+        "x": 7.8,
+        "y": 4.0
+      },
+      "prevControl": {
+        "x": 7.092893218813452,
+        "y": 3.292893218813452
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TW2"
+      "linkedName": "BL3"
     }
   ],
   "rotationTargets": [],
