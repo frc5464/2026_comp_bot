@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RSL1_B1_BL1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL1_BL6"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL6_BL10"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

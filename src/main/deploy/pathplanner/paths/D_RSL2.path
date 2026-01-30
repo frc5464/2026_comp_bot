@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0812108262108264,
-        "y": 5.624188034188035
+        "x": 0.5,
+        "y": 5.95
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4688176638176635,
-        "y": 5.637108262108262
+        "x": 1.2071067811865475,
+        "y": 5.242893218813452
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Depot"
     },
     {
       "anchor": {
-        "x": 3.6445584045584045,
-        "y": 5.624188034188035
+        "x": 3.6,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 3.282792022792023,
-        "y": 5.65002849002849
+        "x": 2.8928932188134526,
+        "y": 4.707106781186548
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RSL2"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 1.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
