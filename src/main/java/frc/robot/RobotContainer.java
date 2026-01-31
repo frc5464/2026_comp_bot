@@ -22,15 +22,21 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.Commands.IntakeCommand;
+import frc.robot.Commands.RaiseIntakeCommand;
+import frc.robot.Commands.ShootCommand;
+import frc.robot.Commands.SlowDriveModeCommand;
 // import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.ZeroGyroCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 // import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
-    Universals universals = new Universals();
-    private double MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    // Universals universals = new Universals();
+    private double MaxSpeed = 0.25 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     
@@ -40,13 +46,14 @@ public class RobotContainer {
 
     // /**
     //  * Connects this to joysticks
-    //  * 
+    //  * f
     //  * 
     //  * @param subsystemManager
     //  */
     // public static void create(SubsystemManager subsystemManager){
        // final CommandSwerveDrivetrain drivesubsystem = subsystemManager.getCommandSwerveDrivetrain();
-        //final IntakeSubsystem intake = subsystemManager.getIntakeSubsystem();
+        public IntakeSubsystem intake = new IntakeSubsystem();
+        public ShooterSubsystem shoot = new ShooterSubsystem();
     
     // }
     
@@ -132,8 +139,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX(joystick.getLeftY() * MaxSpeed * Universals.driveSpeedMultiplier) // Drive forward with negative Y (forward)
+                    .withVelocityY(joystick.getLeftX() * MaxSpeed* Universals.driveSpeedMultiplier) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );    
@@ -144,6 +151,7 @@ public class RobotContainer {
         //                 .withRotationalRate(-joystick.getRightX() * SlowAngularRate)
         // )
         //     );
+
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -160,8 +168,14 @@ public class RobotContainer {
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         ));
 
-        //slow mode
-        joystick.x().whileTrue(drivetrain.applyRequest(() -> slowdrive));
+        joystick.x().whileTrue(new SlowDriveModeCommand());
+
+        joystick.leftTrigger().whileTrue(new IntakeCommand(intake));
+        //reverse intake
+        joystick.povUp().whileTrue(new RaiseIntakeCommand(intake));
+
+        //rev up feeder motor up to speed, then shoots when up to speed
+        joystick.rightTrigger().whileTrue(new ShootCommand(shoot));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
