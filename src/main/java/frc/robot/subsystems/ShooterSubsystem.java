@@ -7,6 +7,9 @@ import static edu.wpi.first.wpilibj2.command.Commands.waitUntil;
 
 import java.util.Set;
 
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -20,8 +23,8 @@ import frc.robot.Constants.ShooterConstants;
 @Logged
 public class ShooterSubsystem extends SubsystemBase {
 
-  private final PWMSparkMax m_shooterMotor = new PWMSparkMax(ShooterConstants.kShooterMotorPort);
-  private final PWMSparkMax m_feederMotor = new PWMSparkMax(ShooterConstants.kFeederMotorPort);
+  private final SparkMax m_shooterMotor = new SparkMax(4, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
+  private final SparkMax m_feederMotor = new SparkMax(5, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
 
   private final Encoder m_shooterEncoder =
       new Encoder(
