@@ -54,7 +54,7 @@ public class Vision {
         new PhotonCamera("crabro") /*other-side*/
     };
     
-    private static final String jsonPath = "";
+    private static final String jsonPath = "C:\\Users\\cummi\\Documents\\2026 Code\\2026_comp_bot\\src\\main\\java\\frc\\robot\\subsystems\\vision_extra\\2026-rebuilt-andymark.json";
 
     private AprilTagFieldLayout ATFLsuperConstructor(){
         try {
@@ -63,7 +63,7 @@ public class Vision {
             // TOD0 Auto-generated catch block
             e.printStackTrace();
         }
-        // err functions
+        // err out
         return (new AprilTagFieldLayout(null, (double) 0, (int) 1));
     }
     
@@ -92,7 +92,6 @@ public class Vision {
         swerveVisMeasurementStdDev
         
     );
-    
    
     //# of times loopthrough, used for variable declaration
     private int loopCount = 0;

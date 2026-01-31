@@ -18,7 +18,7 @@ public class SubsystemManager {
         return intakeSubsystem;
     }
 
-    public Vision getVision(){
+    public Vision getVisionSubsystem(){
         return visionSubsystem;
     }
 
