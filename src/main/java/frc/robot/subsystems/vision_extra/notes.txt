@@ -3,3 +3,7 @@ currently they can be found at:
 https://github.com/wpilibsuite/allwpilib/tree/main/apriltag/src/main/native/resources/edu/wpi/first/apriltag
 provide used path in the variable "aprilTagPath" using relative file paths
 example: "aprilTagPath = "april_tag_layouts\2026-rebuilt-welded.json"
+
+Camera Naming Schema:
+Shooter-side camera: apis
+Other-side camera: crabro
