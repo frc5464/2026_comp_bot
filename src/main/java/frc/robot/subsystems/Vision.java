@@ -208,7 +208,4 @@ public class Vision {
             return ATArea;
         }
     }
-
-    
- 
 }
