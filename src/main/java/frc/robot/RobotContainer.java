@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.RaiseIntakeCommand;
+import frc.robot.Commands.ShootCommand;
 import frc.robot.Commands.SlowDriveModeCommand;
 // import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.ZeroGyroCommand;
@@ -31,6 +32,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 // import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
     // Universals universals = new Universals();
@@ -46,6 +48,7 @@ public class RobotContainer {
     // public static void create(SubsystemManager subsystemManager){
        // final CommandSwerveDrivetrain drivesubsystem = subsystemManager.getCommandSwerveDrivetrain();
         public IntakeSubsystem intake = new IntakeSubsystem();
+        public ShooterSubsystem shoot = new ShooterSubsystem();
     
     // }
 
@@ -125,6 +128,9 @@ public class RobotContainer {
         joystick.leftTrigger().whileTrue(new IntakeCommand(intake));
         //reverse intake
         joystick.povUp().whileTrue(new RaiseIntakeCommand(intake));
+
+        //rev up feeder motor up to speed, then shoots when up to speed
+        joystick.rightTrigger().whileTrue(new ShootCommand(shoot));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
