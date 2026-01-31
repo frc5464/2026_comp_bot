@@ -20,29 +20,37 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.Commands.ClimbCommand;
 import frc.robot.Commands.DummyCommand;
 import frc.robot.Commands.IntakeCommand;
+import frc.robot.Commands.LowerIntakeCommand;
 import frc.robot.Commands.RaiseIntakeCommand;
 import frc.robot.Commands.ReverseShooterCommand;
 import frc.robot.Commands.ShootCommand;
 import frc.robot.Commands.SlowDriveModeCommand;
+import frc.robot.Commands.TurretClockwiseCommand;
+import frc.robot.Commands.TurretCounterclockwiseCommand;
 // import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.ZeroGyroCommand;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 // import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
 public class RobotContainer {
 
     private IntakeCommand intakeCommand;
     private ShootCommand shootCommand;
     private DummyCommand dummyCommand;
+    private ClimbCommand climbCommand;
 
     // Universals universals = new Universals();
     private double MaxSpeed = 0.25 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -63,7 +71,8 @@ public class RobotContainer {
        // final CommandSwerveDrivetrain drivesubsystem = subsystemManager.getCommandSwerveDrivetrain();
         public IntakeSubsystem intake = new IntakeSubsystem();
         public ShooterSubsystem shoot = new ShooterSubsystem();
-    
+        public ClimbSubsystem climb = new ClimbSubsystem();
+        public TurretSubsystem turret = new TurretSubsystem();
 
     // }
     
@@ -85,6 +94,7 @@ public class RobotContainer {
 
     private final CommandXboxController driveController = new CommandXboxController(0);
     private final CommandXboxController zackController = new CommandXboxController(1);
+    private final CommandJoystick testController = new CommandJoystick(2);
     
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
@@ -128,14 +138,24 @@ public class RobotContainer {
         if(Math.abs(zackDriveY) < 0.1){ driveY = 0;}
         if(Math.abs(zackDriveRot) < 0.1){ driveRot = 0;}
 
+        //controller deadband for test controller
+        double tDriveX = testController.getRawAxis(1);
+        double tDriveY = testController.getRawAxis(0);
+        double tDriveRot = -testController.getRawAxis(4);
+        if(Math.abs(tDriveX) < 0.1){ driveX = 0;}
+        if(Math.abs(tDriveY) < 0.1){ driveY = 0;}
+        if(Math.abs(tDriveRot) < 0.1){ driveRot = 0;}
+
         
         intakeCommand = new IntakeCommand(intake);
         shootCommand = new ShootCommand(shoot);
         dummyCommand = new DummyCommand();
+        climbCommand = new ClimbCommand(climb, true);
 
-        // NamedCommands.registerCommand("Intake", intakeCommand);
-        // NamedCommands.registerCommand("Shoot", shootCommand);
+        NamedCommands.registerCommand("Intake", intakeCommand);
+        NamedCommands.registerCommand("Shoot", shootCommand);
         NamedCommands.registerCommand("Dummy", dummyCommand);
+        NamedCommands.registerCommand("Climb", climbCommand);
     }
 
     // public void driveNormal(){
@@ -203,6 +223,15 @@ public class RobotContainer {
 
         //rev up feeder motor up to speed, then shoots when up to speed
         driveController.rightTrigger().whileTrue(new ShootCommand(shoot));
+
+        testController.axisGreaterThan(2, 0.95).whileTrue(new LowerIntakeCommand(intake));
+        testController.axisLessThan(2, -0.95).whileTrue(new RaiseIntakeCommand(intake));
+
+        testController.povUp().whileTrue(new ClimbCommand(climb, true));
+        testController.povDown().whileTrue(new ClimbCommand(climb, false));
+
+        testController.axisGreaterThan(3, 0.5).whileTrue(new TurretClockwiseCommand(turret));
+        testController.axisLessThan(3, -0.5).whileTrue(new TurretCounterclockwiseCommand(turret));
 
         zackController.leftBumper().whileTrue(new ReverseShooterCommand(shoot));
 
