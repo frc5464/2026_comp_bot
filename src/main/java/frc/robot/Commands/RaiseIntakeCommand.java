@@ -17,12 +17,12 @@ public class RaiseIntakeCommand extends Command{
 
     @Override
     public void execute(){
-        intake.RaiseIntake();
+        // intake.RaiseIntake();
     }
 
     @Override
     public void end(boolean interrupted){
-        intake.stopElevate();
+        // intake.stopElevate();
     }
 
     @Override

@@ -20,7 +20,7 @@ public class Universals {
 
     public static boolean intaking = false;
     public static boolean feeding = false;
-    public static boolean intakeReverse = false;
+    // public static boolean intakeReverse = false;
     
     public static boolean climbUp = false;
     public static boolean climbDown = false;
@@ -29,7 +29,7 @@ public class Universals {
 
     public static boolean climbOverride = false;
 
-    public static String LEDselected = "White";
+    // public static String LEDselected = "White";
 
     public static boolean snapAprilHub = false;
 
