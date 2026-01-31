@@ -85,4 +85,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void simulationPeriodic() {}
+
+    public void uselessFunctionMauahahaha(){
+        // This can be removed.
+    }
 }

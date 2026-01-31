@@ -96,11 +96,15 @@ public class ShooterSubsystem extends SubsystemBase {
         .withName("Shoot");
   }
 
+  public void reverseShoot(){
+    m_shooterMotor.set(-1);
+    m_feederMotor.set(-1);
+  }
+
   public void disableShoot(){
     m_shooterMotor.set(0);
     m_feederMotor.set(0);
-// >>>>>>> Command-Based-Mechanisms
-}
+  }
 
 
 
