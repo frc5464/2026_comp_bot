@@ -38,27 +38,42 @@ public class Vision {
      * 
      *  public void visionUpdateLoop()
      *      Automatically called in all mentioned functions, includes call counter for function declaration
-     * 
-     * 
-     *  private AprilTagFieldLayout constructAprilField(String jsonPath)
-     *      Primarily for internal declaration and use. safely constructs AprilFields using the passed path (relative)
-     * 
+     *  
      *  public double aprilTagDistance(double atMD, int fiducialID)
      *      return distance to AT as double (0-1), with 1 being 100% of the screen filled.
      *      offset by atMD (april tag minimum distance)
+     * 
+     *  private AprilTagFieldLayout ATFLsuperConstructor(){}
+     *      returns AprilTagFieldLayout data from jsonpath
      */
 
 
     // These values should be user-configured as needed
-    private PhotonCamera camera = new PhotonCamera("null");
-    private final String aprilDataPath = "src\\main\\java\\frc\\robot\\subsystems\\april_tag_layouts\\2026-rebuilt-welded.json";
-    AprilTagFieldLayout aprilField = constructAprilField(aprilDataPath);
+    private PhotonCamera[] cameras = {
+        new PhotonCamera("apis"), /*shooter-side*/
+        new PhotonCamera("crabro") /*other-side*/
+    };
     
+    private static final String jsonPath = "C:\\Users\\cummi\\Documents\\2026 Code\\2026_comp_bot\\src\\main\\java\\frc\\robot\\subsystems\\vision_extra\\2026-rebuilt-andymark.json";
+
+    private AprilTagFieldLayout ATFLsuperConstructor(){
+        try {
+            return (new AprilTagFieldLayout(jsonPath));
+        } catch (IOException e) {
+            // TOD0 Auto-generated catch block
+            e.printStackTrace();
+        }
+        // err out
+        return (new AprilTagFieldLayout(null, (double) 0, (int) 1));
+    }
+    
+    public final AprilTagFieldLayout kTagLayout =
+                ATFLsuperConstructor();
     // These values pull from the aformentioned ones and can stay the same
-    private List<PhotonPipelineResult> results = camera.getAllUnreadResults();
-    private PhotonPipelineResult result = results.get(results.size()-1);
+    private List<PhotonPipelineResult> results;
     private VisionSystemSim visionLayout = new VisionSystemSim("primary");
-    
+    private boolean targetful = false;
+    private List<PhotonTrackedTarget> cuTrackedTargets;
     // TODO: Fill in placeholder values with real values
     private SwerveDriveKinematics swerveDriveKin;
     private Rotation2d swerveGyroAngle;
@@ -66,6 +81,7 @@ public class Vision {
     private Pose2d swerveInitPos;
     private Matrix<N3, N1> swerveStdDev;
     private Matrix<N3, N1> swerveVisMeasurementStdDev;
+
 
     private final SwerveDrivePoseEstimator mainPoseEst = new SwerveDrivePoseEstimator(
         swerveDriveKin,
@@ -76,30 +92,37 @@ public class Vision {
         swerveVisMeasurementStdDev
         
     );
-    
-    // Apriltag super constructor with try/catch
-    private AprilTagFieldLayout constructAprilField(String jsonPath){
-        try {
-            return new AprilTagFieldLayout(aprilDataPath);
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
    
     //# of times loopthrough, used for variable declaration
     private int loopCount = 0;
 
     public void visionUpdateLoop(){
+        results.clear();
         if (loopCount == 0){
-            visionLayout.addAprilTags(aprilField);
+            visionLayout.addAprilTags(kTagLayout);
         } loopCount++;
+        for (PhotonCamera c : cameras) {
+            results.addAll(c.getAllUnreadResults());
+        }
+        for (PhotonPipelineResult r : results) {
+            if (r.hasTargets()){
+                targetful = true;
+                break;
+            }else{
+                continue;
+            }
+            
+        }
+        if (targetful){
+            for (PhotonPipelineResult r : results) {
+                results.add(r);
+                cuTrackedTargets.add(r.getBestTarget());
+                
+            }
+        }
 
-        // re-read from camera
-        results=camera.getAllUnreadResults();
-        result = results.get(results.size()-1);
 
+        
         // position estimates
         mainPoseEst.update(swerveGyroAngle, swerveModPos);
     }
@@ -107,10 +130,10 @@ public class Vision {
     // Internal function used for getting double values, requires fiducialID and what value is needed (yaw, pitch, area, etc etc)
     public double getTargetInfoDouble (int fiducialID, String targetField) {
         visionUpdateLoop();
-        if (!result.hasTargets()){
+        if (!targetful){
             return (double) 0;
         }
-        for (PhotonTrackedTarget i : result.getTargets()) {
+        for (PhotonTrackedTarget i : cuTrackedTargets) {
             if (i.getFiducialId() != fiducialID){
                 continue;
             }
@@ -134,7 +157,7 @@ public class Vision {
 
     public Transform3d getTargetInfoPose (int fiducialID) {
         visionUpdateLoop();
-        for (PhotonTrackedTarget i : result.getTargets()) {
+        for (PhotonTrackedTarget i : cuTrackedTargets) {
             if (i.getFiducialId() == fiducialID){
                 return i.getBestCameraToTarget();
             }    
@@ -144,7 +167,7 @@ public class Vision {
 
     public List<TargetCorner> getTargetInfoCorners (int fiducialID){
         visionUpdateLoop();
-        for (PhotonTrackedTarget i : result.getTargets()) {
+        for (PhotonTrackedTarget i : cuTrackedTargets) {
             if (i.getFiducialId() == fiducialID){
                 return i.getDetectedCorners();
             }
@@ -154,14 +177,14 @@ public class Vision {
 
     public Pose3d robotPose (){
         visionUpdateLoop();
-        if (!result.hasTargets()){
+        if (!targetful){
             return null;
         }
-        for (PhotonTrackedTarget i : result.getTargets()) {
-            if (aprilField.getTagPose(i.getFiducialId()).isPresent()) {
+        for (PhotonTrackedTarget i : cuTrackedTargets) {
+            if (kTagLayout.getTagPose(i.getFiducialId()).isPresent()) {
                 return PhotonUtils.estimateFieldToRobotAprilTag(
                     i.getBestCameraToTarget(),
-                    aprilField.getTagPose(i.getFiducialId()).get(),
+                    kTagLayout.getTagPose(i.getFiducialId()).get(),
                     getTargetInfoPose(i.getFiducialId()));
             }
         }
@@ -184,7 +207,4 @@ public class Vision {
             return ATArea;
         }
     }
-
-    
- 
 }

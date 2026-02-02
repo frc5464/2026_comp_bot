@@ -1,0 +1,9 @@
+include aprilTag json files to be used in ../Vision.java
+currently they can be found at:
+https://github.com/wpilibsuite/allwpilib/tree/main/apriltag/src/main/native/resources/edu/wpi/first/apriltag
+provide used path in the variable "jsonPath" using absolute file paths
+example: "jsonPath = "C:\Users\cummi\Documents\2026 Code\2026_comp_bot\src\main\java\frc\robot\subsystems\vision_extra\2026-rebuilt-andymark.json"
+
+Camera Naming Schema:
+Shooter-side camera: apis
+Other-side camera: crabro

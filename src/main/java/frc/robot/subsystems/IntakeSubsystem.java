@@ -37,12 +37,12 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public void ManualRaiseIntake(){
         leftRotator.set(1);
-        rightRotator.set(-1);
+        // rightRotator.set(-1);
     }
 
     public void ManualLowerIntake(){
         leftRotator.set(-1);
-        rightRotator.set(1);
+        // rightRotator.set(1);
     }
 
     public void stopElevate(){

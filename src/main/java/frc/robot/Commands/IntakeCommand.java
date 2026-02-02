@@ -2,6 +2,7 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Universals;
@@ -33,6 +34,7 @@ public class IntakeCommand extends Command{
             intake.Intake();
         // return;
         // }
+        SmartDashboard.putBoolean("intaking", true);
     }
 
     @Override
@@ -42,6 +44,7 @@ public class IntakeCommand extends Command{
         //     Universals.homingPathToFuel = false;
         // }
         intake.DisableIntake();
+        SmartDashboard.putBoolean("intaking", false);
     }
 
     //Returns value of boolean and quits the command when break beam sensor is tripped
