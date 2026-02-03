@@ -1,6 +1,8 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Universals;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class ZeroGyroCommand extends Command{
@@ -16,17 +18,19 @@ public class ZeroGyroCommand extends Command{
     @Override
     public void initialize(){
         // drivetrain.seedFieldCentric();
+        SmartDashboard.putBoolean("zeroGyro", true);
+        System.out.println("zeroed");
         reset.run();
     }
 
     @Override
     public void execute() {
-
+        
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        SmartDashboard.putBoolean("zeroGyro", false);
     }
 
     @Override

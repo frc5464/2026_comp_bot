@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import com.pathplanner.lib.config.PIDConstants;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 
@@ -21,7 +24,23 @@ public class IntakeSubsystem extends SubsystemBase{
     
     private final SparkMax intakeRod = new SparkMax(52, MotorType.kBrushless);
 
+    public RelativeEncoder climbEncoder;
 
+
+
+  private static final boolean ENABLED = true;
+
+
+  SparkMaxConfig sparkMaxConfig3 = new SparkMaxConfig();
+  // SparkClosedLoopController loopController = climb1.getClosedLoopController();
+  SparkClosedLoopController leftPID = leftRotator.getClosedLoopController();
+  double kP = 0;
+  double kI = 0;
+  double kD = 0;
+  double kIz = 0;
+  double kFF = 0;
+  double extMaxOutput = 0;
+  double extMinOutput = 0;
 
     // private final Encoder encoder = new Encoder(null, null);
 

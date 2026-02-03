@@ -10,53 +10,97 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Universals;
 
-public class ClimbSubsystem extends SubsystemBase{
-    
-    private final SparkMax climber = new SparkMax(55, MotorType.kBrushless);
+public class ClimbSubsystem extends SubsystemBase{  
+  private final SparkMax climber = new SparkMax(55, MotorType.kBrushless);
 
-    // private final SparkMax rightClimbMotor = new SparkMax(56, MotorType.kBrushless);
-public RelativeEncoder climbEncoder;
+  public RelativeEncoder climbEncoder;
 
+  public double up = -10;
+  public double down = 0;
 
+  // private static final boolean ENABLED = true;
 
-  private static final boolean ENABLED = true;
-
-
-  SparkMaxConfig sparkMaxConfig3 = new SparkMaxConfig();
-  // SparkClosedLoopController loopController = climb1.getClosedLoopController();
-  SparkClosedLoopController climbPID = climber.getClosedLoopController();
-  double kP = 0;
-  double kI = 0;
-  double kD = 0;
-  double kIz = 0;
-  double kFF = 0;
-  double extMaxOutput = 0;
-  double extMinOutput = 0;
-  
-
-
-  public double climbEncoderPos;
-  public double counts;
-  
-  public ClimbSubsystem(){
+  public void initialize(){
     climbEncoder = climber.getEncoder();
+    
     climbEncoder.setPosition(0);
   }
 
   public void periodic(){
+    SmartDashboard.putNumber("climbEncoder", climbEncoder.getPosition());
 
-    SmartDashboard.putNumber("ClimbEncoder", climbEncoderPos);
-    //ClimbToLevel(0);
-        //loopController.setReference(400, ControlType.kPosition );
-        
-        climbEncoderPos = climbEncoder.getPosition();
-    } 
-    
-    // @Override
-    // public boolean isEnabled() {
-    //   return ENABLED;
-    // }
+    SmartDashboard.putBoolean("Auto Up", Universals.autoClimbUp);
+    SmartDashboard.putBoolean("Auto Up", Universals.autoClimbDown);
+  }
+
+  // @Override
+  // public boolean isEnabled(){
+  //   return ENABLED;
+  // }
+
+  public void climbUp(){
+      if(Universals.climbUp){
+        if(Universals.climbOverride){
+          climber.set(1);
+        }
+        else if(climbEncoder.getPosition() < up){
+          climber.set(0);
+        }
+        else{
+          climber.set(1);
+        }
+    }
+    else{
+      climbDisable();
+    }
+  }
+
+  public void climbDown(){
+      if(Universals.climbDown){
+          if(Universals.climbOverride){
+              climber.set(-1);
+          }
+          else if(climbEncoder.getPosition() > down){
+              climber.set(0);
+          }
+          else{
+              climber.set(-1);
+          }
+      }
+      else{
+          climbDisable();
+      }
+  }
+
+  public void autoUp(){
+      if(Universals.autoClimbUp){
+          Universals.climbUp = true;
+          climbUp();
+      }
+      else{
+          climbDisable();
+      }  
+  }
+
+  public void autoDown(){
+      if(Universals.autoClimbDown){
+          Universals.climbDown = true;
+          climbDown();
+      }
+      else{
+          climbDisable();
+      }
+  }
+
+  public void climbDisable(){
+    climber.set(0);
+  }
+
+  public void zeroEncoders(){
+    climbEncoder.setPosition(0);
+  }
 
     public void bringUp(){
       climber.set(1);
@@ -64,11 +108,11 @@ public RelativeEncoder climbEncoder;
     public void bringDown(){
       climber.set(-1);
     }
-    public void stop(){
-      climber.set(0);
-    }
+    // public void stop(){
+    //   climber.set(0);
+    // }
 
-    public void reBoot(){
-      climbEncoder.setPosition(0);
-    }
+    // // public void reBoot(){
+    // //   climbEncoder.setPosition(0);
+    // // }
 }

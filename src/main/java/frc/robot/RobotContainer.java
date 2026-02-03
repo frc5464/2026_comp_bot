@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.Commands.ClimbCommand;
+import frc.robot.Commands.ClimbUpCommand;
 import frc.robot.Commands.DummyCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.LowerIntakeCommand;
@@ -50,7 +50,7 @@ public class RobotContainer {
     private IntakeCommand intakeCommand;
     private ShootCommand shootCommand;
     private DummyCommand dummyCommand;
-    private ClimbCommand climbCommand;
+    private ClimbUpCommand climbCommand;
 
     // Universals universals = new Universals();
     private double MaxSpeed = 0.25 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -150,7 +150,7 @@ public class RobotContainer {
         intakeCommand = new IntakeCommand(intake);
         shootCommand = new ShootCommand(shoot);
         dummyCommand = new DummyCommand();
-        climbCommand = new ClimbCommand(climb, true);
+        climbCommand = new ClimbUpCommand(climb, true);
 
         NamedCommands.registerCommand("Intake", intakeCommand);
         NamedCommands.registerCommand("Shoot", shootCommand);
@@ -227,8 +227,8 @@ public class RobotContainer {
         testController.axisGreaterThan(2, 0.95).whileTrue(new LowerIntakeCommand(intake));
         testController.axisLessThan(2, -0.95).whileTrue(new RaiseIntakeCommand(intake));
 
-        testController.povUp().whileTrue(new ClimbCommand(climb, true));
-        testController.povDown().whileTrue(new ClimbCommand(climb, false));
+        testController.povUp().whileTrue(new ClimbUpCommand(climb, true));
+        testController.povDown().whileTrue(new ClimbUpCommand(climb, false));
 
         testController.axisGreaterThan(3, 0.5).whileTrue(new TurretClockwiseCommand(turret));
         testController.axisLessThan(3, -0.5).whileTrue(new TurretCounterclockwiseCommand(turret));
@@ -246,6 +246,7 @@ public class RobotContainer {
         
         // Zero Gyro              //Reset the field-centric heading on left bumper press.
         driveController.start().onTrue(new ZeroGyroCommand(drivetrain));
+
         // joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         drivetrain.registerTelemetry(logger::telemeterize);

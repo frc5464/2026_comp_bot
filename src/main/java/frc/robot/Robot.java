@@ -30,8 +30,8 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run(); 
-        SmartDashboard.putBoolean("brakeMode", Universals.brakeMode);
-        SmartDashboard.putBoolean("zeroGyro", Universals.zeroGyro);
+        // SmartDashboard.putBoolean("brakeMode", Universals.brakeMode);
+        // SmartDashboard.putBoolean("zeroGyro", Universals.zeroGyro);
         
     }
 

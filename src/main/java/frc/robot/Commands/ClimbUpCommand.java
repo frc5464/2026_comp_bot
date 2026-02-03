@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimbSubsystem;
 
-public class ClimbCommand extends Command{
+public class ClimbUpCommand extends Command{
     
 private final ClimbSubsystem climb;
-    private boolean m_climb;
+    // private boolean m_climb;
 
-    public ClimbCommand(ClimbSubsystem climb, boolean m_climb){
+    public ClimbUpCommand(ClimbSubsystem climb, boolean m_climb){
         this.climb = climb;
-        this.m_climb = m_climb;
+        // this.m_climb = m_climb;
     }
 
     @Override
@@ -21,22 +21,23 @@ private final ClimbSubsystem climb;
 
     @Override
     public void execute() {
-        if(m_climb == true){
-            if(climb.climbEncoderPos >= 0){
+        // if(m_climb == true){
+        //     if(climb.climbEncoderPos >= 0){
                 climb.bringUp();
-            } else {
-                climb.stop();
-            }  
-        } else{
-            climb.bringDown();
-        }
+        //     } else {
+        //         climb.stop();
+        //     }  
+        // } else{
+        //     climb.bringDown();
+        // }
 
-        SmartDashboard.putBoolean("Climbing", m_climb);
+        SmartDashboard.putBoolean("Climbing", true);
     }
 
     @Override 
     public void end(boolean interrupted) {
-        climb.stop();
+        climb.climbDisable();
+        SmartDashboard.putBoolean("Climbing", false);
     }
 
     @Override
