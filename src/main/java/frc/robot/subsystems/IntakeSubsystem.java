@@ -24,16 +24,15 @@ public class IntakeSubsystem extends SubsystemBase{
     
     private final SparkMax intakeRod = new SparkMax(52, MotorType.kBrushless);
 
-    public RelativeEncoder climbEncoder;
-
-
+    public RelativeEncoder leftEncoder;
+    public RelativeEncoder rightEncoder;
 
   private static final boolean ENABLED = true;
-
 
   SparkMaxConfig sparkMaxConfig3 = new SparkMaxConfig();
   // SparkClosedLoopController loopController = climb1.getClosedLoopController();
   SparkClosedLoopController leftPID = leftRotator.getClosedLoopController();
+  SparkClosedLoopController rightPID = rightRotator.getClosedLoopController();
   double kP = 0;
   double kI = 0;
   double kD = 0;
