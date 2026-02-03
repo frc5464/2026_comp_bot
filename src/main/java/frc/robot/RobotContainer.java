@@ -57,8 +57,8 @@ public class RobotContainer {
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     
-    private double SlowSpeed = 0.1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);// private SubsystemManager subsystemManager;
-    private double SlowAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond);
+    // private double SlowSpeed = 0.1 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);// private SubsystemManager subsystemManager;
+    // private double SlowAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond);
     
 
     // /**
@@ -77,9 +77,9 @@ public class RobotContainer {
     // }
     
     /* Setting up bindings for necessary control of the swerve drive platform */
-    private final SwerveRequest.FieldCentric slowdrive = new SwerveRequest.FieldCentric()
-            .withDeadband(SlowSpeed * 0.1).withRotationalDeadband(SlowSpeed * 0.2)
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    // private final SwerveRequest.FieldCentric slowdrive = new SwerveRequest.FieldCentric()
+    //         .withDeadband(SlowSpeed * 0.1).withRotationalDeadband(SlowSpeed * 0.2)
+    //         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.2) // Add a 10% deadband
@@ -156,6 +156,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot", shootCommand);
         NamedCommands.registerCommand("Dummy", dummyCommand);
         NamedCommands.registerCommand("Climb", climbCommand);
+
+        climb.initialize();
     }
 
     // public void driveNormal(){

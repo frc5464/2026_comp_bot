@@ -24,15 +24,15 @@ public class ClimbSubsystem extends SubsystemBase{
 
   public void initialize(){
     climbEncoder = climber.getEncoder();
-    
+    SmartDashboard.putNumber("climbEncoder", climbEncoder.getPosition());
     climbEncoder.setPosition(0);
   }
 
   public void periodic(){
-    SmartDashboard.putNumber("climbEncoder", climbEncoder.getPosition());
+    // SmartDashboard.putNumber("climbEncoder", climbEncoder.getPosition());
 
-    SmartDashboard.putBoolean("Auto Up", Universals.autoClimbUp);
-    SmartDashboard.putBoolean("Auto Up", Universals.autoClimbDown);
+    // SmartDashboard.putBoolean("Auto Up", Universals.autoClimbUp);
+    // SmartDashboard.putBoolean("Auto Up", Universals.autoClimbDown);
   }
 
   // @Override
