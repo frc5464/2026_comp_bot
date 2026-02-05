@@ -45,79 +45,79 @@ import frc.robot.Constants.ShooterConstants;
 @Logged
 public class ShooterSubsystem extends SubsystemBase {
 
-  private final SparkMax m_shooterMotor = new SparkMax(4, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
-  private final SparkMax m_feederMotor = new SparkMax(5, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
-  private final SparkMax shootRotator = new SparkMax(76, MotorType.kBrushless);
+  // private final SparkMax m_shooterMotor = new SparkMax(4, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
+  // private final SparkMax m_feederMotor = new SparkMax(5, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
+  // private final SparkMax shootRotator = new SparkMax(76, MotorType.kBrushless);
 
-  private final Encoder m_shooterEncoder =
-      new Encoder(
-          ShooterConstants.kEncoderPorts[0],
-          ShooterConstants.kEncoderPorts[1],
-          ShooterConstants.kEncoderReversed);
-  private final SimpleMotorFeedforward m_shooterFeedforward =
-      new SimpleMotorFeedforward(
-          ShooterConstants.kSVolts, ShooterConstants.kVVoltSecondsPerRotation);
-  private final PIDController m_shooterFeedback = new PIDController(ShooterConstants.kP, 0.0, 0.0);
+  // private final Encoder m_shooterEncoder =
+  //     new Encoder(
+  //         ShooterConstants.kEncoderPorts[0],
+  //         ShooterConstants.kEncoderPorts[1],
+  //         ShooterConstants.kEncoderReversed);
+  // private final SimpleMotorFeedforward m_shooterFeedforward =
+  //     new SimpleMotorFeedforward(
+  //         ShooterConstants.kSVolts, ShooterConstants.kVVoltSecondsPerRotation);
+  // private final PIDController m_shooterFeedback = new PIDController(ShooterConstants.kP, 0.0, 0.0);
 
-  /** The shooter subsystem for the robot. */
-  public ShooterSubsystem() {
-    m_shooterFeedback.setTolerance(ShooterConstants.kShooterToleranceRPS);
-    m_shooterEncoder.setDistancePerPulse(ShooterConstants.kEncoderDistancePerPulse);
+  // /** The shooter subsystem for the robot. */
+  // public ShooterSubsystem() {
+  //   m_shooterFeedback.setTolerance(ShooterConstants.kShooterToleranceRPS);
+  //   m_shooterEncoder.setDistancePerPulse(ShooterConstants.kEncoderDistancePerPulse);
 
-    // Set default command to turn off both the shooter and feeder motors, and then idle
-    setDefaultCommand(
-        runOnce(
-                () -> {
-                  m_shooterMotor.disable();
-                  m_feederMotor.disable();
-                })
-            .andThen(run(() -> {}))
-            .withName("Idle"));
-  }
+  //   // Set default command to turn off both the shooter and feeder motors, and then idle
+  //   setDefaultCommand(
+  //       runOnce(
+  //               () -> {
+  //                 m_shooterMotor.disable();
+  //                 m_feederMotor.disable();
+  //               })
+  //           .andThen(run(() -> {}))
+  //           .withName("Idle"));
+  // }
 
-  /**
-   * Returns a command to shoot the balls currently stored in the robot. Spins the shooter flywheel
-   * up to the specified setpoint, and then runs the feeder motor.
-   *
-   * @param setpointRotationsPerSecond The desired shooter velocity
-   */
-  public Command shootCommand(double setpointRotationsPerSecond) {
-    return parallel(
-            // Run the shooter flywheel at the desired setpoint using feedforward and feedback
-            run(
-                () -> {
-                  m_shooterMotor.set(
-                      m_shooterFeedforward.calculate(setpointRotationsPerSecond)
-                          + m_shooterFeedback.calculate(
-                              m_shooterEncoder.getRate(), setpointRotationsPerSecond));
-                }),
+  // /**
+  //  * Returns a command to shoot the balls currently stored in the robot. Spins the shooter flywheel
+  //  * up to the specified setpoint, and then runs the feeder motor.
+  //  *
+  //  * @param setpointRotationsPerSecond The desired shooter velocity
+  //  */
+  // public Command shootCommand(double setpointRotationsPerSecond) {
+  //   return parallel(
+  //           // Run the shooter flywheel at the desired setpoint using feedforward and feedback
+  //           run(
+  //               () -> {
+  //                 m_shooterMotor.set(
+  //                     m_shooterFeedforward.calculate(setpointRotationsPerSecond)
+  //                         + m_shooterFeedback.calculate(
+  //                             m_shooterEncoder.getRate(), setpointRotationsPerSecond));
+  //               }),
 
-            // Wait until the shooter has reached the setpoint, and then run the feeder
-            waitUntil(m_shooterFeedback::atSetpoint).andThen(() -> m_feederMotor.set(1)))
-        .withName("Shoot");
-  }
+  //           // Wait until the shooter has reached the setpoint, and then run the feeder
+  //           waitUntil(m_shooterFeedback::atSetpoint).andThen(() -> m_feederMotor.set(1)))
+  //       .withName("Shoot");
+  // }
 
-  public void liftShooter(){
-    shootRotator.set(1);
-  }
+  // public void liftShooter(){
+  //   shootRotator.set(1);
+  // }
 
-  public void lowerShooter(){
-    shootRotator.set(-1);
-  }
+  // public void lowerShooter(){
+  //   shootRotator.set(-1);
+  // }
 
-  public void shooterNoMove(){
-    shootRotator.set(0);
-  }
+  // public void shooterNoMove(){
+  //   shootRotator.set(0);
+  // }
 
-  public void reverseShoot(){
-    m_shooterMotor.set(-1);
-    m_feederMotor.set(-1);
-  }
+  // public void reverseShoot(){
+  //   m_shooterMotor.set(-1);
+  //   m_feederMotor.set(-1);
+  // }
 
-  public void disableShoot(){
-    m_shooterMotor.set(0);
-    m_feederMotor.set(0);
-  }
+  // public void disableShoot(){
+  //   m_shooterMotor.set(0);
+  //   m_feederMotor.set(0);
+  // }
 
 
 

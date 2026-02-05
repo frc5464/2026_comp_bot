@@ -23,63 +23,63 @@ public class IntakeSubsystem extends SubsystemBase{
     private final SparkMax leftRotator = new SparkMax(6, MotorType.kBrushless);
     private final SparkMax rightRotator = new SparkMax(3, MotorType.kBrushless);
     
-    private final SparkMax intakeRod = new SparkMax(52, MotorType.kBrushless);
+    private final SparkMax intakeRod = new SparkMax(8, MotorType.kBrushless);
 
-    SparkMaxConfig sparkMaxConfig1;
-    double kP = 0;
-    double kI = 0;
-    double kD = 0;
-    double kIz = 0;
-    double kFF = 0;
-    double extMaxOutput = 0;
-    double extMinOutput = 0;
-    RelativeEncoder leftEncoder;
-    RelativeEncoder rightEncoder;
-    public double leftEncoderPos;
-    public double rightEncoderPos;
-    public double counts;
-    public int level = 0;
+    // SparkMaxConfig sparkMaxConfig1;
+    // double kP = 0;
+    // double kI = 0;
+    // double kD = 0;
+    // double kIz = 0;
+    // double kFF = 0;
+    // double extMaxOutput = 0;
+    // double extMinOutput = 0;
+    // RelativeEncoder leftEncoder;
+    // RelativeEncoder rightEncoder;
+    // public double leftEncoderPos;
+    // public double rightEncoderPos;
+    // public double counts;
+    // public int level = 0;
 
-    public double targetPosition = 0.5;
+    // public double targetPosition = 0.5;
 
-    private SparkMaxConfig leftRotConfig = new SparkMaxConfig();
-    private SparkMaxConfig rightRotConfig = new SparkMaxConfig();
-    private SparkClosedLoopController leftController = leftRotator.getClosedLoopController();
-    private SparkClosedLoopController rightController = rightRotator.getClosedLoopController();
-    private RelativeEncoder leftrelativeEncoder;
-    private RelativeEncoder rightRelativeEncoder;
-    private double maxPower = 0.3;
+    // private SparkMaxConfig leftRotConfig = new SparkMaxConfig();
+    // private SparkMaxConfig rightRotConfig = new SparkMaxConfig();
+    // private SparkClosedLoopController leftController = leftRotator.getClosedLoopController();
+    // private SparkClosedLoopController rightController = rightRotator.getClosedLoopController();
+    // private RelativeEncoder leftrelativeEncoder;
+    // private RelativeEncoder rightRelativeEncoder;
+    // private double maxPower = 0.3;
 
     public IntakeSubsystem(){
-        leftController = leftRotator.getClosedLoopController();
-        rightController = rightRotator.getClosedLoopController();
+    //     leftController = leftRotator.getClosedLoopController();
+    //     rightController = rightRotator.getClosedLoopController();
 
-        leftrelativeEncoder = leftRotator.getEncoder();
-        rightRelativeEncoder = rightRotator.getEncoder();
+    //     leftrelativeEncoder = leftRotator.getEncoder();
+    //     rightRelativeEncoder = rightRotator.getEncoder();
 
-        leftRotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).p(0.3).i(0).d(0).outputRange(-0.3, 0.3);
-        rightRotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).p(0.3).i(0).d(0).outputRange(-0.3, 0.3);
+    //     leftRotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).p(0.3).i(0).d(0).outputRange(-0.3, 0.3);
+    //     rightRotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).p(0.3).i(0).d(0).outputRange(-0.3, 0.3);
 
-        leftRotator.configure(leftRotConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-        rightRotator.configure(rightRotConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    //     leftRotator.configure(leftRotConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    //     rightRotator.configure(rightRotConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     public void periodic(){
-        SmartDashboard.putNumber("leftRaiseIntakeEncoder", leftrelativeEncoder.getPosition());
-        SmartDashboard.putNumber("rightRaiseIntakeEncoder", rightRelativeEncoder.getPosition());
-        leftController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-        rightController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+        // SmartDashboard.putNumber("leftRaiseIntakeEncoder", leftrelativeEncoder.getPosition());
+        // SmartDashboard.putNumber("rightRaiseIntakeEncoder", rightRelativeEncoder.getPosition());
+        // leftController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+        // rightController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         // SmartDashboard.putBoolean("feeding", Universals.feeding);
         // SmartDashboard.putBoolean("Intaking", Universals.intaking);
     }
 
-    public double getLeftCurrent(){
-        return leftRotator.getOutputCurrent();
-    }
+    // public double getLeftCurrent(){
+    //     return leftRotator.getOutputCurrent();
+    // }
 
-    public double getRightCurrent(){
-        return rightRotator.getOutputCurrent();
-    }
+    // public double getRightCurrent(){
+    //     return rightRotator.getOutputCurrent();
+    // }
 
     // public void fuelPickup(){
     //     targetPosition = 1;
@@ -115,7 +115,7 @@ public class IntakeSubsystem extends SubsystemBase{
     public void Intake(){
         // if(Universals.intaking){
             // if(fuelnotdetected == true){
-                intakeRod.set(-1);
+                intakeRod.set(-0.5);
             // }
             // else{
                 // intakeRod.set(0);

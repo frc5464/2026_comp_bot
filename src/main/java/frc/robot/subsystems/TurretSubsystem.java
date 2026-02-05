@@ -9,20 +9,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TurretSubsystem extends SubsystemBase{
     
-    private final SparkMax turret = new SparkMax(66, MotorType.kBrushless);
+    // private final SparkMax turret = new SparkMax(66, MotorType.kBrushless);
 
-    public SparkClosedLoopController turretController = turret.getClosedLoopController();
+    // public SparkClosedLoopController turretController = turret.getClosedLoopController();
 
-    public void clockwise(){
-        turret.set(1);
-    }
+    // public void clockwise(){
+    //     turret.set(1);
+    // }
 
-    public void counterclockwise(){
-        turret.set(-1);
-    }
+    // public void counterclockwise(){
+    //     turret.set(-1);
+    // }
 
-    public void stop(){
-        turret.set(0);
-    }
+    // public void stop(){
+    //     turret.set(0);
+    // }
 
 }

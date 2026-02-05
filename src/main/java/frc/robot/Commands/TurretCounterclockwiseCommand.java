@@ -12,11 +12,11 @@ public class TurretCounterclockwiseCommand extends Command{
 
     @Override
     public void execute(){
-        turret.counterclockwise();
+        // turret.counterclockwise();
     }
 
     @Override
     public void end(boolean interrupted){
-        turret.stop();
+        // turret.stop();
     }
 }

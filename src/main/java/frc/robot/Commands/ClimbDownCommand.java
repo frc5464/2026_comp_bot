@@ -14,12 +14,12 @@ public class ClimbDownCommand extends Command{
 
     @Override
     public void execute(){
-        climb.climbDown();
+        // climb.climbDown();
         SmartDashboard.putBoolean("Descending", true);
     }
 
     @Override
     public void end(boolean interrupted){
-        climb.climbDisable();
+        // climb.climbDisable();
     }
 }

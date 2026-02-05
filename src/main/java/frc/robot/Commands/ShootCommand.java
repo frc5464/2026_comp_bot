@@ -13,13 +13,13 @@ public class ShootCommand extends Command{
 
     @Override
     public void execute(){
-        shooter.shootCommand(0);
+        // shooter.shootCommand(0);
         SmartDashboard.putBoolean("shooting", true);
     }
 
     @Override
     public void end(boolean interrupted){
-        shooter.disableShoot();
+        // shooter.disableShoot();
         SmartDashboard.putBoolean("shooting", false);
     }
 }

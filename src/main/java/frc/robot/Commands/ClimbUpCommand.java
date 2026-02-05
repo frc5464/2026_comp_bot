@@ -23,7 +23,7 @@ private final ClimbSubsystem climb;
     public void execute() {
         // if(m_climb == true){
         //     if(climb.climbEncoderPos >= 0){
-                climb.bringUp();
+                // climb.bringUp();
         //     } else {
         //         climb.stop();
         //     }  
@@ -36,7 +36,7 @@ private final ClimbSubsystem climb;
 
     @Override 
     public void end(boolean interrupted) {
-        climb.climbDisable();
+        // climb.climbDisable();
         SmartDashboard.putBoolean("Climbing", false);
     }
 
