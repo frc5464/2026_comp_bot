@@ -20,8 +20,8 @@ import frc.robot.Universals;
 
 public class IntakeSubsystem extends SubsystemBase{
 
-    private final SparkMax leftRotator = new SparkMax(50, MotorType.kBrushless);
-    private final SparkMax rightRotator = new SparkMax(51, MotorType.kBrushless);
+    private final SparkMax leftRotator = new SparkMax(6, MotorType.kBrushless);
+    private final SparkMax rightRotator = new SparkMax(3, MotorType.kBrushless);
     
     private final SparkMax intakeRod = new SparkMax(52, MotorType.kBrushless);
 
@@ -58,25 +58,49 @@ public class IntakeSubsystem extends SubsystemBase{
         rightRelativeEncoder = rightRotator.getEncoder();
 
         leftRotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).p(0.3).i(0).d(0).outputRange(-0.3, 0.3);
+        rightRotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).p(0.3).i(0).d(0).outputRange(-0.3, 0.3);
 
         leftRotator.configure(leftRotConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        rightRotator.configure(rightRotConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     public void periodic(){
-        SmartDashboard.putNumber("leftIntakeEncoder", leftrelativeEncoder.getPosition());
+        SmartDashboard.putNumber("leftRaiseIntakeEncoder", leftrelativeEncoder.getPosition());
+        SmartDashboard.putNumber("rightRaiseIntakeEncoder", rightRelativeEncoder.getPosition());
         leftController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+        rightController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         // SmartDashboard.putBoolean("feeding", Universals.feeding);
         // SmartDashboard.putBoolean("Intaking", Universals.intaking);
     }
 
+    public double getLeftCurrent(){
+        return leftRotator.getOutputCurrent();
+    }
+
+    public double getRightCurrent(){
+        return rightRotator.getOutputCurrent();
+    }
+
+    // public void fuelPickup(){
+    //     targetPosition = 1;
+    // }
+
+    // public void start(){
+    //     targetPosition = 0;
+    // }
+
+    // public void reBoot(){
+    //     leftEncoder.setPosition(0);
+    // }
+
     public void ManualRaiseIntake(){
-        leftRotator.set(1);
-        // rightRotator.set(-1);
+        leftRotator.set(0.1);
+        rightRotator.set(0.1);
     }
 
     public void ManualLowerIntake(){
-        leftRotator.set(-1);
-        // rightRotator.set(1);
+        leftRotator.set(-0.1);
+        rightRotator.set(-0.1);
     }
 
     public void intakeUp(){

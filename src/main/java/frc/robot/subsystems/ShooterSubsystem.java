@@ -47,6 +47,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private final SparkMax m_shooterMotor = new SparkMax(4, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
   private final SparkMax m_feederMotor = new SparkMax(5, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
+  private final SparkMax shootRotator = new SparkMax(76, MotorType.kBrushless);
 
   private final Encoder m_shooterEncoder =
       new Encoder(
@@ -94,6 +95,18 @@ public class ShooterSubsystem extends SubsystemBase {
             // Wait until the shooter has reached the setpoint, and then run the feeder
             waitUntil(m_shooterFeedback::atSetpoint).andThen(() -> m_feederMotor.set(1)))
         .withName("Shoot");
+  }
+
+  public void liftShooter(){
+    shootRotator.set(1);
+  }
+
+  public void lowerShooter(){
+    shootRotator.set(-1);
+  }
+
+  public void shooterNoMove(){
+    shootRotator.set(0);
   }
 
   public void reverseShoot(){

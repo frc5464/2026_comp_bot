@@ -157,7 +157,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("Dummy", dummyCommand);
         NamedCommands.registerCommand("Climb", climbCommand);
 
-        climb.initialize();
+        // intake.periodic();
+        // shoot.periodic();
+        // climb.initialize();
+
     }
 
     // public void driveNormal(){
@@ -221,8 +224,6 @@ public class RobotContainer {
 
         driveController.leftTrigger().whileTrue(new IntakeCommand(intake));
  
-        // drive.povUp().whileTrue(new RaiseIntakeCommand(intake));
-
         //rev up feeder motor up to speed, then shoots when up to speed
         driveController.rightTrigger().whileTrue(new ShootCommand(shoot));
 
