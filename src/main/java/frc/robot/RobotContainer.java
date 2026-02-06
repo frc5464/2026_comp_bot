@@ -139,8 +139,8 @@ public class RobotContainer {
         if(Math.abs(zackDriveRot) < 0.1){ driveRot = 0;}
 
         //controller deadband for test controller
-        double tDriveX = testController.getRawAxis(1);
-        double tDriveY = testController.getRawAxis(0);
+        double tDriveX = testController.getRawAxis(0);
+        double tDriveY = testController.getRawAxis(1);
         double tDriveRot = -testController.getRawAxis(4);
         if(Math.abs(tDriveX) < 0.1){ driveX = 0;}
         if(Math.abs(tDriveY) < 0.1){ driveY = 0;}
@@ -227,8 +227,8 @@ public class RobotContainer {
         //rev up feeder motor up to speed, then shoots when up to speed
         driveController.rightTrigger().whileTrue(new ShootCommand(shoot));
 
-        testController.axisGreaterThan(2, 0.95).whileTrue(new LowerIntakeCommand(intake));
-        testController.axisLessThan(2, -0.95).whileTrue(new RaiseIntakeCommand(intake));
+        testController.button(2).whileTrue(new LowerIntakeCommand(intake));
+        testController.button(1).whileTrue(new RaiseIntakeCommand(intake));
 
         testController.povUp().whileTrue(new ClimbUpCommand(climb, true));
         testController.povDown().whileTrue(new ClimbUpCommand(climb, false));

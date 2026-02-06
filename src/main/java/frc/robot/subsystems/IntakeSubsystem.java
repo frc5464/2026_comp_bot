@@ -25,30 +25,30 @@ public class IntakeSubsystem extends SubsystemBase{
     
     private final SparkMax intakeRod = new SparkMax(8, MotorType.kBrushless);
 
-    // SparkMaxConfig sparkMaxConfig1;
-    // double kP = 0;
-    // double kI = 0;
-    // double kD = 0;
-    // double kIz = 0;
-    // double kFF = 0;
-    // double extMaxOutput = 0;
-    // double extMinOutput = 0;
-    // RelativeEncoder leftEncoder;
-    // RelativeEncoder rightEncoder;
-    // public double leftEncoderPos;
-    // public double rightEncoderPos;
-    // public double counts;
-    // public int level = 0;
+    SparkMaxConfig sparkMaxConfig1;
+    double kP = 0;
+    double kI = 0;
+    double kD = 0;
+    double kIz = 0;
+    double kFF = 0;
+    double extMaxOutput = 0;
+    double extMinOutput = 0;
+    RelativeEncoder leftEncoder;
+    RelativeEncoder rightEncoder;
+    public double leftEncoderPos;
+    public double rightEncoderPos;
+    public double counts;
+    public int level = 0;
 
-    // public double targetPosition = 0.5;
+    public double targetPosition = 0.5;
 
-    // private SparkMaxConfig leftRotConfig = new SparkMaxConfig();
-    // private SparkMaxConfig rightRotConfig = new SparkMaxConfig();
+    private SparkMaxConfig leftRotConfig = new SparkMaxConfig();
+    private SparkMaxConfig rightRotConfig = new SparkMaxConfig();
     // private SparkClosedLoopController leftController = leftRotator.getClosedLoopController();
     // private SparkClosedLoopController rightController = rightRotator.getClosedLoopController();
-    // private RelativeEncoder leftrelativeEncoder;
-    // private RelativeEncoder rightRelativeEncoder;
-    // private double maxPower = 0.3;
+    private RelativeEncoder leftrelativeEncoder;
+    private RelativeEncoder rightRelativeEncoder;
+    private double maxPower = 0.3;
 
     public IntakeSubsystem(){
     //     leftController = leftRotator.getClosedLoopController();
@@ -94,13 +94,13 @@ public class IntakeSubsystem extends SubsystemBase{
     // }
 
     public void ManualRaiseIntake(){
-        leftRotator.set(0.1);
-        rightRotator.set(0.1);
+        leftRotator.set(0.20);
+        rightRotator.set(0.20);
     }
 
     public void ManualLowerIntake(){
-        leftRotator.set(-0.1);
-        rightRotator.set(-0.1);
+        leftRotator.set(-0.10);
+        rightRotator.set(-0.10);
     }
 
     public void intakeUp(){
