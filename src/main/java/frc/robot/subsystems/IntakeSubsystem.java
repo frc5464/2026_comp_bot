@@ -38,25 +38,18 @@ public class IntakeSubsystem extends SubsystemBase{
     double extMaxOutput = 0;
     double extMinOutput = 0;
     RelativeEncoder leftEncoder;
-    // RelativeEncoder rightEncoder;
     public double encoderPos;
-    // public double rightEncoderPos;
     public double counts;
     public int jawPosition = 0;
     PIDController jawPID;
 
     public double targetPosition = 0.5;
 
-    // private SparkMaxConfig leftRotConfig = new SparkMaxConfig();
-    // private SparkMaxConfig rightRotConfig = new SparkMaxConfig();
-    // private SparkClosedLoopController leftController = leftRotator.getClosedLoopController();
-    // private SparkClosedLoopController rightController = rightRotator.getClosedLoopController();
-    // private RelativeEncoder leftrelativeEncoder;
-    // private RelativeEncoder rightRelativeEncoder;
-    // private double maxPower = 0.3;
 
     public IntakeSubsystem(){
         jawPID = new PIDController(kP, kI, kD);
+
+        initPid(); 
 
         leftEncoder = leftJaw.getEncoder();
         
@@ -71,43 +64,11 @@ public class IntakeSubsystem extends SubsystemBase{
         conf2.idleMode(IdleMode.kBrake);
         rightJaw.configure(conf2, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
    
-   
-   
-   
-        //     leftController = leftRotator.getClosedLoopController();
-    //     rightController = rightRotator.getClosedLoopController();
-
-    //     leftrelativeEncoder = leftRotator.getEncoder();
-    //     rightRelativeEncoder = rightRotator.getEncoder();
-
-    //     leftRotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).p(0.3).i(0).d(0).outputRange(-0.3, 0.3);
-    //     rightRotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).p(0.3).i(0).d(0).outputRange(-0.3, 0.3);
-
-    //     leftRotator.configure(leftRotConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-    //     rightRotator.configure(rightRotConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
-    private void checkForPidChanges(){
-    double newP = SmartDashboard.getNumber("elP", -1);
-    double newI = SmartDashboard.getNumber("elI", -1);
-    double newD = SmartDashboard.getNumber("elD", -1);
-    // System.out.println(newP);
-    if(newP != kP){
-      kP = newP;
-      jawPID.setP(newP);
-      System.out.println("New P parameter!");
+    private void initPid(){
+        // do your pid initialization here
     }
-    if(newI != kI){
-      kI = newI;
-      jawPID.setI(newI);
-      System.out.println("New I parameter!");
-    }
-    if(newD != kD){
-      kD = newD;
-      jawPID.setD(newD);
-      System.out.println("New D parameter!");
-    }
-  }
 
     public void periodic(){
         encoderPos = leftEncoder.getPosition();
@@ -115,18 +76,12 @@ public class IntakeSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("JawEncoder", encoderPos);
         SmartDashboard.putNumber("JawTarget", targetPosition);
 
-        checkForPidChanges();
-
-
-        // SmartDashboard.putNumber("leftRaiseIntakeEncoder", leftrelativeEncoder.getPosition());
-        // SmartDashboard.putNumber("rightRaiseIntakeEncoder", rightRelativeEncoder.getPosition());
-        // leftController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-        // rightController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-        // SmartDashboard.putBoolean("feeding", Universals.feeding);
-        // SmartDashboard.putBoolean("Intaking", Universals.intaking);
+        // do your pid calculation here (use targetPosition!)
     }
 
+ 
     public void jawPIDToLevel(){
+        // (make this modify targetPosition)
         if(jawPosition == 1){
             encoderPos = -4.5;
         }
@@ -137,22 +92,6 @@ public class IntakeSubsystem extends SubsystemBase{
             leftJaw.set(0);
         }
     }
-
-    // public double getLeftCurrent(){
-    //     return leftRotator.getOutputCurrent();
-    // }
-
-    // public double getRightCurrent(){
-    //     return rightRotator.getOutputCurrent();
-    // }
-
-    // public void fuelPickup(){
-    //     targetPosition = 1;
-    // }
-
-    // public void start(){
-    //     targetPosition = 0;
-    // }
 
     public void reBoot(){
         leftEncoder.setPosition(0);
