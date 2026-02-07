@@ -60,11 +60,12 @@ public class Vision {
             e.printStackTrace();
             return (new AprilTagFieldLayout(null, (double) 0, (int) 1));
         }
-        
+
     }
 
     public final AprilTagFieldLayout kTagLayout = ATFLsuperConstructor();
 
+    private String debugOutputRobotPose3d = robotPose().toString();
     private List<PhotonPipelineResult> results;
     private VisionSystemSim visionLayout = new VisionSystemSim("primary");
     private boolean targetful = false;
@@ -97,16 +98,20 @@ public class Vision {
 
     public void visionUpdateLoop() {
         // update result list, find targets, and update position estimates
-        results.clear();
         targetful = false;
         cuTrackedTargets.clear();
         if (visionLayoutDefined == false) {
             visionLayout.addAprilTags(kTagLayout);
             visionLayoutDefined = true;
         }
+
         for (PhotonCamera c : cameras) {
             results.addAll(c.getAllUnreadResults());
         }
+        if (results.size() > 20) {
+            results.remove(results.size() - 1);
+        }
+
         for (PhotonPipelineResult r : results) {
             if (r.hasTargets()) {
                 targetful = true;
@@ -124,12 +129,12 @@ public class Vision {
             }
             if (enableDebugOutput) {
                 SmartDashboard.putBoolean("has_targets", targetful);
+                SmartDashboard.putString("robot_position", debugOutputRobotPose3d);
             }
         }
         // position estimates
         mainPoseEst.update(swerveGyroAngle, swerveModPos);
     }
-
 
     public double getTargetInfoDouble(int fiducialID, String targetField) {
         // returns targetField(yaw,pitch,area,skew) of fiducialID AprilTag
@@ -160,7 +165,7 @@ public class Vision {
     }
 
     public Transform3d getTargetInfoPose(int fiducialID) {
-        //gets Transform3d of fiducialID AprilTag
+        // gets Transform3d of fiducialID AprilTag
         visionUpdateLoop();
         for (PhotonTrackedTarget i : cuTrackedTargets) {
             if (i.getFiducialId() == fiducialID) {
@@ -171,7 +176,7 @@ public class Vision {
     }
 
     public List<TargetCorner> getTargetInfoCorners(int fiducialID) {
-        //get corners of fiducialID AprilTag
+        // get corners of fiducialID AprilTag
         visionUpdateLoop();
         for (PhotonTrackedTarget i : cuTrackedTargets) {
             if (i.getFiducialId() == fiducialID) {
@@ -182,7 +187,7 @@ public class Vision {
     }
 
     public Pose3d robotPose() {
-        //gets pose3d of robot based off of AprilTag positions
+        // gets pose3d of robot based off of AprilTag positions
         visionUpdateLoop();
         if (!targetful) {
             return null;
