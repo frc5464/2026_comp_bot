@@ -5,14 +5,31 @@
 package frc.robot;
 
 import com.ctre.phoenix6.HootAutoReplay;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Commands.ClimbUpCommand;
+import frc.robot.Commands.DummyCommand;
+import frc.robot.Commands.IntakeCommand;
+import frc.robot.Commands.IntakeToPositionCommand;
+import frc.robot.Commands.ShootCommand;
+import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
+
+    private IntakeCommand intakeCommand;
+    private ShootCommand shootCommand;
+    private DummyCommand dummyCommand;
+    private ClimbUpCommand climbCommand;
+    private IntakeToPositionCommand downers;
+    private IntakeToPositionCommand uppies;
+    // private IntakeSubsystem intake;
 
     private final RobotContainer m_robotContainer/* = new RobotContainer()*/;
 
@@ -22,14 +39,33 @@ public class Robot extends TimedRobot {
         .withJoystickReplay();
 
     public Robot() {
+        
+        // ShooterSubsystem shoot = new ShooterSubsystem();
+        // ClimbSubsystem climb = new ClimbSubsystem();
         m_robotContainer = new RobotContainer();
         SmartDashboard.putData("Auto Mode", m_robotContainer.autoChooser);
+        
+        
+        intakeCommand = new IntakeCommand(m_robotContainer.intake);
+        // shootCommand = new ShootCommand(shoot);
+        dummyCommand = new DummyCommand();
+        // climbCommand = new ClimbUpCommand(climb, true);
+        downers = new IntakeToPositionCommand(m_robotContainer.intake, 1);
+        uppies = new IntakeToPositionCommand(m_robotContainer.intake, 0);
+
+        NamedCommands.registerCommand("Intake", intakeCommand);
+        NamedCommands.registerCommand("Shoot", shootCommand);
+        NamedCommands.registerCommand("Dummy", dummyCommand);
+        NamedCommands.registerCommand("Climb", climbCommand);
+        NamedCommands.registerCommand("IntakeDown", downers);
+        NamedCommands.registerCommand("IntakeUp", uppies);
     }
 
     @Override
     public void robotPeriodic() {
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run(); 
+        m_robotContainer.intake.periodic();
         // SmartDashboard.putBoolean("brakeMode", Universals.brakeMode);
         // SmartDashboard.putBoolean("zeroGyro", Universals.zeroGyro);
         
