@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Commands.ClimbUpCommand;
 import frc.robot.Commands.DummyCommand;
 import frc.robot.Commands.IntakeCommand;
+import frc.robot.Commands.IntakeToPositionCommand;
 import frc.robot.Commands.LowerIntakeCommand;
 import frc.robot.Commands.RaiseIntakeCommand;
 import frc.robot.Commands.ReverseShooterCommand;
@@ -37,6 +38,7 @@ import frc.robot.Commands.TurretClockwiseCommand;
 import frc.robot.Commands.TurretCounterclockwiseCommand;
 // import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.ZeroGyroCommand;
+import frc.robot.Commands.ZeroIntakeCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -157,7 +159,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Dummy", dummyCommand);
         NamedCommands.registerCommand("Climb", climbCommand);
 
-        // intake.periodic();
+        intake.periodic();
+
         // shoot.periodic();
         // climb.initialize();
 
@@ -230,6 +233,10 @@ public class RobotContainer {
         testController.button(2).whileTrue(new LowerIntakeCommand(intake));
         testController.button(1).whileTrue(new RaiseIntakeCommand(intake));
 
+        zackController.a().onTrue(new IntakeToPositionCommand(intake, 1));
+        zackController.b().onTrue(new IntakeToPositionCommand(intake, 2));
+        
+
         testController.povUp().whileTrue(new ClimbUpCommand(climb, true));
         testController.povDown().whileTrue(new ClimbUpCommand(climb, false));
 
@@ -249,6 +256,8 @@ public class RobotContainer {
         
         // Zero Gyro              //Reset the field-centric heading on left bumper press.
         driveController.start().onTrue(new ZeroGyroCommand(drivetrain));
+
+        driveController.back().onTrue(new ZeroIntakeCommand(intake));
 
         // joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
