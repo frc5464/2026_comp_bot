@@ -1,19 +1,17 @@
+//frc
 package frc.robot.subsystems;
-
+//java
 import java.io.IOException;
 import java.util.List;
-
+//photon
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
-
-import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
-
+//wpi
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -21,8 +19,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*vision docs;
@@ -64,7 +60,7 @@ public class Vision {
     }
 
     public final AprilTagFieldLayout kTagLayout = ATFLsuperConstructor();
-
+    
     private String debugOutputRobotPose3d = robotPose().toString();
     private List<PhotonPipelineResult> results;
     private VisionSystemSim visionLayout = new VisionSystemSim("primary");
@@ -74,24 +70,11 @@ public class Vision {
     private SwerveDriveKinematics swerveDriveKin;
     private Rotation2d swerveGyroAngle;
     private SwerveModulePosition[] swerveModPos; // in getStateInfo
-    private Pose2d swerveInitPos;
-    private Matrix<N3, N1> swerveStdDev;
-    private Matrix<N3, N1> swerveVisMeasurementStdDev;
-
-    public void getStateInfo(SwerveDriveState state) {
-        // updates SwerveDriveState related variables
-        swerveModPos = state.ModulePositions;
-    }
-
     public SwerveDrivePoseEstimator mainPoseEst = new SwerveDrivePoseEstimator(
-            swerveDriveKin,
-            swerveGyroAngle,
-            swerveModPos,
-            swerveInitPos,
-            swerveStdDev,
-            swerveVisMeasurementStdDev
-
-    );
+        swerveDriveKin,
+        new Rotation2d(),
+        swerveModPos,
+        new Pose2d(2, 4, Rotation2d.fromDegrees(180))); /*PLACEHOLDER VALUES */
 
     // only updated once, used for defining the AprilTag layout
     private boolean visionLayoutDefined = false;
@@ -99,17 +82,19 @@ public class Vision {
     public void visionUpdateLoop() {
         // update result list, find targets, and update position estimates
         targetful = false;
-        cuTrackedTargets.clear();
+        
         if (visionLayoutDefined == false) {
             visionLayout.addAprilTags(kTagLayout);
             visionLayoutDefined = true;
         }
 
         for (PhotonCamera c : cameras) {
-            results.addAll(c.getAllUnreadResults());
+            results=(c.getAllUnreadResults());
         }
-        if (results.size() > 20) {
-            results.remove(results.size() - 1);
+
+        
+        if (cuTrackedTargets.size() > 20) {
+            cuTrackedTargets.remove(cuTrackedTargets.size()-1);
         }
 
         for (PhotonPipelineResult r : results) {
