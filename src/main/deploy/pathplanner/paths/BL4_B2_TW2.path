@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.292893218813452,
-        "y": 2.2928932188134525
+        "x": 7.095248498505758,
+        "y": 3.0
       },
       "isLocked": false,
       "linkedName": "BL4"
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 2.0,
-        "y": 3.6
+        "x": 1.75,
+        "y": 3.0
       },
       "prevControl": {
-        "x": 2.819152044288991,
-        "y": 3.026423563648954
+        "x": 2.749999999999999,
+        "y": 3.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,7 +49,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.5,
+    "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
