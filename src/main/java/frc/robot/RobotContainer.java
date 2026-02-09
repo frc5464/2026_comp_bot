@@ -117,10 +117,12 @@ public class RobotContainer {
         // ClimbSubsystem climb = new ClimbSubsystem();
         // TurretSubsystem turret = new TurretSubsystem();
 
+        NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
+        NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
+        NamedCommands.registerCommand("Intake", new IntakeCommand(intake));
+
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Mode", autoChooser);
-
-        
 
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
@@ -139,9 +141,7 @@ public class RobotContainer {
         
         
 
-        NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
-        NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
-        NamedCommands.registerCommand("Intake", new IntakeCommand(intake));
+
 
 
         // intakeCommand = new IntakeCommand(intake);

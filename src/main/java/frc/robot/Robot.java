@@ -46,19 +46,19 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto Mode", m_robotContainer.autoChooser);
         
         
-        intakeCommand = new IntakeCommand(m_robotContainer.intake);
-        // shootCommand = new ShootCommand(shoot);
-        dummyCommand = new DummyCommand();
-        // climbCommand = new ClimbUpCommand(climb, true);
-        downers = new IntakeToPositionCommand(m_robotContainer.intake, 1);
-        uppies = new IntakeToPositionCommand(m_robotContainer.intake, 0);
+        // intakeCommand = new IntakeCommand(m_robotContainer.intake);
+        // // shootCommand = new ShootCommand(shoot);
+        // dummyCommand = new DummyCommand();
+        // // climbCommand = new ClimbUpCommand(climb, true);
+        // downers = new IntakeToPositionCommand(m_robotContainer.intake, 1);
+        // uppies = new IntakeToPositionCommand(m_robotContainer.intake, 0);
 
-        NamedCommands.registerCommand("Intake", intakeCommand);
-        NamedCommands.registerCommand("Shoot", shootCommand);
-        NamedCommands.registerCommand("Dummy", dummyCommand);
-        NamedCommands.registerCommand("Climb", climbCommand);
-        NamedCommands.registerCommand("IntakeDown", downers);
-        NamedCommands.registerCommand("IntakeUp", uppies);
+        // NamedCommands.registerCommand("Intake", intakeCommand);
+        // NamedCommands.registerCommand("Shoot", shootCommand);
+        // NamedCommands.registerCommand("Dummy", dummyCommand);
+        // NamedCommands.registerCommand("Climb", climbCommand);
+        // NamedCommands.registerCommand("IntakeDown", downers);
+        // NamedCommands.registerCommand("IntakeUp", uppies);
     }
 
     @Override
