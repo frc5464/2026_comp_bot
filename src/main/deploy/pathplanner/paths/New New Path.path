@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.75,
-        "y": 5.75
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.75,
-        "y": 5.75
+        "x": 3.0,
+        "y": 7.0
       },
       "isLocked": false,
-      "linkedName": "Depot"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.625,
-        "y": 5.5
+        "x": 4.0,
+        "y": 6.0
       },
       "prevControl": {
-        "x": 4.125,
-        "y": 5.5
-      },
-      "nextControl": {
-        "x": 5.125,
-        "y": 5.5
-      },
-      "isLocked": false,
-      "linkedName": "B1"
-    },
-    {
-      "anchor": {
-        "x": 8.0,
-        "y": 4.0
-      },
-      "prevControl": {
-        "x": 7.292893218813452,
-        "y": 4.707106781186548
+        "x": 3.0,
+        "y": 6.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BL3"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -64,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 139.58546936972928
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

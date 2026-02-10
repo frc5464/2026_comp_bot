@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9739009663000595,
-        "y": 4.313049516849972
+        "x": 3.105025253169417,
+        "y": 3.505025253169417
       },
       "isLocked": false,
       "linkedName": "RSL2"
     },
     {
       "anchor": {
-        "x": 1.65,
-        "y": 3.75
+        "x": 1.75,
+        "y": 3.0
       },
       "prevControl": {
-        "x": 2.611484098939929,
-        "y": 3.7820494699646643
+        "x": 2.4571067811865475,
+        "y": 3.7071067811865475
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.5,
+    "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

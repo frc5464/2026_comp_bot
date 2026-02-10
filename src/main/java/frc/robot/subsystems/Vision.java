@@ -1,19 +1,17 @@
+//frc
 package frc.robot.subsystems;
-
+//java
 import java.io.IOException;
 import java.util.List;
-
+//photon
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
-
-import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
-
+//wpi
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -21,67 +19,65 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
-public class Vision {
-    /* Main class for vision sub-routine
-     * Available functions:
-     *  public double getTargetInfoDouble (int fiducialID, String targetField)
-     *      Get yaw/pitch/area/skew as specified in targetField. Loops through results
-     * 
-     *  public Transform3d getTargetInfoPose (int fiducialID)
-     *      Uses same method but returns robot pose. Seperate function as it's a seperate return value
-     * 
-     *  public List<TargetCorner> getTargetInfoCorners (int fiducialID)
-     *      See above, gets corners of given AprilField
-     * 
-     *  public Pose3d robotPose ()
-     *      Returns the robot's pose using the modern AprilTag method
-     * 
-     *  public void visionUpdateLoop()
-     *      Automatically called in all mentioned functions, includes call counter for function declaration
-     *  
-     *  public double aprilTagDistance(double atMD, int fiducialID)
-     *      return distance to AT as double (0-1), with 1 being 100% of the screen filled.
-     *      offset by atMD (april tag minimum distance)
-     * 
-     *  private AprilTagFieldLayout ATFLsuperConstructor()
-     *      returns AprilTagFieldLayout data from jsonpath
-     */
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-    // These values should be user-configured as needed
+/*vision docs;
+ * 
+ * finding robot position:
+ *  using april tags- Pose3d robotPose()
+ *  (WIP) using swerve drive + april tags- mainPoseEst 
+ * 
+ * getting apriltag info:
+ *  yaw/pitch/area/skew:
+ *      double getTargetInfoDouble(int fiducialID, String targetField)
+ *  distance(relative):
+ *      double aprilTagDistance(double atMD, int fiducialID)
+ *  camera transform to target:
+ *      Transform3d getTargetInfoPose(int fiducialID)
+ *  corners of target:
+ *      List<TargetCorner> getTargetInfoCorners(int fiducialID)
+ * 
+ */
+
+public class Vision {
     private PhotonCamera[] cameras = {
-        new PhotonCamera("apis"), /*shooter-side*/
-        new PhotonCamera("crabro") /*other-side*/
+            new PhotonCamera("apis"), /* shooter-side */
+            new PhotonCamera("crabro") /* other-side */
     };
-    
+
     private static final String jsonPath = "C:\\Users\\cummi\\Documents\\2026 Code\\2026_comp_bot\\src\\main\\java\\frc\\robot\\subsystems\\vision_extra\\2026-rebuilt-andymark.json";
     private static final boolean enableDebugOutput = true;
-    private AprilTagFieldLayout ATFLsuperConstructor(){
+
+    private AprilTagFieldLayout ATFLsuperConstructor() {
+        // used to catch errors on file read/write for AprilTag Field Layouts
         try {
             return (new AprilTagFieldLayout(jsonPath));
         } catch (IOException e) {
-            // TOD0 Auto-generated catch block
             e.printStackTrace();
+            return (new AprilTagFieldLayout(null, (double) 0, (int) 1));
         }
-        // err out
-        return (new AprilTagFieldLayout(null, (double) 0, (int) 1));
+
     }
-    
+
     public final AprilTagFieldLayout kTagLayout = ATFLsuperConstructor();
     
+    private String debugOutputRobotPose3d = robotPose().toString();
     private List<PhotonPipelineResult> results;
     private VisionSystemSim visionLayout = new VisionSystemSim("primary");
     private boolean targetful = false;
     private List<PhotonTrackedTarget> cuTrackedTargets;
     // TODO: Fill in placeholder values with real values
     private SwerveDriveKinematics swerveDriveKin;
-    private Rotation2d swerveGyroAngle; 
+    private Rotation2d swerveGyroAngle;
     private SwerveModulePosition[] swerveModPos; // in getStateInfo
+
     private Pose2d swerveInitPos;
     private Matrix<N3, N1> swerveStdDev;
     private Matrix<N3, N1> swerveVisMeasurementStdDev;
@@ -92,61 +88,64 @@ public class Vision {
 
     public SwerveDrivePoseEstimator mainPoseEst = new SwerveDrivePoseEstimator(
         swerveDriveKin,
-        swerveGyroAngle,
+        new Rotation2d(),
         swerveModPos,
-        swerveInitPos, 
-        swerveStdDev, 
-        swerveVisMeasurementStdDev
-    );
-   
-    //# of times loopthrough, used for variable declaration
-    private int loopCount = 0;
 
-    public void visionUpdateLoop(){
-        results.clear();
+        new Pose2d(2, 4, Rotation2d.fromDegrees(180))); /*PLACEHOLDER VALUES */
+
+    // only updated once, used for defining the AprilTag layout
+    private boolean visionLayoutDefined = false;
+
+    public void visionUpdateLoop() {
+        // update result list, find targets, and update position estimates
         targetful = false;
-        cuTrackedTargets.clear();
-        if (loopCount == 0){
+        
+        if (visionLayoutDefined == false) {
             visionLayout.addAprilTags(kTagLayout);
-        } loopCount++;
-        for (PhotonCamera c : cameras) {
-            results.addAll(c.getAllUnreadResults());
+            visionLayoutDefined = true;
         }
+
+        for (PhotonCamera c : cameras) {
+            results=(c.getAllUnreadResults());
+        }
+
+        
+        if (cuTrackedTargets.size() > 20) {
+            cuTrackedTargets.remove(cuTrackedTargets.size()-1);
+        }
+
         for (PhotonPipelineResult r : results) {
-            if (r.hasTargets()){
+            if (r.hasTargets()) {
                 targetful = true;
                 break;
-            }else{
+            } else {
                 continue;
             }
-                    
+
         }
-        if (targetful){
+        if (targetful) {
             for (PhotonPipelineResult r : results) {
                 results.add(r);
                 cuTrackedTargets.add(r.getBestTarget());
-                
+
             }
-        if (enableDebugOutput){
-            SmartDashboard.putBoolean("has_targets", targetful);
-            SmartDashboard.putNumber("loop_count", loopCount);
+            if (enableDebugOutput) {
+                SmartDashboard.putBoolean("has_targets", targetful);
+                SmartDashboard.putString("robot_position", debugOutputRobotPose3d);
+            }
         }
-    }
-
-
-        
         // position estimates
         mainPoseEst.update(swerveGyroAngle, swerveModPos);
     }
-   
-    // Internal function used for getting double values, requires fiducialID and what value is needed (yaw, pitch, area, etc etc)
-    public double getTargetInfoDouble (int fiducialID, String targetField) {
+
+    public double getTargetInfoDouble(int fiducialID, String targetField) {
+        // returns targetField(yaw,pitch,area,skew) of fiducialID AprilTag
         visionUpdateLoop();
-        if (!targetful){
+        if (!targetful) {
             return (double) 0;
         }
         for (PhotonTrackedTarget i : cuTrackedTargets) {
-            if (i.getFiducialId() != fiducialID){
+            if (i.getFiducialId() != fiducialID) {
                 continue;
             }
 
@@ -167,55 +166,58 @@ public class Vision {
         return ((double) 0);
     }
 
-    public Transform3d getTargetInfoPose (int fiducialID) {
+    public Transform3d getTargetInfoPose(int fiducialID) {
+        // gets Transform3d of fiducialID AprilTag
         visionUpdateLoop();
         for (PhotonTrackedTarget i : cuTrackedTargets) {
-            if (i.getFiducialId() == fiducialID){
+            if (i.getFiducialId() == fiducialID) {
                 return i.getBestCameraToTarget();
-            }    
+            }
         }
         return (null);
     }
 
-    public List<TargetCorner> getTargetInfoCorners (int fiducialID){
+    public List<TargetCorner> getTargetInfoCorners(int fiducialID) {
+        // get corners of fiducialID AprilTag
         visionUpdateLoop();
         for (PhotonTrackedTarget i : cuTrackedTargets) {
-            if (i.getFiducialId() == fiducialID){
+            if (i.getFiducialId() == fiducialID) {
                 return i.getDetectedCorners();
             }
         }
         return (null);
     }
 
-    public Pose3d robotPose (){
+    public Pose3d robotPose() {
+        // gets pose3d of robot based off of AprilTag positions
         visionUpdateLoop();
-        if (!targetful){
+        if (!targetful) {
             return null;
         }
         for (PhotonTrackedTarget i : cuTrackedTargets) {
             if (kTagLayout.getTagPose(i.getFiducialId()).isPresent()) {
                 return PhotonUtils.estimateFieldToRobotAprilTag(
-                    i.getBestCameraToTarget(),
-                    kTagLayout.getTagPose(i.getFiducialId()).get(),
-                    getTargetInfoPose(i.getFiducialId()));
+                        i.getBestCameraToTarget(),
+                        kTagLayout.getTagPose(i.getFiducialId()).get(),
+                        getTargetInfoPose(i.getFiducialId()));
             }
         }
         return null;
     }
 
-    public double aprilTagDistance(double atMD, int fiducialID){
-        //returns 0.0 if april tag not found
-        //returns 1.0 if april tag area >= atMS
+    public double aprilTagDistance(double atMD, int fiducialID) {
+        // returns 0.0 if april tag not found
+        // returns 1.0 if april tag area >= atMS
 
-        final double ATArea = getTargetInfoDouble(fiducialID, "area")*0.01;
+        final double ATArea = getTargetInfoDouble(fiducialID, "area") * 0.01;
 
-        if (ATArea == 0){
+        if (ATArea == 0) {
             return (double) 0;
         }
 
-        if (ATArea >= 1-atMD){
+        if (ATArea >= 1 - atMD) {
             return (double) 1;
-        } else{
+        } else {
             return ATArea;
         }
     }
