@@ -107,6 +107,8 @@ public class Vision {
         if (visionLayoutDefined == false) {
             visionLayout.addAprilTags(kTagLayout);
             visionLayoutDefined = true;
+            SmartDashboard.putBoolean("has_targets", targetful);
+            SmartDashboard.putString("robot_position", debugOutputRobotPose3d);
         }
 
         for (PhotonCamera c : cameras) {
@@ -134,8 +136,7 @@ public class Vision {
 
             }
             if (enableDebugOutput) {
-                SmartDashboard.putBoolean("has_targets", targetful);
-                SmartDashboard.putString("robot_position", debugOutputRobotPose3d);
+                SmartDashboard.updateValues();
             }
         }
         // position estimates
