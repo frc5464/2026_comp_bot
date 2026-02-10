@@ -1,55 +1,46 @@
 package frc.robot.subsystems;
-// package edu.wpi.first.wpilibj.examples.rapidreactcommandbot.subsystems;
-
-// import static edu.wpi.first.wpilibj2.command.Commands.parallel;
-import static edu.wpi.first.wpilibj2.command.Commands.parallel;
-import static edu.wpi.first.wpilibj2.command.Commands.waitUntil;
-
-import java.util.Set;
 
 import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
-import edu.wpi.first.epilogue.Logged;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.Encoder;
-// import edu.wpi.first.wpilibj.examples.rapidreactcommandbot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
-
 public class ShooterSubsystem extends SubsystemBase{
 
-  private final SparkMax m_shooterMotor = new SparkMax(4, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
-  private final SparkMax m_feederMotor = new SparkMax(5, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
+  private final SparkMax shooterMotor = new SparkMax(4, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
+  private final SparkMax feederMotor = new SparkMax(5, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
   private final SparkMax shootRotator = new SparkMax(76, MotorType.kBrushless);
 
   RelativeEncoder flyEncoder;
   public double encoderVel;
 
   private SparkMaxConfig flyConfig = new SparkMaxConfig();
-  private SparkClosedLoopController closedLoopController;
+  private SparkClosedLoopController flyClosedLoopController;
 
-  public double targetPosition = 0;
+  public double targetVelocity = 0;
 
   public ShooterSubsystem(){
+
+      initPidShoot();
 
   }
 
   private void initPidShoot(){
-      closedLoopController = m_shooterMotor.getClosedLoopController();
-      flyEncoder = m_shooterMotor.getEncoder();
+      flyClosedLoopController = shooterMotor.getClosedLoopController();
+      flyEncoder = shooterMotor.getEncoder();
 
       flyConfig.closedLoop
           .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -58,14 +49,38 @@ public class ShooterSubsystem extends SubsystemBase{
           .d(0)
           .outputRange(-1, 1)
           .feedForward
-              .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
+              .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
 
-              m_shooterMotor.configure(flyConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters)
+              shooterMotor.configure(flyConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-      SmartDashboard.setDefaultNumber("ShootTargetPos", 0);
-
-      
+      SmartDashboard.setDefaultNumber("ShootTargetVel", 0);
   }
+
+  public void periodic(){
+
+      encoderVel = flyEncoder.getVelocity();
+
+      flyClosedLoopController.setSetpoint(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+      
+      SmartDashboard.putNumber("FlyEncoder", targetVelocity);
+  }
+
+  public void revUp(){
+    shooterMotor.set(1);
+  }
+
+  public void feed(){
+    feederMotor.set(0.75);
+  }
+
+  public void disableShoot(){
+    shooterMotor.set(0);
+    feederMotor.set(0);
+  }
+
+}
+
+
   // private final Encoder m_shooterEncoder =
   //     new Encoder(
   //         ShooterConstants.kEncoderPorts[0],
@@ -114,29 +129,12 @@ public class ShooterSubsystem extends SubsystemBase{
   //       .withName("Shoot");
   // }
 
-  // public void liftShooter(){
-  //   shootRotator.set(1);
-  // }
-
-  // public void lowerShooter(){
-  //   shootRotator.set(-1);
-  // }
-
-  // public void shooterNoMove(){
-  //   shootRotator.set(0);
-  // }
-
-  // public void reverseShoot(){
-  //   m_shooterMotor.set(-1);
-  //   m_feederMotor.set(-1);
-  // }
-
-  public void disableShoot(){
-    m_shooterMotor.set(0);
+  // public void disableShoot(){
+    // m_shooterMotor.set(0);
   //   m_feederMotor.set(0);
-  }
+  // }
 
-}
+// }
     
 //     // private final Encoder m_shooterEncoder =
 //     //   new Encoder(0, 0, 0

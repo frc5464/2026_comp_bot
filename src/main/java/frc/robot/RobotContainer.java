@@ -17,6 +17,7 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -257,7 +258,7 @@ public class RobotContainer {
         driveController.leftTrigger().whileTrue(new IntakeCommand(intake));
  
         //rev up feeder motor up to speed, then shoots when up to speed
-        driveController.rightTrigger().whileTrue(new ShootCommand(shoot));
+        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, shoot.targetVelocity));
 
         // testController.button(2).whileTrue(new LowerIntakeCommand(intake));
         // testController.button(1).whileTrue(new RaiseIntakeCommand(intake));
