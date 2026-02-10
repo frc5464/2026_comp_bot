@@ -10,8 +10,12 @@ import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
+
+import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
+
 //wpi
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -19,6 +23,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*vision docs;
@@ -70,10 +81,20 @@ public class Vision {
     private SwerveDriveKinematics swerveDriveKin;
     private Rotation2d swerveGyroAngle;
     private SwerveModulePosition[] swerveModPos; // in getStateInfo
+
+    private Pose2d swerveInitPos;
+    private Matrix<N3, N1> swerveStdDev;
+    private Matrix<N3, N1> swerveVisMeasurementStdDev;
+
+    public void getStateInfo(SwerveDriveState state){
+        swerveModPos = state.ModulePositions;
+    }
+
     public SwerveDrivePoseEstimator mainPoseEst = new SwerveDrivePoseEstimator(
         swerveDriveKin,
         new Rotation2d(),
         swerveModPos,
+
         new Pose2d(2, 4, Rotation2d.fromDegrees(180))); /*PLACEHOLDER VALUES */
 
     // only updated once, used for defining the AprilTag layout
@@ -203,6 +224,14 @@ public class Vision {
             return (double) 1;
         } else {
             return ATArea;
+        }
+    }
+
+    public void rotateToTag(int fiducialId) {
+        visionUpdateLoop();
+        if (targetful) {
+            
+            //private turn = -1.0*getTargetInfoDouble(fiducialId, "yaw")*Constants.kMaxTurnRateDegPerS
         }
     }
 }

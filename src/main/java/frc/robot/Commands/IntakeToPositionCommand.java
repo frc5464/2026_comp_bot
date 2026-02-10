@@ -16,14 +16,20 @@ public class IntakeToPositionCommand extends Command{
 
     @Override
     public void initialize() {
-        intake.encoderPos = position;
         
     }
 
     @Override
     public void execute() {
-        intake.jawPIDToLevel();
-
+        if(position == 0){
+            intake.targetPosition = -0.075;
+        }
+        else if(position == 1){
+            intake.targetPosition = -4.5;
+        }
+        else{
+            intake.DisableIntake();
+        }
     }
 
     @Override

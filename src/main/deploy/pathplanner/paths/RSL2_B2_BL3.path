@@ -49,20 +49,32 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Dummy",
-      "waypointRelativePos": 0.25027685492800694,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "Intake",
-      "waypointRelativePos": 1.25,
+      "waypointRelativePos": 1.4530722484807426,
       "endWaypointRelativePos": 2.0,
-      "command": null
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeDown"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.5,
+    "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

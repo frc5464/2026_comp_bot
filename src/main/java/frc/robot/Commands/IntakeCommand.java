@@ -35,6 +35,7 @@ public class IntakeCommand extends Command{
         // return;
         // }
         SmartDashboard.putBoolean("intaking", true);
+        // System.out.print("intaking!!!!");
     }
 
     @Override

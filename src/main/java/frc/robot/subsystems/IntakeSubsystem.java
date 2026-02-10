@@ -29,38 +29,40 @@ public class IntakeSubsystem extends SubsystemBase{
     
     private final SparkMax intakeRod = new SparkMax(8, MotorType.kBrushless);
 
-    SparkMaxConfig sparkMaxConfig1 = new SparkMaxConfig();
-    double kP = 0;
-    double kI = 0;
-    double kD = 0;
-    double kIz = 0;
-    double kFF = 0;
-    double extMaxOutput = 0;
-    double extMinOutput = 0;
+    
+    // SparkMaxConfig sparkMaxConfig1 = new SparkMaxConfig();
+    // double kP = 0;
+    // double kI = 0;
+    // double kD = 0;
+    // double kIz = 0;
+    // double kFF = 0;
+    // double extMaxOutput = 0;
+    // double extMinOutput = 0;
     RelativeEncoder leftEncoder;
     public double encoderPos;
-    public double counts;
-    public int jawPosition = 0;
-    PIDController jawPID;
+    // public double counts;
+    // public int jawPosition = 0;
+    // PIDController jawPID;
 
-    public double targetPosition = 0.5;
+    private SparkMaxConfig motorConfig = new SparkMaxConfig();
+    private SparkClosedLoopController closedLoopController;
+
+    public double targetPosition = 0;
 
 
     public IntakeSubsystem(){
-        jawPID = new PIDController(kP, kI, kD);
+        // leftJaw.foll
+        // jawPID = new PIDController(kP, kI, kD);
 
-        initPid(); 
+        initPid();         
+        // SparkBaseConfig conf = new SparkMaxConfig();
+        // conf.idleMode(IdleMode.kBrake);
+        // conf.openLoopRampRate(0.5);
 
-        leftEncoder = leftJaw.getEncoder();
-        
-        SparkBaseConfig conf = new SparkMaxConfig();
-        conf.idleMode(IdleMode.kBrake);
-        conf.openLoopRampRate(0.5);
-
-        leftJaw.configure(conf, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        // leftJaw.configure(conf, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkBaseConfig conf2 = new SparkMaxConfig();
-        conf2.follow(3, true);
+        conf2.follow(6, false);
         conf2.idleMode(IdleMode.kBrake);
         rightJaw.configure(conf2, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
    
@@ -68,29 +70,36 @@ public class IntakeSubsystem extends SubsystemBase{
 
     private void initPid(){
         // do your pid initialization here
+        closedLoopController = leftJaw.getClosedLoopController();
+        leftEncoder = leftJaw.getEncoder();
+
+        
+        motorConfig.closedLoop
+            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+            //Set PID values for position control
+            .p(0.1)
+            .i(0)
+            .d(0)
+            .outputRange(-1, 1)
+            .feedForward
+                .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
+
+                leftJaw.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+
+        SmartDashboard.setDefaultNumber("Target Position", 0);
     }
 
     public void periodic(){
+
         encoderPos = leftEncoder.getPosition();
+
+        closedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+
 
         SmartDashboard.putNumber("JawEncoder", encoderPos);
         SmartDashboard.putNumber("JawTarget", targetPosition);
 
         // do your pid calculation here (use targetPosition!)
-    }
-
- 
-    public void jawPIDToLevel(){
-        // (make this modify targetPosition)
-        if(jawPosition == 1){
-            encoderPos = -4.5;
-        }
-        if(jawPosition == 2){
-            encoderPos = 0.2;
-        }
-        else{
-            leftJaw.set(0);
-        }
     }
 
     public void reBoot(){
@@ -117,27 +126,13 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void Intake(){
-        // if(Universals.intaking){
-            // if(fuelnotdetected == true){
                 intakeRod.set(-0.5);
-            // }
-            // else{
-                // intakeRod.set(0);
-                // Universals.LEDselected = "PinkIntake";
             }
-        // }
-        // else{
-            // DisableIntake();
-        // }
-    // }
+
 
     public void IntakeReverse(){
-        // if(Universals.intakeReverse){
             intakeRod.set(1);
-        // }
-        // else{
-        //     DisableIntake();
-        // }
+      
     }
 
     public void DisableIntake(){
