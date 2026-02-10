@@ -23,7 +23,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 public class Vision {
@@ -87,7 +88,6 @@ public class Vision {
 
     public void getStateInfo(SwerveDriveState state){
         swerveModPos = state.ModulePositions;
-        
     }
 
     public SwerveDrivePoseEstimator mainPoseEst = new SwerveDrivePoseEstimator(
@@ -97,7 +97,6 @@ public class Vision {
         swerveInitPos, 
         swerveStdDev, 
         swerveVisMeasurementStdDev
-        
     );
    
     //# of times loopthrough, used for variable declaration
@@ -218,6 +217,14 @@ public class Vision {
             return (double) 1;
         } else{
             return ATArea;
+        }
+    }
+
+    public void rotateToTag(int fiducialId) {
+        visionUpdateLoop();
+        if (targetful) {
+            
+            //private turn = -1.0*getTargetInfoDouble(fiducialId, "yaw")*Constants.kMaxTurnRateDegPerS
         }
     }
 }
