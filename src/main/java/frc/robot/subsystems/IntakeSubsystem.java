@@ -69,7 +69,6 @@ public class IntakeSubsystem extends SubsystemBase{
 
         closedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
-
         SmartDashboard.putNumber("JawEncoder", encoderPos);
         SmartDashboard.putNumber("JawTarget", targetPosition);
 
