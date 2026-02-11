@@ -1,8 +1,15 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.ResetMode;
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.FeedbackSensor;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -12,107 +19,59 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Universals;
 
-public class ClimbSubsystem extends SubsystemBase{  
-  // private final SparkMax climber = new SparkMax(55, MotorType.kBrushless);
+public class ClimbSubsystem extends SubsystemBase{
 
-  // public RelativeEncoder climbEncoder;
+    private final SparkMax climber = new SparkMax(7, MotorType.kBrushless);
 
-  // public double up = -10;
-  // public double down = 0;
+    RelativeEncoder climbEncoder;
+    public double climbEncoderPos;
+    
+    private SparkMaxConfig climbConfig = new SparkMaxConfig();
+    private SparkClosedLoopController climbClosedLoopController;
 
-  // // private static final boolean ENABLED = true;
+    public double targetPosition = 0;
 
-  // public void initialize(){
-  //   climbEncoder = climber.getEncoder();
-  //   SmartDashboard.putNumber("climbEncoder", climbEncoder.getPosition());
-  //   climbEncoder.setPosition(0);
-  // }
 
-  // public void periodic(){
-  //   // SmartDashboard.putNumber("climbEncoder", climbEncoder.getPosition());
+    public ClimbSubsystem(){
 
-  //   // SmartDashboard.putBoolean("Auto Up", Universals.autoClimbUp);
-  //   // SmartDashboard.putBoolean("Auto Up", Universals.autoClimbDown);
-  // }
+        initPid();         
 
-  // // @Override
-  // // public boolean isEnabled(){
-  // //   return ENABLED;
-  // // }
+    }
 
-  // public void climbUp(){
-  //     if(Universals.climbUp){
-  //       if(Universals.climbOverride){
-  //         climber.set(1);
-  //       }
-  //       else if(climbEncoder.getPosition() < up){
-  //         climber.set(0);
-  //       }
-  //       else{
-  //         climber.set(1);
-  //       }
-  //   }
-  //   else{
-  //     climbDisable();
-  //   }
-  // }
+    private void initPid(){
+        // do your pid initialization here
+        climbClosedLoopController = climber.getClosedLoopController();
+        climbEncoder = climber.getEncoder();
 
-  // public void climbDown(){
-  //     if(Universals.climbDown){
-  //         if(Universals.climbOverride){
-  //             climber.set(-1);
-  //         }
-  //         else if(climbEncoder.getPosition() > down){
-  //             climber.set(0);
-  //         }
-  //         else{
-  //             climber.set(-1);
-  //         }
-  //     }
-  //     else{
-  //         climbDisable();
-  //     }
-  // }
+        
+        climbConfig.closedLoop
+            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+            //Set PID values for position control
+            .p(0.1)
+            .i(0)
+            .d(0)
+            .outputRange(-1, 1)
+            .feedForward
+                .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
-  // public void autoUp(){
-  //     if(Universals.autoClimbUp){
-  //         Universals.climbUp = true;
-  //         climbUp();
-  //     }
-  //     else{
-  //         climbDisable();
-  //     }  
-  // }
+                climber.configure(climbConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-  // public void autoDown(){
-  //     if(Universals.autoClimbDown){
-  //         Universals.climbDown = true;
-  //         climbDown();
-  //     }
-  //     else{
-  //         climbDisable();
-  //     }
-  // }
+        SmartDashboard.setDefaultNumber("Target Position", 0);
+    }
 
-  // public void climbDisable(){
-  //   climber.set(0);
-  // }
+    public void periodic(){
 
-  // public void zeroEncoders(){
-  //   climbEncoder.setPosition(0);
-  // }
+        climbEncoderPos = climbEncoder.getPosition();
 
-  //   public void bringUp(){
-  //     climber.set(1);
-  //   }
-  //   public void bringDown(){
-  //     climber.set(-1);
-  //   }
-  //   // public void stop(){
-  //   //   climber.set(0);
-  //   // }
+        climbClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
-  //   // // public void reBoot(){
-  //   // //   climbEncoder.setPosition(0);
-  //   // // }
+        SmartDashboard.putNumber("ClimbEncoderPos", climbEncoderPos);
+        SmartDashboard.putNumber("ClimbTarget", targetPosition);
+
+        // do your pid calculation here (use targetPosition!)
+    }
+
+    public void reBoot(){
+        climbEncoder.setPosition(0);
+    }
 }
