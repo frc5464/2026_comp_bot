@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 3.6,
+        "x": 3.4,
         "y": 4.0
       },
       "prevControl": {
-        "x": 2.5393398282201787,
+        "x": 2.3393398282201785,
         "y": 2.939339828220179
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RSL2"
+      "linkedName": "RSL2_Fixed"
     }
   ],
   "rotationTargets": [],
@@ -58,7 +58,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": null,
