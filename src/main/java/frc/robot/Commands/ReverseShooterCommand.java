@@ -13,12 +13,12 @@ public class ReverseShooterCommand extends Command{
     
     @Override
     public void execute(){
-        // shooter.reverseShoot();
+        shooter.reverseShoot();
     }
 
     @Override
     public void end(boolean interrupted){
-        // shooter.disableShoot();
+        shooter.disableShoot();
         
     }
 }

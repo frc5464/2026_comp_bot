@@ -10,6 +10,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
@@ -20,17 +21,27 @@ import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase{
 
-  private final SparkMax shooterMotor = new SparkMax(4, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
-  private final SparkMax feederMotor = new SparkMax(5, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
-  private final SparkMax shootRotator = new SparkMax(76, MotorType.kBrushless);
+    private final SparkMax shooterMotor = new SparkMax(4, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
+    private final SparkMax feederMotor = new SparkMax(5, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
+    private final SparkMax shootHinge = new SparkMax(76, MotorType.kBrushless);
 
-  RelativeEncoder flyEncoder;
-  public double encoderVel;
+    //Stuff for shootPosition PID
+    public RelativeEncoder hingeEncoder;
+    public double encoderPos;
+    
+    private SparkMaxConfig posConfig = new SparkMaxConfig();
+    private SparkClosedLoopController posClosedLoopController;
 
-  private SparkMaxConfig flyConfig = new SparkMaxConfig();
-  private SparkClosedLoopController flyClosedLoopController;
+    public double targetPosition = 0;
 
-  public double targetVelocity = 0;
+    //Stuff for shootVelocity PID
+    RelativeEncoder flyEncoder;
+    public double encoderVel;
+
+    private SparkMaxConfig flyConfig = new SparkMaxConfig();
+    private SparkClosedLoopController flyClosedLoopController;
+
+    public double targetVelocity = 0;
 
   public ShooterSubsystem(){
 
@@ -38,36 +49,73 @@ public class ShooterSubsystem extends SubsystemBase{
 
   }
 
+
+    
+  
   private void initPidShoot(){
-      flyClosedLoopController = shooterMotor.getClosedLoopController();
-      flyEncoder = shooterMotor.getEncoder();
 
-      flyConfig.closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          .p(0.1)
-          .i(0)
-          .d(0)
-          .outputRange(-1, 1)
-          .feedForward
-              .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
+      // Position PID for shoot hinge
+        // do your pid initialization here
+        posClosedLoopController = shootHinge.getClosedLoopController();
+        hingeEncoder = shootHinge.getEncoder();
 
-              shooterMotor.configure(flyConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        
+        posConfig.closedLoop
+            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+            //Set PID values for position control
+            .p(0.1)
+            .i(0)
+            .d(0)
+            .outputRange(-1, 1)
+            .feedForward
+                .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
+
+                shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+
+        SmartDashboard.setDefaultNumber("Target Position", 0);
+
+      // Velocity PID for shooter
+        flyClosedLoopController = shooterMotor.getClosedLoopController();
+        flyEncoder = shooterMotor.getEncoder();
+
+        flyConfig.closedLoop
+            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+            .p(0.1)
+            .i(0)
+            .d(0)
+            .outputRange(-1, 1)
+            .feedForward
+                .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
+
+                shooterMotor.configure(flyConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
       SmartDashboard.setDefaultNumber("ShootTargetVel", 0);
   }
 
   public void periodic(){
-
+      // Shooter Code
       encoderVel = flyEncoder.getVelocity();
 
       flyClosedLoopController.setSetpoint(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
       
       SmartDashboard.putNumber("ShootVelocity", encoderVel);
       SmartDashboard.putNumber("FlyEncoder", targetVelocity);
-  }
+
+      // ShootRot Code
+      encoderPos = hingeEncoder.getPosition();
+
+      posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+
+      SmartDashboard.putNumber("JawEncoder", encoderPos);
+      SmartDashboard.putNumber("JawTarget", targetPosition);
+    }
   
   public void feed(){
     feederMotor.set(0.75);
+  }
+
+  public void reverseShoot(){
+    shooterMotor.set(-1);
   }
 
   public void disableShoot(){
@@ -75,113 +123,7 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(0);
   }
 
+  public void reBoot(){
+      hingeEncoder.setPosition(0);
+  }
 }
-
-
-  // private final Encoder m_shooterEncoder =
-  //     new Encoder(
-  //         ShooterConstants.kEncoderPorts[0],
-  //         ShooterConstants.kEncoderPorts[1],
-  //         ShooterConstants.kEncoderReversed);
-  // private final SimpleMotorFeedforward m_shooterFeedforward =
-  //     new SimpleMotorFeedforward(
-  //         ShooterConstants.kSVolts, ShooterConstants.kVVoltSecondsPerRotation);
-  // private final PIDController m_shooterFeedback = new PIDController(ShooterConstants.kP, 0.0, 0.0);
-
-  /** The shooter subsystem for the robot. */
-  // public ShooterSubsystem() {
-    // m_shooterFeedback.setTolerance(ShooterConstants.kShooterToleranceRPS);
-    // m_shooterEncoder.setDistancePerPulse(ShooterConstants.kEncoderDistancePerPulse);
-
-    // Set default command to turn off both the shooter and feeder motors, and then idle
-  //   setDefaultCommand(
-  //       runOnce(
-  //               () -> {
-  //                 m_shooterMotor.disable();
-  //                 m_feederMotor.disable();
-  //               })
-  //           .andThen(run(() -> {}))
-  //           .withName("Idle"));
-  // }
-
-  // /**
-  //  * Returns a command to shoot the balls currently stored in the robot. Spins the shooter flywheel
-  //  * up to the specified setpoint, and then runs the feeder motor.
-  //  *
-  //  * @param setpointRotationsPerSecond The desired shooter velocity
-  //  */
-  // public Command shootCommand(double setpointRotationsPerSecond) {
-  //   return parallel(
-  //           // Run the shooter flywheel at the desired setpoint using feedforward and feedback
-  //           run(
-  //               () -> {
-  //                 m_shooterMotor.set(
-  //                     m_shooterFeedforward.calculate(setpointRotationsPerSecond)
-  //                         + m_shooterFeedback.calculate(
-  //                             m_shooterEncoder.getRate(), setpointRotationsPerSecond));
-  //               }),
-
-  //           // Wait until the shooter has reached the setpoint, and then run the feeder
-  //           waitUntil(m_shooterFeedback::atSetpoint).andThen(() -> m_feederMotor.set(1)))
-  //       .withName("Shoot");
-  // }
-
-  // public void disableShoot(){
-    // m_shooterMotor.set(0);
-  //   m_feederMotor.set(0);
-  // }
-
-// }
-    
-//     // private final Encoder m_shooterEncoder =
-//     //   new Encoder(0, 0, 0
-//           // ShooterConstants.kEncoderPorts[0],
-//           // ShooterConstants.kEncoderPorts[1],
-//           // ShooterConstants.kEncoderReversed
-//       // );
-//   // private final SimpleMotorFeedforward m_shooterFeedforward =
-//   //     new SimpleMotorFeedforward(
-//   //         ShooterConstants.kSVolts, ShooterConstants.kVVoltSecondsPerRotation);
-//   // private final PIDController m_shooterFeedback = new PIDController(Universals.shootSpeedMultiplier, 0.0, 0.0);
-
-//   // /** The shooter subsystem for the robot. */
-//   // public ShooterSubsystem() {
-//   //   m_shooterFeedback.setTolerance(ShooterConstants.kShooterToleranceRPS);
-//   //   m_shooterEncoder.setDistancePerPulse(ShooterConstants.kEncoderDistancePerPulse);
-    
-//   //   shooter.getAbsoluteEncoder();
-
-//   //   feederer.getAbsoluteEncoder();
-//   //   // Set default command to turn off both the shooter and feeder motors, and then idle
-//   //   setDefaultCommand(
-//   //       runOnce(
-//   //               () -> {
-//   //                 shooter.disable();
-//   //                 feederer.disable();
-//   //               })
-//   //           .andThen(run(() -> {}))
-//   //           .withName("Idle"));
-//   // }
-
-//   // /**
-//   //  * Returns a command to shoot the balls currently stored in the robot. Spins the shooter flywheel
-//   //  * up to the specified setpoint, and then runs the feeder motor.
-//   //  *
-//   //  * @param setpointRotationsPerSecond The desired shooter velocity
-//   //  */
-//   // public Command shootCommand(double setpointRotationsPerSecond) {
-//   //   return parallel(
-//   //           // Run the shooter flywheel at the desired setpoint using feedforward and feedback
-//   //           run(
-//   //               () -> {
-//   //                 shooter.set(
-//   //                     m_shooterFeedforward.calculate(setpointRotationsPerSecond)
-//   //                         + m_shooterFeedback.calculate(
-//   //                             m_shooterEncoder.getRate(), setpointRotationsPerSecond));
-//   //               }),
-
-//   //           // Wait until the shooter has reached the setpoint, and then run the feeder
-//   //           waitUntil(m_shooterFeedback::atSetpoint).andThen(() -> m_feederMotor.set(1)))
-//   //       .withName("Shoot");
-//   // }
-// }
