@@ -258,7 +258,7 @@ public class RobotContainer {
         driveController.leftTrigger().whileTrue(new IntakeCommand(intake));
  
         //rev up feeder motor up to speed, then shoots when up to speed
-        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, shoot.targetVelocity));
+        driveController.rightTrigger().whileTrue(new ShootCommand(shoot));
 
         // testController.button(2).whileTrue(new LowerIntakeCommand(intake));
         // testController.button(1).whileTrue(new RaiseIntakeCommand(intake));

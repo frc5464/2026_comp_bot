@@ -8,21 +8,17 @@ public class ShootCommand extends Command{
 
     private ShooterSubsystem shooter;
 
-    private double velocity;
-
-    public ShootCommand(ShooterSubsystem shooter, double velocity){
+    public ShootCommand(ShooterSubsystem shooter){
         this.shooter = shooter;
-        this.velocity = velocity;
     }
 
     @Override
     public void execute(){
-        shooter.revUp();
-        if(velocity >= 200){
+        shooter.targetVelocity = 200;
+        if(shooter.encoderVel >= 200){
             shooter.feed();
             SmartDashboard.putBoolean("UpToSpeed", true);
         } else{
-            shooter.disableShoot();
             SmartDashboard.putBoolean("UpToSpeed", false);
         }
         SmartDashboard.putBoolean("shooting", true);
@@ -30,12 +26,14 @@ public class ShootCommand extends Command{
 
     @Override
     public void end(boolean interrupted){
+        shooter.targetVelocity = 0;
+        shooter.disableShoot();
         SmartDashboard.putBoolean("shooting", false);
 
     }
 
     @Override
     public boolean isFinished(){
-        return true;
+        return false;
     }
 }

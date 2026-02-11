@@ -62,13 +62,10 @@ public class ShooterSubsystem extends SubsystemBase{
 
       flyClosedLoopController.setSetpoint(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
       
+      SmartDashboard.putNumber("ShootVelocity", encoderVel);
       SmartDashboard.putNumber("FlyEncoder", targetVelocity);
   }
-
-  public void revUp(){
-    shooterMotor.set(1);
-  }
-
+  
   public void feed(){
     feederMotor.set(0.75);
   }

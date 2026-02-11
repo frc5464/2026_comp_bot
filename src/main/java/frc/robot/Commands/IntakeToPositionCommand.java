@@ -28,7 +28,7 @@ public class IntakeToPositionCommand extends Command{
             intake.targetPosition = -4.5;
         }
         else{
-            intake.DisableIntake();
+            intake.stopElevate();
         }
     }
 
