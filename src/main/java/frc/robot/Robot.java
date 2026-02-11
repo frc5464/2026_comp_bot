@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run(); 
         m_robotContainer.intake.periodic();
+        m_robotContainer.shoot.periodic();
         // SmartDashboard.putBoolean("brakeMode", Universals.brakeMode);
         // SmartDashboard.putBoolean("zeroGyro", Universals.zeroGyro);
         

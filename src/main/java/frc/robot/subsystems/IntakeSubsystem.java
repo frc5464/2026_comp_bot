@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.pathplanner.lib.config.PIDConstants;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -13,14 +12,8 @@ import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Universals;
 
 public class IntakeSubsystem extends SubsystemBase{
 
@@ -29,21 +22,9 @@ public class IntakeSubsystem extends SubsystemBase{
     
     private final SparkMax intakeRod = new SparkMax(8, MotorType.kBrushless);
 
-    
-    // SparkMaxConfig sparkMaxConfig1 = new SparkMaxConfig();
-    // double kP = 0;
-    // double kI = 0;
-    // double kD = 0;
-    // double kIz = 0;
-    // double kFF = 0;
-    // double extMaxOutput = 0;
-    // double extMinOutput = 0;
     RelativeEncoder leftEncoder;
     public double encoderPos;
-    // public double counts;
-    // public int jawPosition = 0;
-    // PIDController jawPID;
-
+    
     private SparkMaxConfig motorConfig = new SparkMaxConfig();
     private SparkClosedLoopController closedLoopController;
 
@@ -51,15 +32,8 @@ public class IntakeSubsystem extends SubsystemBase{
 
 
     public IntakeSubsystem(){
-        // leftJaw.foll
-        // jawPID = new PIDController(kP, kI, kD);
 
         initPid();         
-        // SparkBaseConfig conf = new SparkMaxConfig();
-        // conf.idleMode(IdleMode.kBrake);
-        // conf.openLoopRampRate(0.5);
-
-        // leftJaw.configure(conf, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkBaseConfig conf2 = new SparkMaxConfig();
         conf2.follow(6, false);
