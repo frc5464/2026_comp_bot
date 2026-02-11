@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Commands.ClimbUpCommand;
 import frc.robot.Commands.DummyCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
@@ -26,7 +25,6 @@ public class Robot extends TimedRobot {
     private IntakeCommand intakeCommand;
     private ShootCommand shootCommand;
     private DummyCommand dummyCommand;
-    private ClimbUpCommand climbCommand;
     private IntakeToPositionCommand downers;
     private IntakeToPositionCommand uppies;
 
