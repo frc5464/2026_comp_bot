@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
+        "x": 3.4,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.892893218813453,
+        "x": 2.692893218813453,
         "y": 4.707106781186547
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RSL2_Fixed"
     },
     {
       "anchor": {
@@ -73,7 +73,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -179.5623442219374
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
