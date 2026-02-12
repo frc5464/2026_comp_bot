@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Commands.DummyCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
+import frc.robot.Commands.ManualIntakeToPositionCommand;
 import frc.robot.Commands.ReverseShooterCommand;
 import frc.robot.Commands.ShootCommand;
 import frc.robot.Commands.SlowDriveModeCommand;
@@ -160,6 +161,9 @@ public class RobotContainer {
         zackController.a().onTrue(new IntakeToPositionCommand(intake, 0));
         zackController.b().onTrue(new IntakeToPositionCommand(intake, 1));
         
+        driveController.povUp().whileTrue(new ManualIntakeToPositionCommand(intake, 0));
+        driveController.povDown().whileTrue(new ManualIntakeToPositionCommand(intake, 1));
+
 
         // testController.povUp().whileTrue(new ClimbUpCommand(climb, true));
         // testController.povDown().whileTrue(new ClimbUpCommand(climb, false));

@@ -14,20 +14,20 @@ public class ShootCommand extends Command{
 
     @Override
     public void execute(){
-        shooter.targetVelocity = 200;
-        if(shooter.encoderVel >= 200){
-            shooter.feed();
+        // shooter.targetVelocity = 200;
+        // if(shooter.encoderVel >= 200){
+        //     shooter.feed();
             SmartDashboard.putBoolean("UpToSpeed", true);
-        } else{
+        // } else{
             SmartDashboard.putBoolean("UpToSpeed", false);
-        }
-        SmartDashboard.putBoolean("shooting", true);
+        // }
+        // SmartDashboard.putBoolean("shooting", true);
     }
 
     @Override
     public void end(boolean interrupted){
-        shooter.targetVelocity = 0;
-        shooter.disableShoot();
+        // shooter.targetVelocity = 0;
+        // shooter.disableShoot();
         SmartDashboard.putBoolean("shooting", false);
 
     }
