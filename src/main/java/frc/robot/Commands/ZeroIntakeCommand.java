@@ -13,17 +13,17 @@ public class ZeroIntakeCommand extends Command{
 
     @Override
     public void initialize(){
+        
+    }
+
+    @Override
+    public void execute(){
         intake.reBoot();
     }
 
     @Override
     public void end(boolean interrupted){
-
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
+        
     }
 
     @Override

@@ -185,7 +185,7 @@ public class RobotContainer {
         // Zero Gyro              //Reset the field-centric heading on left bumper press.
         driveController.start().onTrue(new ZeroGyroCommand(drivetrain));
 
-        driveController.back().onTrue(new ZeroIntakeCommand(intake));
+        driveController.back().whileTrue(new ZeroIntakeCommand(intake));
 
         // joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
