@@ -1,5 +1,9 @@
 //frc
 package frc.robot.subsystems;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+
 //java
 import java.io.IOException;
 import java.util.List;
@@ -11,7 +15,11 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
 
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveModule.SteerRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
+import com.ctre.phoenix6.swerve.SwerveModule;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 
 //wpi
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -26,8 +34,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -81,10 +92,6 @@ public class Vision {
     private SwerveDriveKinematics swerveDriveKin;
     private Rotation2d swerveGyroAngle;
     private SwerveModulePosition[] swerveModPos; // in getStateInfo
-
-    private Pose2d swerveInitPos;
-    private Matrix<N3, N1> swerveStdDev;
-    private Matrix<N3, N1> swerveVisMeasurementStdDev;
 
     public void getStateInfo(SwerveDriveState state){
         swerveModPos = state.ModulePositions;
@@ -228,10 +235,6 @@ public class Vision {
     }
 
     public void rotateToTag(int fiducialId) {
-        visionUpdateLoop();
-        if (targetful) {
-            
-            //private turn = -1.0*getTargetInfoDouble(fiducialId, "yaw")*Constants.kMaxTurnRateDegPerS
-        }
+        
     }
 }
