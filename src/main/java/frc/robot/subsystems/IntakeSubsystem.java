@@ -80,12 +80,12 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void ManualRaiseIntake(){
-        leftJaw.set(0.1);
+        // leftJaw.set(0.1);
         // rightJaw.set(0.20);
     }
 
     public void ManualLowerIntake(){
-        leftJaw.set(-0.1);
+        // leftJaw.set(-0.1);
         // rightJaw.set(-0.10);
     }
 
