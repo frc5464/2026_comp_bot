@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TurretSubsystem extends SubsystemBase{
     
-//     private final SparkMax turret = new SparkMax(7, MotorType.kBrushless);
+//     private final SparkMax turret = new SparkMax(9, MotorType.kBrushless);
 
 //     public RelativeEncoder turretEncoder;
 //     public double turretEncoderPos;

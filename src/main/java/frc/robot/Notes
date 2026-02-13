@@ -3,3 +3,5 @@ TODO: print if robot is intake, feeding, or shooting.
 TODO: Climber, turret, shootrot pid
 
 TODO: for PID for shootrot, targetpos that can be changed. public
+
+TODO: put motors and sparkmax on robot, get CANIDs correct

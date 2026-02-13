@@ -21,9 +21,9 @@ import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase{
 
-//     private final SparkMax shooterMotor = new SparkMax(4, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
-//     private final SparkMax feederMotor = new SparkMax(5, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
-//     private final SparkMax shootHinge = new SparkMax(76, MotorType.kBrushless);
+//     private final SparkMax shooterMotor = new SparkMax(6, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
+//     private final SparkMax feederMotor = new SparkMax(7, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
+//     private final SparkMax shootHinge = new SparkMax(8, MotorType.kBrushless);
 
 //     //Stuff for shootPosition PID
 //     public RelativeEncoder hingeEncoder;

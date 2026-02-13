@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase{
 
-    private final SparkMax leftJaw = new SparkMax(6, MotorType.kBrushless);
-    private final SparkMax rightJaw = new SparkMax(3, MotorType.kBrushless);
+    private final SparkMax leftJaw = new SparkMax(3, MotorType.kBrushless);
+    private final SparkMax rightJaw = new SparkMax(4, MotorType.kBrushless);
     
-    private final SparkMax intakeRod = new SparkMax(8, MotorType.kBrushless);
+    private final SparkMax intakeRod = new SparkMax(5, MotorType.kBrushless);
 
     RelativeEncoder leftEncoder;
     public double encoderPos;
