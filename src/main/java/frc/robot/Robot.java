@@ -101,7 +101,9 @@ public class Robot extends TimedRobot {
     public void testExit() {}
 
     @Override
-    public void simulationPeriodic() {}
+    public void simulationPeriodic() {
+        frc.robot.subsystems.ShooterSubsystem.simulation();
+    }
 
     public void uselessFunctionMauahahaha(){
         // This can be removed.

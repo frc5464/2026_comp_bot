@@ -18,6 +18,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -35,6 +36,7 @@ public class ShooterSubsystem extends SubsystemBase{
     
     private SparkMaxConfig posConfig = new SparkMaxConfig();
     private SparkClosedLoopController posClosedLoopController;
+
 
     public double targetPosition = 0;
     // public double usualResistance = 1.0;
@@ -58,12 +60,10 @@ public class ShooterSubsystem extends SubsystemBase{
   public ShooterSubsystem(){
 
       initPidShoot();
+  } 
+  //help
+  //private final SingleJointedArmSim shooterSim = new SingleJointedArmSim();
 
-  }
-
-
-    
-  
   private void initPidShoot(){
 
       // Position PID for shoot hinge
@@ -147,7 +147,7 @@ public class ShooterSubsystem extends SubsystemBase{
       hingeEncoder.setPosition(0);
   }
 
-  public void simulation(){
+  public static void simulation(){
     
   }
 }
