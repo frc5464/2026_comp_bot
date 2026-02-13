@@ -32,7 +32,7 @@ import frc.robot.Commands.SlowDriveModeCommand;
 import frc.robot.Commands.TurretClockwiseCommand;
 import frc.robot.Commands.TurretCounterclockwiseCommand;
 import frc.robot.Commands.ZeroGyroCommand;
-import frc.robot.Commands.ZeroIntakeCommand;
+import frc.robot.Commands.ZeroMechsCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -185,7 +185,7 @@ public class RobotContainer {
         // Zero Gyro              //Reset the field-centric heading on left bumper press.
         driveController.start().onTrue(new ZeroGyroCommand(drivetrain));
 
-        driveController.back().whileTrue(new ZeroIntakeCommand(intake));
+        driveController.back().whileTrue(new ZeroMechsCommand(intake));
 
         // joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 

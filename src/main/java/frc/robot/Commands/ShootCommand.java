@@ -16,12 +16,12 @@ public class ShootCommand extends Command{
     public void execute(){
         // shooter.targetVelocity = 200;
         // if(shooter.encoderVel >= 200){
-        //     shooter.feed();
-            SmartDashboard.putBoolean("UpToSpeed", true);   // JAKEREVIEW: You are printing true and false here forever.
+            // shooter.feed();
+            // SmartDashboard.putBoolean("UpToSpeed", true);   // JAKEREVIEW: You are printing true and false here forever.
         // } else{
-            SmartDashboard.putBoolean("UpToSpeed", false);
+            // SmartDashboard.putBoolean("UpToSpeed", false);
         // }
-        // SmartDashboard.putBoolean("shooting", true);
+        SmartDashboard.putBoolean("shooting", true);
     }
 
     @Override

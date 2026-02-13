@@ -1,13 +1,15 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class ZeroIntakeCommand extends Command{
+public class ZeroMechsCommand extends Command{
     
     private IntakeSubsystem intake;
+    private ClimbSubsystem climb;
 
-    public ZeroIntakeCommand(IntakeSubsystem intake){
+    public ZeroMechsCommand(IntakeSubsystem intake/*, ClimbSubsystem climb*/){
         this.intake = intake;
     }
 
@@ -19,6 +21,7 @@ public class ZeroIntakeCommand extends Command{
     @Override
     public void execute(){
         intake.reBoot();
+        // climb.reBoot();
     }
 
     @Override
