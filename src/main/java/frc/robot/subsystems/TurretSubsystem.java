@@ -15,59 +15,59 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TurretSubsystem extends SubsystemBase{
+
+    // private final SparkMax turret = new SparkMax(7, MotorType.kBrushless);
+
+    // public RelativeEncoder turretEncoder;
+    // public double turretEncoderPos;
     
-//     private final SparkMax turret = new SparkMax(9, MotorType.kBrushless);
+    // private SparkMaxConfig turretConfig = new SparkMaxConfig();
+    // private SparkClosedLoopController turretClosedLoopController;
 
-//     public RelativeEncoder turretEncoder;
-//     public double turretEncoderPos;
-    
-//     private SparkMaxConfig climbConfig = new SparkMaxConfig();
-//     private SparkClosedLoopController climbClosedLoopController;
-
-//     public double targetPosition = 0;
+    // public double targetPosition = 0;
 
 
-//     public TurretSubsystem(){
+    // public TurretSubsystem(){
 
-//         initPidTurret();         
+    //     initPidTurret();         
 
-//     }
+    // }
 
-//     private void initPidTurret(){
-//         // do your pid initialization here
-//         climbClosedLoopController = turret.getClosedLoopController();
-//         turretEncoder = turret.getEncoder();
+    // private void initPidTurret(){
+    //     // do your pid initialization here
+    //     turretClosedLoopController = turret.getClosedLoopController();
+    //     turretEncoder = turret.getEncoder();
 
         
-//         climbConfig.closedLoop
-//             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-//             //Set PID values for position control
-//             .p(0.1)
-//             .i(0)
-//             .d(0)
-//             .outputRange(-1, 1)
-//             .feedForward
-//                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
+    //     turretConfig.closedLoop
+    //         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+    //         //Set PID values for position control
+    //         .p(0.1)
+    //         .i(0)
+    //         .d(0)
+    //         .outputRange(-1, 1)
+    //         .feedForward
+    //             .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
-//                 turret.configure(climbConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    //             turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-//         SmartDashboard.setDefaultNumber("Target Position", 0);
-//     }
+    //     SmartDashboard.setDefaultNumber("Target Position", 0);
+    // }
 
-//     public void periodic(){
+    // public void periodic(){
 
-//         turretEncoderPos = turretEncoder.getPosition();
+    //     turretEncoderPos = turretEncoder.getPosition();
 
-//         climbClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+    //     turretClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
-//         SmartDashboard.putNumber("turretEncoderPos", turretEncoderPos);
-//         SmartDashboard.putNumber("TurretTarget", targetPosition);
+    //     SmartDashboard.putNumber("turretEncoderPos", turretEncoderPos);
+    //     SmartDashboard.putNumber("TurretTarget", targetPosition);
 
-//         // do your pid calculation here (use targetPosition!)
-//     }
+    //     // do your pid calculation here (use targetPosition!)
+    // }
 
-//     public void reBoot(){
-//         turretEncoder.setPosition(0);
-//     }
+    // public void reBoot(){
+    //     turretEncoder.setPosition(0);
+    // }
 
 }
