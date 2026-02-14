@@ -1,5 +1,6 @@
 //frc
 package frc.robot.subsystems;
+
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
@@ -82,7 +83,7 @@ public class Vision {
     }
 
     public final AprilTagFieldLayout kTagLayout = ATFLsuperConstructor();
-    
+
     private String debugOutputRobotPose3d = robotPose().toString();
     private List<PhotonPipelineResult> results;
     private VisionSystemSim visionLayout = new VisionSystemSim("primary");
@@ -93,16 +94,16 @@ public class Vision {
     private Rotation2d swerveGyroAngle;
     private SwerveModulePosition[] swerveModPos; // in getStateInfo
 
-    public void getStateInfo(SwerveDriveState state){
+    public void getStateInfo(SwerveDriveState state) {
         swerveModPos = state.ModulePositions;
     }
 
     public SwerveDrivePoseEstimator mainPoseEst = new SwerveDrivePoseEstimator(
-        swerveDriveKin,
-        new Rotation2d(),
-        swerveModPos,
+            swerveDriveKin,
+            new Rotation2d(),
+            swerveModPos,
 
-        new Pose2d(2, 4, Rotation2d.fromDegrees(180))); /*PLACEHOLDER VALUES */
+            new Pose2d(2, 4, Rotation2d.fromDegrees(180))); /* PLACEHOLDER VALUES */
 
     // only updated once, used for defining the AprilTag layout
     private boolean visionLayoutDefined = false;
@@ -110,7 +111,7 @@ public class Vision {
     public void visionUpdateLoop() {
         // update result list, find targets, and update position estimates
         targetful = false;
-        
+
         if (visionLayoutDefined == false) {
             visionLayout.addAprilTags(kTagLayout);
             visionLayoutDefined = true;
@@ -119,12 +120,11 @@ public class Vision {
         }
 
         for (PhotonCamera c : cameras) {
-            results=(c.getAllUnreadResults());
+            results = (c.getAllUnreadResults());
         }
 
-        
         if (cuTrackedTargets.size() > 20) {
-            cuTrackedTargets.remove(cuTrackedTargets.size()-1);
+            cuTrackedTargets.remove(cuTrackedTargets.size() - 1);
         }
 
         for (PhotonPipelineResult r : results) {
@@ -235,6 +235,6 @@ public class Vision {
     }
 
     public void rotateToTag(int fiducialId) {
-        
+
     }
 }
