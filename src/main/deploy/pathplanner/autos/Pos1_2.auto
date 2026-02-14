@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "RSL1_B1_BL3"
@@ -14,6 +20,18 @@
           "type": "path",
           "data": {
             "pathName": "BL3_B1_TW1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ClimbUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ClimbDown"
           }
         }
       ]

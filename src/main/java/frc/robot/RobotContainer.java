@@ -28,6 +28,7 @@ import frc.robot.Commands.IntakeToPositionCommand;
 import frc.robot.Commands.ManualIntakeToPositionCommand;
 import frc.robot.Commands.ReverseShooterCommand;
 import frc.robot.Commands.ShootCommand;
+import frc.robot.Commands.ClimbToPositionCommand;
 import frc.robot.Commands.SlowDriveModeCommand;
 import frc.robot.Commands.TurretClockwiseCommand;
 import frc.robot.Commands.TurretCounterclockwiseCommand;
@@ -81,6 +82,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake));
         NamedCommands.registerCommand("Shoot", new ShootCommand(shoot));
+        NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
+        NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
+        
 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Mode", autoChooser);

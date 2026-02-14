@@ -58,6 +58,17 @@
           "name": "IntakeUp"
         }
       }
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 1.4529346622369939,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Shoot"
+        }
+      }
     }
   ],
   "globalConstraints": {

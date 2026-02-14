@@ -21,6 +21,18 @@
           "data": {
             "pathName": "BL3_B2_TW2"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ClimbUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ClimbDown"
+          }
         }
       ]
     }

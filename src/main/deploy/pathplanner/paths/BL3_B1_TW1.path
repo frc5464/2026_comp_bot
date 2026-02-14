@@ -65,6 +65,17 @@
           ]
         }
       }
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 1.4,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Shoot"
+        }
+      }
     }
   ],
   "globalConstraints": {
