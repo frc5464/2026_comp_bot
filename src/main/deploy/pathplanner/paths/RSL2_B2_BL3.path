@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.4,
+        "x": 3.6,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3393398282201785,
+        "x": 2.5393398282201787,
         "y": 2.9393398282201786
       },
       "isLocked": false,
-      "linkedName": "RSL2_Fixed"
+      "linkedName": "RSL2"
     },
     {
       "anchor": {
@@ -32,12 +32,28 @@
     },
     {
       "anchor": {
+        "x": 6.5,
+        "y": 3.5
+      },
+      "prevControl": {
+        "x": 6.5,
+        "y": 2.75
+      },
+      "nextControl": {
+        "x": 6.5,
+        "y": 4.0
+      },
+      "isLocked": false,
+      "linkedName": "BL3_front"
+    },
+    {
+      "anchor": {
         "x": 8.0,
         "y": 4.0
       },
       "prevControl": {
-        "x": 7.292893218813453,
-        "y": 3.292893218813453
+        "x": 7.0,
+        "y": 4.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,8 +66,8 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 1.4530722484807426,
-      "endWaypointRelativePos": 2.0,
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": 3.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -89,7 +105,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
