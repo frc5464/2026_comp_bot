@@ -8,13 +8,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BeltSubsystem extends SubsystemBase{
     
-    // private final SparkMax belt = new SparkMax(57, MotorType.kBrushless);
+    private final SparkMax belt = new SparkMax(57, MotorType.kBrushless);
+    
+    public void periodic(){
+        runBelt();
+    }
     
     public void runBelt(){
-        // belt.set(1);
+        belt.set(1);
     }
 
     public void stopBelt(){
-        // belt.set(0);
+        belt.set(0);
     }
 }
