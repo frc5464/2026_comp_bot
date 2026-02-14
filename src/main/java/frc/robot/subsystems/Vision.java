@@ -86,6 +86,11 @@ public class Vision {
     private Matrix<N3, N1> swerveStdDev;
     private Matrix<N3, N1> swerveVisMeasurementStdDev;
 
+    public Vision(){
+
+        //TODO print cameras
+        // SmartDashboard.putRaw("camera" cameras);
+    }
     public void getStateInfo(SwerveDriveState state){
         swerveModPos = state.ModulePositions;
     }

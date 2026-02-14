@@ -1,5 +1,7 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -7,7 +9,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class ClimbToPositionCommand extends Command{
     
     private ClimbSubsystem climb;
-
+    private Timer timer = new Timer();
     private double position;
 
     public ClimbToPositionCommand(ClimbSubsystem climb, double pos){
@@ -17,7 +19,8 @@ public class ClimbToPositionCommand extends Command{
 
     @Override
     public void initialize() {
-        
+        timer.reset();
+        timer.start();
     }
 
     @Override
@@ -35,11 +38,14 @@ public class ClimbToPositionCommand extends Command{
 
     @Override
     public void end(boolean interrupted) {
-
+        
     }
 
     @Override
     public boolean isFinished() {
+        if((timer.get() > 2) && RobotState.isAutonomous()){
+            return true;
+        }
         return true;
     }
 }

@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -8,10 +9,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BeltSubsystem extends SubsystemBase{
     
-    private final SparkMax belt = new SparkMax(57, MotorType.kBrushless);
+    private final SparkFlex belt = new SparkFlex(13, MotorType.kBrushless);
     
     public void periodic(){
-        runBelt();
+        // runBelt();
     }
     
     public void runBelt(){

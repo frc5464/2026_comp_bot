@@ -83,7 +83,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake));
-        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot));
+        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt));
         NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
         NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
         
@@ -162,7 +162,7 @@ public class RobotContainer {
         driveController.leftTrigger().whileTrue(new IntakeCommand(intake));
  
         //rev up feeder motor up to speed, then shoots when up to speed
-        driveController.rightTrigger().whileTrue(new ShootCommand(shoot));
+        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt));
 
         zackController.a().onTrue(new IntakeToPositionCommand(intake, 0));
         zackController.b().onTrue(new IntakeToPositionCommand(intake, 1));
