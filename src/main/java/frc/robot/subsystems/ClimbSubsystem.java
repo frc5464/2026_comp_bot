@@ -21,7 +21,7 @@ import frc.robot.Universals;
 
 public class ClimbSubsystem extends SubsystemBase{
 
-    // private final SparkMax climber = new SparkMax(7, MotorType.kBrushless);
+    // private final SparkMax climber = new SparkMax(19, MotorType.kBrushless);
 
     // RelativeEncoder climbEncoder;
     // public double climbEncoderPos;
