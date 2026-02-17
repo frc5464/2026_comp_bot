@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 //photon
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonUtils;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -20,7 +21,9 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
@@ -72,6 +75,9 @@ public class Vision {
 
     public final AprilTagFieldLayout kTagLayout = ATFLsuperConstructor();
     
+    public static final Transform3d kRobotToCam = 
+    new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
+
     private String debugOutputRobotPose3d = robotPose().toString();
     private List<PhotonPipelineResult> results;
     private VisionSystemSim visionLayout = new VisionSystemSim("primary");
@@ -88,8 +94,10 @@ public class Vision {
 
     public Vision(){
 
+        PhotonPoseEstimator photonEstimator = new PhotonPoseEstimator(kTagLayout, kRobotToCam);
         //TODO print cameras
         // SmartDashboard.putRaw("camera" cameras);
+
     }
     public void getStateInfo(SwerveDriveState state){
         swerveModPos = state.ModulePositions;

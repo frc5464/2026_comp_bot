@@ -28,12 +28,12 @@ import frc.robot.Commands.IntakeToPositionCommand;
 import frc.robot.Commands.ManualIntakeToPositionCommand;
 import frc.robot.Commands.ReverseShooterCommand;
 import frc.robot.Commands.ShootCommand;
-import frc.robot.Commands.ClimbToPositionCommand;
+// import frc.robot.Commands.ClimbToPositionCommand;
 import frc.robot.Commands.SlowDriveModeCommand;
 import frc.robot.Commands.TurretClockwiseCommand;
 import frc.robot.Commands.TurretCounterclockwiseCommand;
 import frc.robot.Commands.ZeroGyroCommand;
-import frc.robot.Commands.ZeroMechsCommand;
+// import frc.robot.Commands.ZeroMechsCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.BeltSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -84,8 +84,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake));
         NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt));
-        NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
-        NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
+        // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
+        // NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
         
 
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -191,7 +191,7 @@ public class RobotContainer {
         // Zero Gyro              //Reset the field-centric heading on left bumper press.
         driveController.start().onTrue(new ZeroGyroCommand(drivetrain));
 
-        driveController.back().whileTrue(new ZeroMechsCommand(intake));
+        // driveController.back().whileTrue(new ZeroMechsCommand(intake));
 
         // joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
