@@ -21,10 +21,7 @@ package frc.robot.Commands;
 //     @Override
 //     public void execute() {
 //         m_ShooterSubsystem.changeAngle(desiredposition);
-//         /*need to calculate output using estimated camera z-axis and shoothinge motor encoder
-//          * 
-//          * if z_value is further away, then the motor rotates as needed
-//         */
+//         /* Use the X value in pose estimation to raise the angle the smaller X equals. */
 //     }
 
 //     @Override
