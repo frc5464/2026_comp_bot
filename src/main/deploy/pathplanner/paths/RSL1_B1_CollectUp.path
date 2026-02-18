@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.6,
-        "y": 5.5
+        "x": 4.565925826289068,
+        "y": 5.241180954897479
       },
       "isLocked": false,
       "linkedName": "RSL1"
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 4.625,
-        "y": 5.5
+        "y": 5.25
       },
       "prevControl": {
         "x": 4.125,
-        "y": 5.5
+        "y": 5.25
       },
       "nextControl": {
         "x": 5.375,
-        "y": 5.5
+        "y": 5.25
       },
       "isLocked": false,
       "linkedName": "B1"

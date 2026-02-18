@@ -89,6 +89,7 @@ public class RobotContainer {
         
 
         autoChooser = AutoBuilder.buildAutoChooser();
+        // autoChooser.setDefaultOption("Pos3_20pc", getAutonomousCommand());
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         // Warmup PathPlanner to avoid Java pauses

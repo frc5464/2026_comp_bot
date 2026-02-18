@@ -28,6 +28,12 @@
               }
             ]
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CollectUp_B1_TW1"
+          }
         }
       ]
     }

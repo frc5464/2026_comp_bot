@@ -28,6 +28,12 @@
               }
             ]
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CollectDown_B2_TW2"
+          }
         }
       ]
     }

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.0,
-        "y": 3.0
+        "x": 7.8,
+        "y": 1.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.095248498505758,
-        "y": 3.0
+        "x": 6.3,
+        "y": 1.0000000000000002
       },
       "isLocked": false,
-      "linkedName": "BL4"
+      "linkedName": "CollectDown_Down"
     },
     {
       "anchor": {
@@ -20,7 +20,7 @@
         "y": 2.5
       },
       "prevControl": {
-        "x": 5.125,
+        "x": 6.125,
         "y": 2.5
       },
       "nextControl": {
@@ -36,8 +36,8 @@
         "y": 2.75
       },
       "prevControl": {
-        "x": 2.049999999999999,
-        "y": 2.75
+        "x": 1.05,
+        "y": 1.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,30 +47,7 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "IntakeUp",
-      "waypointRelativePos": 1.4496365524403005,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "IntakeUp"
-        }
-      }
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 1.4529346622369939,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Shoot"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
@@ -87,7 +64,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }
