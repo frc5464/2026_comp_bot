@@ -16,6 +16,7 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
 
 //wpi
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -31,6 +32,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -58,6 +60,10 @@ public class Vision {
             new PhotonCamera("apis"), /* shooter-side */
             new PhotonCamera("crabro") /* other-side */
     };
+    public static final AprilTagFieldLayout kTag = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
+
+    public VisionSystemSim visionSim;
+
 
     private static final String jsonPath = "C:\\Users\\cummi\\Documents\\2026 Code\\2026_comp_bot\\src\\main\\java\\frc\\robot\\subsystems\\vision_extra\\2026-rebuilt-andymark.json";
     private static final boolean enableDebugOutput = true;
@@ -77,7 +83,7 @@ public class Vision {
     
     public static final Transform3d kRobotToCam = 
     new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
-
+    
     private String debugOutputRobotPose3d = robotPose().toString();
     private List<PhotonPipelineResult> results;
     private VisionSystemSim visionLayout = new VisionSystemSim("primary");
@@ -97,7 +103,10 @@ public class Vision {
         PhotonPoseEstimator photonEstimator = new PhotonPoseEstimator(kTagLayout, kRobotToCam);
         //TODO print cameras
         // SmartDashboard.putRaw("camera" cameras);
-
+        if(Robot.isSimulation()){
+            visionSim = new VisionSystemSim("Vision");
+            visionSim.addAprilTags(kTag);
+        }
     }
     public void getStateInfo(SwerveDriveState state){
         swerveModPos = state.ModulePositions;
