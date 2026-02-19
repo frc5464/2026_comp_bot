@@ -11,7 +11,7 @@ public class Universals {
     public static double driveSpeedMultiplier = 1; // at max = 1
     public static double shootSpeedMultiplier = 1; // at max = 1
     
-    // public static boolean slowMode = false;
+    public static boolean slowMode = false;
     
     public static boolean shoot = false;
     public static boolean shootReverse = false;
@@ -20,7 +20,7 @@ public class Universals {
 
     public static boolean intaking = false;
     public static boolean feeding = false;
-    // public static boolean intakeReverse = false;
+    public static boolean intakeReverse = false;
     
     public static boolean climbUp = false;
     public static boolean climbDown = false;

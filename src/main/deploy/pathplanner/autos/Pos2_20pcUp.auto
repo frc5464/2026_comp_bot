@@ -7,11 +7,11 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL1_B1_CollectUp_Down"
+            "pathName": "RSL2_B2_CollectUp_Down"
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {

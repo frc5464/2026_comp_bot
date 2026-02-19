@@ -1,5 +1,6 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -22,11 +23,12 @@ public class ZeroMechsCommand extends Command{
     public void execute(){
         intake.reBoot();
         // climb.reBoot();
+        SmartDashboard.putBoolean("MechsZeroed", true);
     }
 
     @Override
     public void end(boolean interrupted){
-        
+        SmartDashboard.putBoolean("MechsZeroed", false);
     }
 
     @Override

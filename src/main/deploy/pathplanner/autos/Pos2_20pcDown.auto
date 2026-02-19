@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL1_B1_CollectUp_Down"
+            "pathName": "RSL2_B2_CollectDown"
           }
         },
         {
@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "CollectUp_CollectDown"
+                  "pathName": "CollectDown_CollectUp"
                 }
               },
               {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CollectDown_B2_TW2"
+            "pathName": "CollectUp_B1_TW1"
           }
         }
       ]

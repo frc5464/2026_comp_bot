@@ -48,7 +48,7 @@ public class ShootCommand extends Command{
     @Override
     public boolean isFinished(){
         // This should cause autonomous to only spit out game pieces for a bit
-        if((timer.get() > 1) && RobotState.isAutonomous()){
+        if((timer.get() > 2) && RobotState.isAutonomous()){
             return true;
         }
         return false;
