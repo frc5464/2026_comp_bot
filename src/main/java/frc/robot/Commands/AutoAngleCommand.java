@@ -13,6 +13,7 @@ public class AutoAngleCommand extends Command{
     public AutoAngleCommand(CommandSwerveDrivetrain drivetrain, ShooterSubsystem shooter){
         this.drivetrain = drivetrain;
         this.m_ShooterSubsystem = shooter;
+        addRequirements(shooter);
     }
 
     @Override
