@@ -5,12 +5,12 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.Vision;
 
-public class AutoAngleCommand extends Command{
+public class AutoHoodAngleCommand extends Command{
     private final CommandSwerveDrivetrain drivetrain;
     private final ShooterSubsystem m_ShooterSubsystem;
     
 
-    public AutoAngleCommand(CommandSwerveDrivetrain drivetrain, ShooterSubsystem shooter){
+    public AutoHoodAngleCommand(CommandSwerveDrivetrain drivetrain, ShooterSubsystem shooter){
         this.drivetrain = drivetrain;
         this.m_ShooterSubsystem = shooter;
         addRequirements(shooter);

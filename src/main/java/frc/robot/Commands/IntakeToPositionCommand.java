@@ -1,5 +1,8 @@
 package frc.robot.Commands;
 
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.SparkBase.ControlType;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -22,10 +25,10 @@ public class IntakeToPositionCommand extends Command{
     @Override
     public void execute() {
         if(position == 0){
-            intake.targetPosition = -0.1;
+            intake.targetPositionInt = -0.1;
         }
         else if(position == 1){
-            intake.targetPosition = -3.6;
+            intake.targetPositionInt = -3.6;
         }
         else{
             intake.stopElevate();

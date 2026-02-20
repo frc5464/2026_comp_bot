@@ -1,5 +1,6 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -14,11 +15,12 @@ public class ReverseShooterCommand extends Command{
     @Override
     public void execute(){
         // shooter.reverseShoot();
+        SmartDashboard.putBoolean("RevShoot", true);
     }
 
     @Override
     public void end(boolean interrupted){
         // shooter.disableShoot();
-        
+        SmartDashboard.putBoolean("RevShoot", false);
     }
 }

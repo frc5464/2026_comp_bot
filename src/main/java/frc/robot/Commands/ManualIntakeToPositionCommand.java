@@ -16,11 +16,11 @@ public class ManualIntakeToPositionCommand extends Command{
     @Override
     public void execute(){
         if(posDirection == 0){
-            intake.ManualRaiseIntake();
+            // intake.ManualRaiseIntake();
         } else if(posDirection == 1){
-            intake.ManualLowerIntake();
+            // intake.ManualLowerIntake();
         }   else{
-            intake.stopElevate();
+            // intake.stopElevate();
         }
     }
     

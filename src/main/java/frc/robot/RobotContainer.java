@@ -22,7 +22,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.Commands.AutoAngleCommand;
+import frc.robot.Commands.AutoHoodAngleCommand;
+import frc.robot.Commands.AutoTurretAngleCommand;
 import frc.robot.Commands.DummyCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
@@ -90,6 +91,7 @@ public class RobotContainer {
         
 
         autoChooser = AutoBuilder.buildAutoChooser();
+        // autoChooser.setDefaultOption("Pos3_20pc", getAutonomousCommand());
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         // Warmup PathPlanner to avoid Java pauses
@@ -142,8 +144,8 @@ public class RobotContainer {
                     .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );    
-
-        shoot.setDefaultCommand(new AutoAngleCommand(drivetrain, shoot));
+        turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
+        shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();

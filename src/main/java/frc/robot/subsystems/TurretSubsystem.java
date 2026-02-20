@@ -11,6 +11,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -20,6 +21,7 @@ public class TurretSubsystem extends SubsystemBase{
 
     // public RelativeEncoder turretEncoder;
     // public double turretEncoderPos;
+    public double angle;
     
     // private SparkMaxConfig turretConfig = new SparkMaxConfig();
     // private SparkClosedLoopController turretClosedLoopController;
@@ -69,5 +71,7 @@ public class TurretSubsystem extends SubsystemBase{
     // public void reBoot(){
     //     turretEncoder.setPosition(0);
     // }
-
+    public void autoAim(double x, double y){
+        angle =  Math.tanh((x-4.6)/(y-4));
+    }
 }

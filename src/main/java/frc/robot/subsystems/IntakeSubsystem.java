@@ -26,9 +26,9 @@ public class IntakeSubsystem extends SubsystemBase{
     public double encoderPos;
     
     private SparkMaxConfig motorConfig = new SparkMaxConfig();
-    private SparkClosedLoopController closedLoopController;
+    public SparkClosedLoopController closedLoopController;
 
-    public double targetPosition = 0;
+    public double targetPositionInt = 0;
 
 
     public IntakeSubsystem(){
@@ -67,10 +67,10 @@ public class IntakeSubsystem extends SubsystemBase{
 
         encoderPos = leftEncoder.getPosition();
 
-        closedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+        closedLoopController.setSetpoint(targetPositionInt, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
         SmartDashboard.putNumber("JawEncoder", encoderPos);
-        SmartDashboard.putNumber("JawTarget", targetPosition);
+        SmartDashboard.putNumber("JawTarget", targetPositionInt);
 
         // do your pid calculation here (use targetPosition!)
     }
@@ -99,8 +99,8 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void Intake(){
-                intakeRod.set(-0.5);
-            }
+        intakeRod.set(-0.5);
+    }
 
 
     public void IntakeReverse(){
