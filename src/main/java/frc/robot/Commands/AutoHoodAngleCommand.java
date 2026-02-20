@@ -4,17 +4,16 @@ package frc.robot.Commands;
 // import frc.robot.subsystems.ShooterSubsystem;
 // import frc.robot.subsystems.Vision;
 
-// public class AutoAngleCommand extends Command{
-//     private final Vision m_vision;
-//     private final ShooterSubsystem m_ShooterSubsystem;
-//     private double desiredposition;
-//     public AutoAngleCommand(Vision camera, ShooterSubsystem shooter){
-//         this.m_vision = camera;
-//         this.m_ShooterSubsystem = shooter;
-//     }
+public class AutoHoodAngleCommand extends Command{
+    private final CommandSwerveDrivetrain drivetrain;
+    private final ShooterSubsystem m_ShooterSubsystem;
+    
 
-//     @Override
-//     public void initialize() {
+    public AutoHoodAngleCommand(CommandSwerveDrivetrain drivetrain, ShooterSubsystem shooter){
+        this.drivetrain = drivetrain;
+        this.m_ShooterSubsystem = shooter;
+        addRequirements(shooter);
+    }
 
 //     }
 
