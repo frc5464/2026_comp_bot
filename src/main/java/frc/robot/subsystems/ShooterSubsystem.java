@@ -106,8 +106,8 @@ public class ShooterSubsystem extends SubsystemBase{
 
       posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
-      SmartDashboard.putNumber("JawEncoder", encoderPos);
-      SmartDashboard.putNumber("JawTarget", targetPosition);
+      SmartDashboard.putNumber("ShootRotEncoder", encoderPos);
+      SmartDashboard.putNumber("ShootRotTarget", targetPosition);
     }
   
   public void feed(){

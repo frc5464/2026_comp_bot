@@ -28,7 +28,7 @@ public class IntakeToPositionCommand extends Command{
             intake.targetPositionInt = -0.1;
         }
         else if(position == 1){
-            intake.targetPositionInt = -3.6;
+            intake.targetPositionInt = -3;
         }
         else{
             intake.stopElevate();

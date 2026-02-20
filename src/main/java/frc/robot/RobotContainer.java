@@ -35,7 +35,7 @@ import frc.robot.Commands.SlowDriveModeCommand;
 import frc.robot.Commands.TurretClockwiseCommand;
 import frc.robot.Commands.TurretCounterclockwiseCommand;
 import frc.robot.Commands.ZeroGyroCommand;
-// import frc.robot.Commands.ZeroMechsCommand;
+import frc.robot.Commands.ZeroMechsCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.BeltSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -47,7 +47,7 @@ import frc.robot.subsystems.TurretSubsystem;
 public class RobotContainer {
 
     private double MaxSpeed = 0.25 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     
     /* Setting up bindings for necessary control of the swerve drive platform */
     // private final SwerveRequest.FieldCentric slowdrive = new SwerveRequest.FieldCentric()
@@ -195,7 +195,7 @@ public class RobotContainer {
         // Zero Gyro              //Reset the field-centric heading on left bumper press.
         driveController.start().onTrue(new ZeroGyroCommand(drivetrain));
 
-        // driveController.back().whileTrue(new ZeroMechsCommand(intake));
+        driveController.back().whileTrue(new ZeroMechsCommand(intake));
 
         // joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
