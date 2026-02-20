@@ -11,9 +11,12 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 
 public class TurretSubsystem extends SubsystemBase{
 
@@ -72,6 +75,20 @@ public class TurretSubsystem extends SubsystemBase{
     //     turretEncoder.setPosition(0);
     // }
     public void autoAim(double x, double y){
-        angle =  Math.tanh((x-4.6)/(y-4));
+        
+        // Figure out which hub we need to be aiming at
+        if(DriverStation.getAlliance().get() == Alliance.Blue){
+
+            // Calculate the angle needed between turret and blue hub in degrees
+            angle =  Math.toDegrees(Math.atan((x-4.6)/(y-4)));
+        }
+
+        else{
+
+            // Calculate the angle needed between turret and red hub in degrees
+            angle =  Math.toDegrees(Math.atan((x-11.9)/(y-4)));            
+        }
+
+        SmartDashboard.putNumber("Turret Angle", angle);
     }
 }
