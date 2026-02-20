@@ -133,7 +133,7 @@ public class ShooterSubsystem extends SubsystemBase{
      */
     // y = mx + b
     // m = slope = (y2 - y1)/(x2 - x1)
-      targetPosition = (-40*(Math.hypot(xdistance - 4, ydistance - 2.5))) + 130;
+      targetPosition = (-40*(Math.hypot(xdistance - 4.5, ydistance - 4.0))) + 130;
       
     }
   }
