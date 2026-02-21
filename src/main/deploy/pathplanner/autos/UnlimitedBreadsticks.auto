@@ -5,34 +5,41 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "RSL1_B1_CollectUp_Down"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "CollectUp_CollectDown"
+                  "name": "LongIntake"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Intake"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RSL1_B1_CollectUp_Down"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "CollectUp_CollectDown"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "CollectDown_B2_TW2"
+                      }
+                    }
+                  ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CollectDown_B2_TW2"
           }
         }
       ]

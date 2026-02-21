@@ -32,6 +32,22 @@
     },
     {
       "anchor": {
+        "x": 6.3,
+        "y": 6.4
+      },
+      "prevControl": {
+        "x": 6.3,
+        "y": 5.814595832553437
+      },
+      "nextControl": {
+        "x": 6.3,
+        "y": 6.985404167446564
+      },
+      "isLocked": false,
+      "linkedName": "Pickup_Topcurve"
+    },
+    {
+      "anchor": {
         "x": 7.8,
         "y": 7.15
       },
@@ -46,7 +62,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 1.8,
       "rotationDegrees": 0.0
     }
   ],
@@ -55,7 +71,7 @@
   "eventMarkers": [
     {
       "name": "IntakeDown",
-      "waypointRelativePos": 1.5,
+      "waypointRelativePos": 2.0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
