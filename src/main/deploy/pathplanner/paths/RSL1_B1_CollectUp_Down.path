@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 3.6,
-        "y": 5.5
+        "y": 5.675
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.565925826289068,
-        "y": 5.241180954897479
+        "x": 4.082962913144534,
+        "y": 5.545590477448739
       },
       "isLocked": false,
       "linkedName": "RSL1"
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 4.625,
-        "y": 5.25
+        "y": 5.5
       },
       "prevControl": {
         "x": 4.125,
-        "y": 5.25
+        "y": 5.5
       },
       "nextControl": {
-        "x": 5.375,
-        "y": 5.25
+        "x": 5.875,
+        "y": 5.5
       },
       "isLocked": false,
       "linkedName": "B1"
@@ -46,7 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.4510150044130692,
+      "waypointRelativePos": 1.4,
       "rotationDegrees": 0.0
     }
   ],
@@ -81,7 +81,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.2376052952029334
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

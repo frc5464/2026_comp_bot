@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 3.6,
-        "y": 5.5
+        "y": 5.675
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.6000000000000005,
-        "y": 5.5
+        "y": 5.675
       },
       "isLocked": false,
       "linkedName": "RSL1"
@@ -73,7 +73,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.2376052952029334
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

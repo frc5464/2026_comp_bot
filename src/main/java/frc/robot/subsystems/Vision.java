@@ -62,7 +62,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 
 public class Vision extends SubsystemBase {
-    private PhotonCamera[] cameras = {
+    public PhotonCamera[] cameras = {
             new PhotonCamera("apis"), /* shooter-side */
             new PhotonCamera("crabro") /* other-side */
     };

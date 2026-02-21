@@ -21,37 +21,37 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "RSL3_B2_CollectDown"
+                        "pathName": "RSL1_B1_CollectUp_Down"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "CollectDown_BL4-5"
+                        "pathName": "CollectUp_1-5"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "BL4-5_B2_RSL3"
+                        "pathName": "BL1-5_RSL1"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "RSL3_B2_BL4-5"
+                        "pathName": "RSL1_BL1-5"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "BL4-5_BL3"
+                        "pathName": "BL1-5_BL3"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "BL3_B2_TW2"
+                        "pathName": "BL3_B1_TW1"
                       }
                     }
                   ]
@@ -64,6 +64,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Asian (Pos3)",
+  "folder": "Other (Pos1)",
   "choreoAuto": false
 }

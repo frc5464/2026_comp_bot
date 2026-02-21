@@ -27,8 +27,10 @@ import frc.robot.Commands.AutoTurretAngleCommand;
 import frc.robot.Commands.DummyCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
+import frc.robot.Commands.LongIntakeCommand;
 import frc.robot.Commands.ManualIntakeToPositionCommand;
 import frc.robot.Commands.ManualModeCommand;
+import frc.robot.Commands.ReverseIntakeCommand;
 import frc.robot.Commands.ReverseShooterCommand;
 import frc.robot.Commands.ShootCommand;
 // import frc.robot.Commands.ClimbToPositionCommand;
@@ -87,6 +89,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake));
         NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt));
+        NamedCommands.registerCommand("LongIntake", new LongIntakeCommand(intake));
         // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
         // NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
         
@@ -165,6 +168,7 @@ public class RobotContainer {
         driveController.x().whileTrue(new SlowDriveModeCommand());
 
         driveController.leftTrigger().whileTrue(new IntakeCommand(intake));
+        zackController.x().whileTrue(new ReverseIntakeCommand(intake));
  
         //rev up feeder motor up to speed, then shoots when up to speed
         driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt));
@@ -198,7 +202,7 @@ public class RobotContainer {
         // Zero Gyro              //Reset the field-centric heading on left bumper press.
         driveController.start().onTrue(new ZeroGyroCommand(drivetrain));
 
-        driveController.back().whileTrue(new ZeroMechsCommand(intake));
+        zackController.start().whileTrue(new ZeroMechsCommand(intake));
 
         // joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
