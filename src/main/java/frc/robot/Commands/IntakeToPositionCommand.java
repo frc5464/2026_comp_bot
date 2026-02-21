@@ -25,10 +25,10 @@ public class IntakeToPositionCommand extends Command{
     @Override
     public void execute() {
         if(position == 0){
-            intake.targetPositionInt = -0.1;
+            intake.lefttargetPositionInt = -0.1;
         }
         else if(position == 1){
-            intake.targetPositionInt = -3;
+            intake.lefttargetPositionInt = -4.6;
         }
         else{
             intake.stopElevate();

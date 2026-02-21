@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.0,
+        "x": 7.9,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.292893218813453,
-        "y": 3.292893218813453
+        "x": 7.72635182233307,
+        "y": 3.0151922469877928
       },
       "isLocked": false,
       "linkedName": "BL3"
@@ -36,15 +36,20 @@
         "y": 2.8
       },
       "prevControl": {
-        "x": 2.0500000000000007,
-        "y": 2.8
+        "x": 1.05,
+        "y": 1.0499999999999998
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "TW2"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.4,
+      "rotationDegrees": 90.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -72,8 +77,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.7,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -81,13 +86,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.41732191182462
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

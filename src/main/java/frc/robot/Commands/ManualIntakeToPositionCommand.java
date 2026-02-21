@@ -1,6 +1,7 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Universals;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class ManualIntakeToPositionCommand extends Command{
@@ -15,13 +16,21 @@ public class ManualIntakeToPositionCommand extends Command{
 
     @Override
     public void execute(){
-        if(posDirection == 0){
-            // intake.ManualRaiseIntake();
-        } else if(posDirection == 1){
-            // intake.ManualLowerIntake();
-        }   else{
-            // intake.stopElevate();
-        }
+        // if(Universals.manualMode == true){
+        //     intake.ManualRaiseIntake();
+        // } else {
+        //     intake.ManualLowerIntake();
+        // }
+    }
+
+    @Override
+    public void end(boolean interrupted){
+        // intake.stopElevate();
+    }
+
+    @Override
+    public boolean isFinished(){
+        return false;
     }
     
 }

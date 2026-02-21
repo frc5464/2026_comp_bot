@@ -12,8 +12,12 @@ import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Universals;
+import frc.robot.Commands.IntakeToPositionCommand;
 
 public class IntakeSubsystem extends SubsystemBase{
 
@@ -22,19 +26,26 @@ public class IntakeSubsystem extends SubsystemBase{
     
     private final SparkMax intakeRod = new SparkMax(12, MotorType.kBrushless);
 
-    RelativeEncoder leftEncoder;
-    public double encoderPos;
+    RelativeEncoder leftjawEncoder;
+    public double leftjawEncoderPos;
     
-    private SparkMaxConfig motorConfig = new SparkMaxConfig();
-    public SparkClosedLoopController closedLoopController;
+    private SparkMaxConfig leftjawMotorConfig = new SparkMaxConfig();
+    public SparkClosedLoopController leftjawClosedLoopController;
 
-    public double targetPositionInt = 0;
+    public double lefttargetPositionInt = -4.6;
 
 
     public IntakeSubsystem(){
 
-        initPid();         
+        // leftjawEncoder = leftJaw.getEncoder();
+        initPid();       
+        
+        // SparkBaseConfig conf = new SparkMaxConfig();
+        // conf.idleMode(IdleMode.kCoast);
+        // // conf.openLoopRampRate(0.5);
+        // leftJaw.configure(conf, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
+        // follow the yellow brick road (left jaw)
         SparkBaseConfig conf2 = new SparkMaxConfig();
         conf2.follow(10, false);
         conf2.idleMode(IdleMode.kBrake);
@@ -44,11 +55,11 @@ public class IntakeSubsystem extends SubsystemBase{
 
     private void initPid(){
         // do your pid initialization here
-        closedLoopController = leftJaw.getClosedLoopController();
-        leftEncoder = leftJaw.getEncoder();
+        leftjawClosedLoopController = leftJaw.getClosedLoopController();
+        leftjawEncoder = leftJaw.getEncoder();
 
         
-        motorConfig.closedLoop
+        leftjawMotorConfig.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             //Set PID values for position control
             .p(0.1)
@@ -58,34 +69,49 @@ public class IntakeSubsystem extends SubsystemBase{
             .feedForward
                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
-                leftJaw.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+                leftJaw.configure(leftjawMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
         SmartDashboard.setDefaultNumber("Target Position", 0);
     }
 
     public void periodic(){
+        leftjawEncoderPos = leftjawEncoder.getPosition();
 
-        encoderPos = leftEncoder.getPosition();
+        leftjawClosedLoopController.setSetpoint(lefttargetPositionInt, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
-        closedLoopController.setSetpoint(targetPositionInt, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+        SmartDashboard.putNumber("JawEncoder", leftjawEncoderPos);
+        SmartDashboard.putNumber("JawTarget", lefttargetPositionInt);
 
-        SmartDashboard.putNumber("JawEncoder", encoderPos);
-        SmartDashboard.putNumber("JawTarget", targetPositionInt);
+        // if(Universals.manualMode == false){
+        //     ;
+        // }
 
         // do your pid calculation here (use targetPosition!)
     }
 
+    // public void intakePID(){
+    //     if(){
+    //     }    lefttargetPositionInt = -0.1;
+        
+    //     if(){
+    //         lefttargetPositionInt = -4.8;
+    //     }
+    //     else{
+    //         leftJaw.set(0);
+    //     }
+    // }
+
     public void reBoot(){
-        leftEncoder.setPosition(0);
+        leftjawEncoder.setPosition(0);
     }
 
     public void ManualRaiseIntake(){
-        // leftJaw.set(0.1);
+        leftJaw.set(0.1);
         // rightJaw.set(0.20);
     }
 
     public void ManualLowerIntake(){
-        // leftJaw.set(-0.1);
+        leftJaw.set(-0.1);
         // rightJaw.set(-0.10);
     }
 
@@ -99,7 +125,7 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void Intake(){
-        intakeRod.set(-0.5);
+        intakeRod.set(-0.75);
     }
 
 
