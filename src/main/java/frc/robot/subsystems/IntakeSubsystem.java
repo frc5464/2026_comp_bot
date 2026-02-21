@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase{
     private SparkMaxConfig leftjawMotorConfig = new SparkMaxConfig();
     public SparkClosedLoopController leftjawClosedLoopController;
 
-    public double lefttargetPositionInt = -4.6;
+    public double lefttargetPositionInt = -19;
 
 
     public IntakeSubsystem(){
@@ -65,7 +65,7 @@ public class IntakeSubsystem extends SubsystemBase{
             .p(0.1)
             .i(0)
             .d(0)
-            .outputRange(-1, 1)
+            .outputRange(-0.2, 0.2)
             .feedForward
                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
@@ -125,7 +125,7 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void Intake(){
-        intakeRod.set(-0.75);
+        intakeRod.set(-1);
     }
 
 
