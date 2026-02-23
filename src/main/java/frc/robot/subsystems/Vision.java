@@ -68,17 +68,13 @@ public class Vision extends SubsystemBase {
             new PhotonCamera("vespa") /* intake side */,
             new PhotonCamera("driver") /* front fish eye */
     };
-    public static final AprilTagFieldLayout kTag = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
 
     public VisionSystemSim visionSim;
 
-    private static final String jsonPath = "C:\\Users\\cummi\\Documents\\2026 Code\\2026_comp_bot\\src\\main\\java\\frc\\robot\\subsystems\\vision_extra\\2026-rebuilt-andymark.json";
-    private static final boolean enableDebugOutput = true;
-
-    private AprilTagFieldLayout ATFLsuperConstructor() {
+    private AprilTagFieldLayout ATFLsuperConstructor(String jsonLayout) {
         // used to catch errors on file read/write for AprilTag Field Layouts
         try {
-            return (new AprilTagFieldLayout(jsonPath));
+            return (new AprilTagFieldLayout(jsonLayout));
         } catch (IOException e) {
             e.printStackTrace();
             return (new AprilTagFieldLayout(null, (double) 0, (int) 1));
@@ -86,7 +82,8 @@ public class Vision extends SubsystemBase {
 
     }
 
-    public final AprilTagFieldLayout kTagLayout = ATFLsuperConstructor();
+    public final AprilTagFieldLayout kTagLayout = ATFLsuperConstructor(
+            "src\\main\\java\\frc\\robot\\subsystems\\vision_extra\\2026-rebuilt-andymark.json");
 
     public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
 
@@ -104,20 +101,8 @@ public class Vision extends SubsystemBase {
     private Matrix<N3, N1> swerveStdDev;
     private Matrix<N3, N1> swerveVisMeasurementStdDev;
 
-
     // sim
     static VisionSystemSim PseudoVisionSystem = new VisionSystemSim("Main");
-
-    public Vision() {
-
-        PhotonPoseEstimator photonEstimator = new PhotonPoseEstimator(kTagLayout, kRobotToCam);
-        // TODO print cameras
-        // SmartDashboard.putRaw("camera" cameras);
-        if (Robot.isSimulation()) {
-            visionSim = new VisionSystemSim("Vision");
-            visionSim.addAprilTags(kTag);
-        }
-    }
 
     public void getStateInfo(SwerveDriveState state) {
         swerveModPos = state.ModulePositions;
@@ -135,25 +120,25 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
-        
+
         // update result list, find targets, and update position estimates
         targetful = false;
 
-        if (visionLayoutDefined == false) {
-            simulation();
+        if (!visionLayoutDefined) {
             visionLayout.addAprilTags(kTagLayout);
             visionLayoutDefined = true;
             SmartDashboard.putBoolean("has_targets", targetful);
             SmartDashboard.putString("robot_position", debugOutputRobotPose3d);
+            SmartDashboard.putString("at_est_pos", mainPoseEst.toString());
         }
 
         for (PhotonCamera c : cameras) {
-            results = (c.getAllUnreadResults());
+            results.addAll(c.getAllUnreadResults());
         }
 
-        if (cuTrackedTargets.size() > 20) {
-            cuTrackedTargets.remove(cuTrackedTargets.size() - 1);
-        }
+        // if (cuTrackedTargets.size() > 20) {
+        // cuTrackedTargets.remove(cuTrackedTargets.size() - 1);
+        // }
 
         for (PhotonPipelineResult r : results) {
             if (r.hasTargets()) {
@@ -166,7 +151,7 @@ public class Vision extends SubsystemBase {
         }
         if (targetful) {
             for (PhotonPipelineResult r : results) {
-                results.add(r);
+                // results.add(r);
                 cuTrackedTargets.add(r.getBestTarget());
 
             }
@@ -174,7 +159,6 @@ public class Vision extends SubsystemBase {
 
         mainPoseEst.update(swerveGyroAngle, swerveModPos);
 
-        SmartDashboard.putString("AprilTag Estimated Position", mainPoseEst.toString());
         SmartDashboard.updateValues();
     }
 
@@ -256,33 +240,5 @@ public class Vision extends SubsystemBase {
         } else {
             return ATArea;
         }
-    }
-
-    public void rotateToTag(int fiducialId) {
-        if (targetful) {
-
-            // private turn = -1.0*getTargetInfoDouble(fiducialId,
-            // "yaw")*Constants.kMaxTurnRateDegPerS
-        }
-    }
-    
-    public void simulation(){
-        
-        PseudoVisionSystem.addAprilTags(kTagLayout);
-        Translation3d cameraPosToPseudoBot = new Translation3d(0.1,0,0.5);
-        Rotation3d camRotationToPseudoBot = new Rotation3d(0,Math.toRadians(-15),0);
-        Transform3d cameraToPseudoBot = new Transform3d(cameraPosToPseudoBot,camRotationToPseudoBot);
-        
-        PhotonCamera PseudoCamera = new PhotonCamera("hornet");
-        PhotonCameraSim PseudoCameraInst = new PhotonCameraSim(PseudoCamera);
-
-        PseudoCameraInst.enableDrawWireframe(true);
-        PseudoVisionSystem.addCamera(PseudoCameraInst, cameraToPseudoBot);
-        
-    }
-    @Override
-    public void simulationPeriodic() {
-        System.out.println("test");
-        PseudoVisionSystem.update(robotPose());
     }
 }
