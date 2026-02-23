@@ -63,8 +63,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision extends SubsystemBase {
     private PhotonCamera[] cameras = {
-            new PhotonCamera("apis"), /* shooter-side */
-            new PhotonCamera("crabro") /* other-side */
+            new PhotonCamera("apis"), /* wide lense */
+            new PhotonCamera("crabro") /* turret side */,
+            new PhotonCamera("vespa") /* intake side */,
+            new PhotonCamera("driver") /* front fish eye */
     };
     public static final AprilTagFieldLayout kTag = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
 
