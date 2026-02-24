@@ -11,9 +11,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class IntakeCommand extends Command{
     private final IntakeSubsystem intake;
     private Timer timer = new Timer();
+    double time;
 
-    public IntakeCommand(IntakeSubsystem intake){
+    public IntakeCommand(IntakeSubsystem intake, double time){
         this.intake = intake;
+        this.time = time;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class IntakeCommand extends Command{
 
     @Override
     public boolean isFinished(){
-        if((timer.get() > 3.25) && RobotState.isAutonomous()){
+        if((timer.get() > time) && RobotState.isAutonomous()){
             return true;
         }
             return false;
