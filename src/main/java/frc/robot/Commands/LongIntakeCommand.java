@@ -4,8 +4,6 @@ import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import frc.robot.Universals;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class LongIntakeCommand extends Command{
@@ -24,14 +22,14 @@ public class LongIntakeCommand extends Command{
 
     @Override
     public void execute() {
-            intake.Intake();
-        SmartDashboard.putBoolean("longintaking", true);
+        intake.Intake();
+        SmartDashboard.putBoolean("intaking", true);
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.DisableIntake();
-        SmartDashboard.putBoolean("longintaking", false);
+        SmartDashboard.putBoolean("intaking", false);
     }
 
     @Override
