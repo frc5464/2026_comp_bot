@@ -32,12 +32,28 @@
     },
     {
       "anchor": {
+        "x": 6.2,
+        "y": 4.5
+      },
+      "prevControl": {
+        "x": 6.2,
+        "y": 5.0
+      },
+      "nextControl": {
+        "x": 6.2,
+        "y": 4.0
+      },
+      "isLocked": false,
+      "linkedName": "BL2-fixed"
+    },
+    {
+      "anchor": {
         "x": 7.8,
         "y": 4.0
       },
       "prevControl": {
-        "x": 7.092893218813452,
-        "y": 4.707106781186548
+        "x": 6.799999999999999,
+        "y": 4.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,7 +66,7 @@
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 1.8,
       "rotationDegrees": 0.0
     }
   ],
@@ -70,7 +86,7 @@
     },
     {
       "name": "Intake",
-      "waypointRelativePos": 1.4953271028037227,
+      "waypointRelativePos": 2.0,
       "endWaypointRelativePos": 2.0,
       "command": {
         "type": "sequential",
@@ -94,7 +110,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.7,
+    "maxVelocity": 1.75,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -103,13 +119,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 139.58546936972928
+    "rotation": 135.0
   },
   "useDefaultConstraints": true
 }

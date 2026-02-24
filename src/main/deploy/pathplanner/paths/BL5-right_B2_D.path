@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.8,
-        "y": 0.65
+        "x": 7.9,
+        "y": 2.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8606601717798215,
-        "y": 1.7106601717798213
+        "x": 6.9,
+        "y": 2.15
       },
       "isLocked": false,
-      "linkedName": "Outpost"
+      "linkedName": "BL5-right"
     },
     {
       "anchor": {
@@ -20,11 +20,11 @@
         "y": 2.5
       },
       "prevControl": {
-        "x": 3.625,
+        "x": 5.125,
         "y": 2.5
       },
       "nextControl": {
-        "x": 5.375,
+        "x": 3.125,
         "y": 2.5
       },
       "isLocked": false,
@@ -32,46 +32,68 @@
     },
     {
       "anchor": {
-        "x": 6.5,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 6.5,
-        "y": 2.5
-      },
-      "nextControl": {
-        "x": 6.5,
+        "x": 2.5,
         "y": 4.0
       },
+      "prevControl": {
+        "x": 2.676776695296637,
+        "y": 3.823223304703363
+      },
+      "nextControl": {
+        "x": 2.323223304703363,
+        "y": 4.1767766952966365
+      },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Phillip's Waypoint"
     },
     {
       "anchor": {
-        "x": 7.8,
-        "y": 4.0
+        "x": 0.75,
+        "y": 5.75
       },
       "prevControl": {
-        "x": 6.799999999999999,
-        "y": 4.0
+        "x": 1.5778840073969316,
+        "y": 5.170309377257405
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BL3"
+      "linkedName": "Depot"
     }
   ],
-  "rotationTargets": [
+  "rotationTargets": [],
+  "constraintZones": [
     {
-      "waypointRelativePos": 0.6522821576763385,
-      "rotationDegrees": 0.0
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.6977290524667179,
+      "maxWaypointRelativePos": 0.0,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 2.819107282693813,
+      "maxWaypointRelativePos": 1.2122161315583397,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
     }
   ],
-  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "Shoot",
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 1.24,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -82,8 +104,8 @@
     },
     {
       "name": "Intake",
-      "waypointRelativePos": 1.9,
-      "endWaypointRelativePos": 2.0,
+      "waypointRelativePos": 2.299065420560753,
+      "endWaypointRelativePos": 3.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -115,13 +137,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 135.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

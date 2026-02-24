@@ -11,7 +11,8 @@ public class ZeroGyroCommand extends Command{
     public ZeroGyroCommand(CommandSwerveDrivetrain commandSwerve){
         drivetrain = commandSwerve;
         reset = () -> {
-            drivetrain.seedFieldCentric();
+            // drivetrain.seedFieldCentric();
+            drivetrain.seedFieldCentric180();
         };
     }
 

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.026423563648954,
-        "y": 3.180847955711008
+        "x": 2.5393398282201787,
+        "y": 2.9393398282201786
       },
       "isLocked": false,
       "linkedName": "RSL2"
@@ -20,11 +20,11 @@
         "y": 2.5
       },
       "prevControl": {
-        "x": 3.625,
+        "x": 4.125,
         "y": 2.5
       },
       "nextControl": {
-        "x": 5.625,
+        "x": 5.125,
         "y": 2.5
       },
       "isLocked": false,
@@ -32,51 +32,59 @@
     },
     {
       "anchor": {
-        "x": 6.2,
-        "y": 1.6500000000000001
+        "x": 6.1,
+        "y": 3.5
       },
       "prevControl": {
-        "x": 6.2,
-        "y": 2.1500000000000004
+        "x": 6.1,
+        "y": 2.75
       },
       "nextControl": {
-        "x": 6.2,
-        "y": 1.1500000000000001
+        "x": 6.1,
+        "y": 4.0
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BL3_front"
     },
     {
       "anchor": {
         "x": 7.8,
-        "y": 0.8
+        "y": 4.0
       },
       "prevControl": {
         "x": 6.8,
-        "y": 0.8000000000000002
+        "y": 4.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CollectDown"
+      "linkedName": "BL3_down"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 2.0,
-      "rotationDegrees": 0.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 2.0,
-      "endWaypointRelativePos": null,
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": 3.0,
       "command": {
-        "type": "named",
+        "type": "sequential",
         "data": {
-          "name": "IntakeDown"
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeDown"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
         }
       }
     }
@@ -91,7 +99,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": null,

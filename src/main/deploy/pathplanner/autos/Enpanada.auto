@@ -13,43 +13,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL3_B2_BL4"
+            "pathName": "RSL2_D"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL4_B2_RSL3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "pathName": "D_B1_BL3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "RSL3_B2_BL5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BL5_B2_D"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "D_O"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "O_TW2"
+            "pathName": "BL3_B1_TW1"
           }
         },
         {
@@ -68,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Mexican (Pos2)",
   "choreoAuto": false
 }

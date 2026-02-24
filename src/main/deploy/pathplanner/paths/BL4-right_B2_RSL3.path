@@ -4,15 +4,15 @@
     {
       "anchor": {
         "x": 7.9,
-        "y": 2.5
+        "y": 3.0
       },
       "prevControl": null,
       "nextControl": {
         "x": 6.9,
-        "y": 2.5
+        "y": 3.0
       },
       "isLocked": false,
-      "linkedName": "BL4_5"
+      "linkedName": "BL4-right"
     },
     {
       "anchor": {
@@ -32,24 +32,19 @@
     },
     {
       "anchor": {
-        "x": 3.6,
+        "x": 3.5900000000000003,
         "y": 2.5
       },
       "prevControl": {
-        "x": 4.6,
+        "x": 4.59,
         "y": 2.5
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RSL3"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.6,
-      "rotationDegrees": 0.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -69,7 +64,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5900000000000003,
-        "y": 2.5
+        "x": 3.6,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.59,
-        "y": 2.5
+        "x": 3.6,
+        "y": 3.0
       },
       "isLocked": false,
-      "linkedName": "RSL3"
+      "linkedName": "RSL2"
     },
     {
       "anchor": {
@@ -20,7 +20,7 @@
         "y": 2.5
       },
       "prevControl": {
-        "x": 4.125,
+        "x": 3.125,
         "y": 2.5
       },
       "nextControl": {
@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BL4"
+      "linkedName": "BL4-right"
     }
   ],
   "rotationTargets": [],
@@ -50,7 +50,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 1.5,
+      "waypointRelativePos": 1.4496365524402879,
       "endWaypointRelativePos": 2.0,
       "command": {
         "type": "sequential",
@@ -74,7 +74,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.7,
+    "maxVelocity": 1.75,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -83,7 +83,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,

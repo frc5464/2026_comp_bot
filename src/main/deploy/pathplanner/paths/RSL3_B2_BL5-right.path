@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.9,
+        "x": 3.5900000000000003,
         "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.9,
+        "x": 4.59,
         "y": 2.5
       },
       "isLocked": false,
-      "linkedName": "BL4_5"
+      "linkedName": "RSL3"
     },
     {
       "anchor": {
@@ -20,11 +20,11 @@
         "y": 2.5
       },
       "prevControl": {
-        "x": 5.176792168674699,
+        "x": 4.125,
         "y": 2.5
       },
       "nextControl": {
-        "x": 4.073207831325301,
+        "x": 5.125,
         "y": 2.5
       },
       "isLocked": false,
@@ -32,27 +32,47 @@
     },
     {
       "anchor": {
-        "x": 3.6,
-        "y": 2.5
+        "x": 7.9,
+        "y": 2.15
       },
       "prevControl": {
-        "x": 4.6,
-        "y": 2.5
+        "x": 6.9,
+        "y": 2.15
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BL5-right"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.6,
-      "rotationDegrees": 0.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 1.453790238836958,
+      "endWaypointRelativePos": 2.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeDown"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 1.75,
     "maxAcceleration": 2.0,
@@ -69,7 +89,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

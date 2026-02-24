@@ -8,27 +8,11 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.6,
+        "x": 5.1,
         "y": 5.675
       },
       "isLocked": false,
       "linkedName": "RSL1"
-    },
-    {
-      "anchor": {
-        "x": 4.625,
-        "y": 5.5
-      },
-      "prevControl": {
-        "x": 3.125,
-        "y": 5.5
-      },
-      "nextControl": {
-        "x": 6.125,
-        "y": 5.5
-      },
-      "isLocked": false,
-      "linkedName": "B1"
     },
     {
       "anchor": {
@@ -50,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 0.7,
       "endWaypointRelativePos": 2.0,
       "command": {
         "type": "sequential",
@@ -74,7 +58,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.7,
+    "maxVelocity": 1.75,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -83,7 +67,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,

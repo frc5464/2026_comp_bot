@@ -45,13 +45,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "BL1-5_BL3"
+                        "pathName": "BL1-5_BL3-down"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "BL3_B1_TW1"
+                        "pathName": "BL3-down_B1_TW1"
                       }
                     }
                   ]

@@ -20,6 +20,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Mexican (Pos2)",
   "choreoAuto": false
 }

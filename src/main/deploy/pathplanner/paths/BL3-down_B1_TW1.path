@@ -3,55 +3,64 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
+        "x": 7.8,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6,
-        "y": 3.0
+        "x": 7.092893218813453,
+        "y": 4.707106781186547
       },
       "isLocked": false,
-      "linkedName": "RSL2"
+      "linkedName": "BL3_down"
     },
     {
       "anchor": {
         "x": 4.625,
-        "y": 2.5
+        "y": 5.5
       },
       "prevControl": {
-        "x": 3.125,
-        "y": 2.5
+        "x": 6.125,
+        "y": 5.5
       },
       "nextControl": {
-        "x": 5.125,
-        "y": 2.5
+        "x": 3.125,
+        "y": 5.5
       },
       "isLocked": false,
-      "linkedName": "B2"
+      "linkedName": "B1"
     },
     {
       "anchor": {
-        "x": 7.9,
-        "y": 3.0
+        "x": 1.05,
+        "y": 4.7
       },
       "prevControl": {
-        "x": 6.9,
-        "y": 3.0
+        "x": 2.11066017177982,
+        "y": 5.760660171779823
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BL4"
+      "linkedName": "TW1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.25,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 1.4496365524402879,
-      "endWaypointRelativePos": 2.0,
+      "name": "IntakeUp",
+      "waypointRelativePos": 1.3909657320872233,
+      "endWaypointRelativePos": null,
       "command": {
         "type": "sequential",
         "data": {
@@ -59,22 +68,27 @@
             {
               "type": "named",
               "data": {
-                "name": "IntakeDown"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Intake"
+                "name": "IntakeUp"
               }
             }
           ]
         }
       }
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 1.4,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Shoot"
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.7,
+    "maxVelocity": 1.75,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -89,7 +103,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

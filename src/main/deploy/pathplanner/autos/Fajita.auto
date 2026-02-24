@@ -13,13 +13,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL2_B1_BL3"
+            "pathName": "RSL2_O"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL3_B1_TW1"
+            "pathName": "O_B2_BL3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL3_B2_TW2"
           }
         },
         {
@@ -38,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Mexican (Pos2)",
   "choreoAuto": false
 }

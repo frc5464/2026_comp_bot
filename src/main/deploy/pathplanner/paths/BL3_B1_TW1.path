@@ -8,11 +8,27 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.092893218813453,
-        "y": 4.707106781186547
+        "x": 6.800000000000001,
+        "y": 4.0
       },
       "isLocked": false,
       "linkedName": "BL3"
+    },
+    {
+      "anchor": {
+        "x": 6.2,
+        "y": 4.5
+      },
+      "prevControl": {
+        "x": 6.2,
+        "y": 4.0
+      },
+      "nextControl": {
+        "x": 6.2,
+        "y": 5.0
+      },
+      "isLocked": false,
+      "linkedName": "BL2-fixed"
     },
     {
       "anchor": {
@@ -36,8 +52,8 @@
         "y": 4.7
       },
       "prevControl": {
-        "x": 2.11066017177982,
-        "y": 5.760660171779823
+        "x": 1.05,
+        "y": 6.45
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,11 +62,11 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 1.2,
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 1.25,
+      "waypointRelativePos": 2.25,
       "rotationDegrees": 0.0
     }
   ],
@@ -59,7 +75,7 @@
   "eventMarkers": [
     {
       "name": "IntakeUp",
-      "waypointRelativePos": 1.3909657320872233,
+      "waypointRelativePos": 2.4,
       "endWaypointRelativePos": null,
       "command": {
         "type": "sequential",
@@ -77,7 +93,7 @@
     },
     {
       "name": "Shoot",
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 2.4,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -88,7 +104,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.7,
+    "maxVelocity": 1.75,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -103,7 +119,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

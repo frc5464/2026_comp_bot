@@ -13,13 +13,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL3_BL5"
+            "pathName": "RSL2_D"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL5_RSL3"
+            "pathName": "D_RSL2-left"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RSL2_B2_BL3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL3_B2_RSL2"
           }
         },
         {
@@ -31,13 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL3_B2_BL4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BL4_B2_TW2"
+            "pathName": "RSL2_TW2"
           }
         },
         {
@@ -56,6 +62,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Mexican (Pos2)",
   "choreoAuto": false
 }

@@ -16,22 +16,34 @@
     },
     {
       "anchor": {
-        "x": 3.5900000000000003,
-        "y": 2.5
+        "x": 3.5,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 2.882893218813453,
-        "y": 3.207106781186548
+        "x": 2.792893218813453,
+        "y": 4.707106781186548
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RSL3"
+      "linkedName": "RSL2-left"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 0.5,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Shoot"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 1.75,
     "maxAcceleration": 2.0,
@@ -42,7 +54,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": null,

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4,
+        "x": 0.8,
         "y": 0.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8142135623730953,
-        "y": 2.0642135623730953
+        "x": 1.1535533905932733,
+        "y": 1.003553390593274
       },
       "isLocked": false,
       "linkedName": "Outpost"
@@ -56,7 +56,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.7,
+    "maxVelocity": 1.75,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -71,7 +71,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

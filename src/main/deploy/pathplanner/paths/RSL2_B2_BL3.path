@@ -32,15 +32,15 @@
     },
     {
       "anchor": {
-        "x": 6.5,
+        "x": 6.1,
         "y": 3.5
       },
       "prevControl": {
-        "x": 6.5,
+        "x": 6.1,
         "y": 2.75
       },
       "nextControl": {
-        "x": 6.5,
+        "x": 6.1,
         "y": 4.0
       },
       "isLocked": false,
@@ -60,7 +60,12 @@
       "linkedName": "BL3"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.5,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -90,7 +95,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.7,
+    "maxVelocity": 1.75,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -99,7 +104,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,

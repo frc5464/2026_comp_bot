@@ -48,7 +48,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BL4-5_BL3"
+                  "pathName": "BL4-5_BL3-up"
                 }
               },
               {
@@ -63,7 +63,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BL3_B2_TW2"
+            "pathName": "BL3-up_B2_RSL3"
           }
         }
       ]

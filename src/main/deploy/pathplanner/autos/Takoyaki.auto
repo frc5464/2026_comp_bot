@@ -13,19 +13,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL2_O"
+            "pathName": "RSL3_B2_BL4-right"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "O_B2_BL3"
+            "pathName": "BL4-right_B2_RSL3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL3_B2_TW2"
+            "pathName": "RSL3_B2_BL4-right"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL4-right_B2_TW2"
           }
         },
         {
@@ -44,6 +56,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Asian (Pos3)",
   "choreoAuto": false
 }

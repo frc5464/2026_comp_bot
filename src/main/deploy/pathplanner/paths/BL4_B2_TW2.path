@@ -36,15 +36,24 @@
         "y": 2.8
       },
       "prevControl": {
-        "x": 2.049999999999999,
-        "y": 2.8
+        "x": 1.05,
+        "y": 1.2999999999999998
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "TW2"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.4,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -72,7 +81,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.7,
+    "maxVelocity": 1.75,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

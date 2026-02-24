@@ -13,13 +13,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL3_B2_BL4"
+            "pathName": "RSL3_B2_BL4-right"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL4_B2_RSL3"
+            "pathName": "BL4-right_B2_RSL3"
           }
         },
         {
@@ -31,13 +31,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RSL3_B2_BL4"
+            "pathName": "RSL3_B2_BL5-right"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BL4_B2_TW2"
+            "pathName": "BL5-right_B2_D"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "D_O"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "O_TW2"
           }
         },
         {
@@ -56,6 +68,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Asian (Pos3)",
   "choreoAuto": false
 }

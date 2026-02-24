@@ -334,6 +334,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("DriveRot",getState().Pose.getRotation().getRotations());
     }
 
+    public void seedFieldCentric180() {
+        seedFieldCentric(Rotation2d.k180deg);
+    }
+
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
 
