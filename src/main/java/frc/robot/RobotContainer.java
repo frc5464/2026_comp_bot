@@ -27,7 +27,6 @@ import frc.robot.Commands.AutoTurretAngleCommand;
 import frc.robot.Commands.DummyCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
-import frc.robot.Commands.LongIntakeCommand;
 import frc.robot.Commands.ManualIntakeToPositionCommand;
 import frc.robot.Commands.ManualModeCommand;
 import frc.robot.Commands.ReverseIntakeCommand;
@@ -87,9 +86,9 @@ public class RobotContainer {
     public RobotContainer() {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
-        NamedCommands.registerCommand("Intake", new IntakeCommand(intake));
+        NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25));
         NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt));
-        NamedCommands.registerCommand("LongIntake", new LongIntakeCommand(intake));
+        NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18));
         // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
         // NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
         
@@ -167,7 +166,7 @@ public class RobotContainer {
 
         driveController.x().whileTrue(new SlowDriveModeCommand());
 
-        driveController.leftTrigger().whileTrue(new IntakeCommand(intake));
+        driveController.leftTrigger().whileTrue(new IntakeCommand(intake, 67));
         zackController.x().whileTrue(new ReverseIntakeCommand(intake));
  
         //rev up feeder motor up to speed, then shoots when up to speed
