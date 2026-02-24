@@ -4,6 +4,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -24,7 +25,8 @@ public class IntakeSubsystem extends SubsystemBase{
     private final SparkMax leftJaw = new SparkMax(10, MotorType.kBrushless);
     private final SparkMax rightJaw = new SparkMax(11, MotorType.kBrushless);
     
-    private final SparkMax intakeRod = new SparkMax(12, MotorType.kBrushless);
+    // private final SparkMax intakeRod = new SparkMax(12, MotorType.kBrushless);
+    private final TalonFX intakeRod = new TalonFX(12);
 
     RelativeEncoder leftjawEncoder;
     public double leftjawEncoderPos;
