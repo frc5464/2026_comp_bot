@@ -86,9 +86,9 @@ public class RobotContainer {
     public RobotContainer() {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
-        NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25));
+        NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
         NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt));
-        NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18));
+        NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
         // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
         // NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
         
@@ -166,8 +166,9 @@ public class RobotContainer {
 
         driveController.x().whileTrue(new SlowDriveModeCommand());
 
-        driveController.leftTrigger().whileTrue(new IntakeCommand(intake, 67));
-        zackController.x().whileTrue(new ReverseIntakeCommand(intake));
+        driveController.leftTrigger().whileTrue(new IntakeCommand(intake, 67, true));
+        zackController.x().whileTrue(new IntakeCommand(intake, 67, false));
+        // zackController.x().whileTrue(new ReverseIntakeCommand(intake));
  
         //rev up feeder motor up to speed, then shoots when up to speed
         driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt));
