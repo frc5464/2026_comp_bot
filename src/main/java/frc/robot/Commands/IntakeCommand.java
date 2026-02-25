@@ -12,10 +12,12 @@ public class IntakeCommand extends Command{
     private final IntakeSubsystem intake;
     private Timer timer = new Timer();
     double time;
+    boolean rotatinginwards;
 
-    public IntakeCommand(IntakeSubsystem intake, double time){
+    public IntakeCommand(IntakeSubsystem intake, double time, boolean rotatinginwards){
         this.intake = intake;
         this.time = time;
+        this.rotatinginwards = rotatinginwards;
     }
 
     @Override
@@ -26,8 +28,14 @@ public class IntakeCommand extends Command{
 
     @Override
     public void execute() {
-            intake.Intake();
-        SmartDashboard.putBoolean("intaking", true);
+        if(rotatinginwards == true){
+          intake.Intake();  
+          SmartDashboard.putBoolean("intaking", true);
+        }
+        else{
+            intake.IntakeReverse();
+        }
+        
     }
 
     @Override
