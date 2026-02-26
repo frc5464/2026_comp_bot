@@ -133,6 +133,8 @@ public class Vision extends SubsystemBase {
         }
 
         for (PhotonCamera c : cameras) {
+            //TODO: stream output
+            //SmartDashboard.putRaw("Camera"+c.getName(), c);
             results.addAll(c.getAllUnreadResults());
         }
 
