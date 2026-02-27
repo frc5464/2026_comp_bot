@@ -38,6 +38,7 @@ import frc.robot.Commands.ZeroGyroCommand;
 // import frc.robot.Commands.ZeroMechsCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.BeltSubsystem;
+import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -80,7 +81,7 @@ public class RobotContainer {
     public ClimbSubsystem climb = new ClimbSubsystem();
     public TurretSubsystem turret = new TurretSubsystem();
     public BeltSubsystem belt = new BeltSubsystem();
-
+    public CandleSubsystem candle = new CandleSubsystem();
     public RobotContainer() {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));

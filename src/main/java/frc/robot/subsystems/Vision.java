@@ -87,7 +87,7 @@ public class Vision extends SubsystemBase {
 
     public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
 
-    private String debugOutputRobotPose3d = robotPose().toString();
+    // private String debugOutputRobotPose3d = robotPose().toString();
     private List<PhotonPipelineResult> results;
     private VisionSystemSim visionLayout = new VisionSystemSim("primary");
     private boolean targetful = false;
@@ -123,12 +123,12 @@ public class Vision extends SubsystemBase {
 
         // update result list, find targets, and update position estimates
         targetful = false;
-
-        if (!visionLayoutDefined) {
+        
+        if (!visionLayoutDefined){
             visionLayout.addAprilTags(kTagLayout);
             visionLayoutDefined = true;
             SmartDashboard.putBoolean("has_targets", targetful);
-            SmartDashboard.putString("robot_position", debugOutputRobotPose3d);
+            // SmartDashboard.putString("robot_position", debugOutputRobotPose3d);
             SmartDashboard.putString("at_est_pos", mainPoseEst.toString());
         }
 
@@ -138,6 +138,9 @@ public class Vision extends SubsystemBase {
             results.addAll(c.getAllUnreadResults());
         }
 
+        for (int i = 0; i <= 28; i++) {
+            SmartDashboard.putNumber("Skew", getTargetInfoDouble(i, "Field"));
+        }
         // if (cuTrackedTargets.size() > 20) {
         // cuTrackedTargets.remove(cuTrackedTargets.size() - 1);
         // }

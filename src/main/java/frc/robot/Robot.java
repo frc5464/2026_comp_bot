@@ -18,6 +18,7 @@ import frc.robot.Commands.ShootCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+// import frc.robot.subsystems.Vision;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
@@ -30,6 +31,7 @@ public class Robot extends TimedRobot {
 
 
     private final RobotContainer m_robotContainer/* = new RobotContainer()*/;
+    // private final Vision m_vision = new Vision();
 
     /* log and replay timestamp and joystick data */
     private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay()
@@ -50,6 +52,7 @@ public class Robot extends TimedRobot {
         m_robotContainer.intake.periodic();
         m_robotContainer.shoot.periodic();
         m_robotContainer.belt.periodic();
+        // m_vision.periodic();
         
     }
 
