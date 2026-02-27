@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.RelativeEncoder;
@@ -17,11 +20,13 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Universals;
+import frc.robot.Commands.ShootCommand;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase{
 
-    private final SparkMax shooterMotor = new SparkMax(16, MotorType.kBrushless/*ShooterConstants.kShooterMotorPort*/);
+    private final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
     private final SparkMax feederMotor = new SparkMax(17, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
     private final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
 
@@ -66,7 +71,7 @@ public class ShooterSubsystem extends SubsystemBase{
             .p(0.1)
             .i(0)
             .d(0)
-            .outputRange(-1, 1)
+            .outputRange(-0.3, 0.3)
             .feedForward
                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
@@ -74,32 +79,64 @@ public class ShooterSubsystem extends SubsystemBase{
 
         SmartDashboard.setDefaultNumber("Target Position", 0);
 
-      // Velocity PID for shooter
-        flyClosedLoopController = shooterMotor.getClosedLoopController();
-        flyEncoder = shooterMotor.getEncoder();
 
-        flyConfig.closedLoop
-            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-            .p(0.1)
-            .i(0)
-            .d(0)
-            .outputRange(-1, 1)
-            .feedForward
-                .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
+     //VelocityPID for shooter with Krakens
 
-                shooterMotor.configure(flyConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+      // in init function, set slot 0 gains
+      var slot0Configs = new Slot0Configs();
+      slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
+      slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+      slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+      slot0Configs.kI = 0; // no output for integrated error
+      slot0Configs.kD = 0; // no output for error derivative
+
+      shooterMotor.getConfigurator().apply(slot0Configs);
+
+      // // create a velocity closed-loop request, voltage output, slot 0 configs
+      // final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+
+      // // set velocity to 8 rps, add 0.5 V to overcome gravity
+      // shooterMotor.setControl(m_request.withVelocity(8).withFeedForward(0.5));
+
+
+      // Velocity PID for shooter with SparkMax
+        // flyClosedLoopController = shooterMotor.getClosedLoopController();
+        // flyEncoder = shooterMotor.getEncoder();
+
+        // flyConfig.closedLoop
+        //     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        //     .p(0.1)
+        //     .i(0)
+        //     .d(0)
+        //     .outputRange(-1, 1)
+        //     .feedForward
+        //         .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
+
+        //         shooterMotor.config(flyConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
       SmartDashboard.setDefaultNumber("ShootTargetVel", 0);
   }
 
   public void periodic(){
-      // Shooter Code
-      encoderVel = flyEncoder.getVelocity();
 
-      flyClosedLoopController.setSetpoint(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+      // Shooter Code with Krakens
+      // create a velocity closed-loop request, voltage output, slot 0 configs
+      // if(Universals.shootReverse == false){
+        final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+
+        // set velocity to 8 rps, add 0.5 V to overcome gravity
+        shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0.5));
+
+        encoderVel = shooterMotor.getVelocity().getValueAsDouble();
+      // }
+
+      // Shooter Code with SparkMax
+      // encoderVel = flyEncoder.getVelocity();
+
+      // flyClosedLoopController.setSetpoint(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
       
-      SmartDashboard.putNumber("ShootVelocity", encoderVel);
-      SmartDashboard.putNumber("FlyEncoder", targetVelocity);
+      // SmartDashboard.putNumber("ShootVelocity", encoderVel);
+      // SmartDashboard.putNumber("FlyEncoder", targetVelocity);
 
       // ShootRot Code
       encoderPos = hingeEncoder.getPosition();
@@ -114,9 +151,9 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(0.75);
   }
 
-  public void reverseShoot(){
-    shooterMotor.set(-1);
-  }
+  // public void reverseShoot(){
+  //   shooterMotor.set(-1);
+  // }
 
   public void disableShoot(){
     shooterMotor.set(0);

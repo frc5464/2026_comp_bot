@@ -77,16 +77,13 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void periodic(){
-        leftjawEncoderPos = leftjawEncoder.getPosition();
-
-        leftjawClosedLoopController.setSetpoint(lefttargetPositionInt, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+        if(Universals.manualMode == false){
+            leftjawEncoderPos = leftjawEncoder.getPosition();
+            leftjawClosedLoopController.setSetpoint(lefttargetPositionInt, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+        }
 
         SmartDashboard.putNumber("JawEncoder", leftjawEncoderPos);
         SmartDashboard.putNumber("JawTarget", lefttargetPositionInt);
-
-        // if(Universals.manualMode == false){
-        //     ;
-        // }
 
         // do your pid calculation here (use targetPosition!)
     }

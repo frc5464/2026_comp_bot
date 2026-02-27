@@ -24,13 +24,10 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Commands.AutoHoodAngleCommand;
 import frc.robot.Commands.AutoTurretAngleCommand;
-import frc.robot.Commands.DummyCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
 import frc.robot.Commands.ManualIntakeToPositionCommand;
 import frc.robot.Commands.ManualModeCommand;
-import frc.robot.Commands.ReverseIntakeCommand;
-import frc.robot.Commands.ReverseShooterCommand;
 import frc.robot.Commands.ShootCommand;
 // import frc.robot.Commands.ClimbToPositionCommand;
 import frc.robot.Commands.SlowDriveModeCommand;
@@ -38,6 +35,9 @@ import frc.robot.Commands.TurretClockwiseCommand;
 import frc.robot.Commands.TurretCounterclockwiseCommand;
 import frc.robot.Commands.ZeroGyroCommand;
 import frc.robot.Commands.ZeroMechsCommand;
+import frc.robot.Commands.Scrapped.DummyCommand;
+import frc.robot.Commands.Scrapped.ReverseIntakeCommand;
+import frc.robot.Commands.Scrapped.ReverseShooterCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.BeltSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -87,7 +87,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
-        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt));
+        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, false));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
         // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
         // NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
@@ -171,7 +171,7 @@ public class RobotContainer {
         // zackController.x().whileTrue(new ReverseIntakeCommand(intake));
  
         //rev up feeder motor up to speed, then shoots when up to speed
-        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt));
+        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, false));
 
         zackController.back().whileTrue(new ManualModeCommand());
 
@@ -188,7 +188,7 @@ public class RobotContainer {
         // testController.axisGreaterThan(3, 0.5).whileTrue(new TurretClockwiseCommand(turret));
         // testController.axisLessThan(3, -0.5).whileTrue(new TurretCounterclockwiseCommand(turret));
 
-        zackController.leftBumper().whileTrue(new ReverseShooterCommand(shoot));
+        zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, true));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
