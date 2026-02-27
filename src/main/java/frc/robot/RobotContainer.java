@@ -178,9 +178,8 @@ public class RobotContainer {
         zackController.a().onTrue(new IntakeToPositionCommand(intake, 0));
         zackController.b().onTrue(new IntakeToPositionCommand(intake, 1));
         
-        driveController.povUp().whileTrue(new ManualIntakeToPositionCommand(intake, 0));
-        driveController.povDown().whileTrue(new ManualIntakeToPositionCommand(intake, 1));
-
+        zackController.a().whileTrue(new ManualIntakeToPositionCommand(intake, 1));
+        zackController.b().whileTrue(new ManualIntakeToPositionCommand(intake, -1));
 
         // testController.povUp().whileTrue(new ClimbUpCommand(climb, true));
         // testController.povDown().whileTrue(new ClimbUpCommand(climb, false));
