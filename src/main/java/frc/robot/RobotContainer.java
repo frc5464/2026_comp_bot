@@ -92,7 +92,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
         NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, false, 3));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
-        NamedCommands.registerCommand("Feed", new FeedCommand(shoot, 2));
+        NamedCommands.registerCommand("Feed", new FeedCommand(shoot, belt, 2));
         // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
         // NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
         
@@ -154,7 +154,7 @@ public class RobotContainer {
             )
         );    
         // shoot.setDefaultCommand(new FeedCommand(shoot));
-        belt.setDefaultCommand(new BeltCommand(belt));
+        // belt.setDefaultCommand(new BeltCommand(belt));
         // turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
         shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
         // Idle while the robot is disabled. This ensures the configured
@@ -184,7 +184,7 @@ public class RobotContainer {
         driveController.rightTrigger().whileTrue(new ShootCommand(shoot, false, 67));
 
         zackController.back().whileTrue(new ManualModeCommand());
-        zackController.y().whileTrue(new FeedCommand(shoot, 67));
+        zackController.y().whileTrue(new FeedCommand(shoot, belt, 67));
         // zackController.a().toggleOnTrue(new BeltCommand(belt));
         // zackController.rightBumper().whileTrue(new BeltCommand(belt));
 

@@ -14,12 +14,17 @@ public class ShooterHoodCommand extends Command{
     }
 
     @Override
-    public void end(boolean interrupted){
+    public void execute(){
         if(up == true){
             shoot.targetPosition -= 0.25;
         } else{
             shoot.targetPosition += 0.25;
         }
+    }
+
+    @Override
+    public boolean isFinished(){
+        return true;
     }
 
 }

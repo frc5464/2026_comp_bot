@@ -38,7 +38,7 @@ public class ShooterSubsystem extends SubsystemBase{
     private SparkMaxConfig posConfig = new SparkMaxConfig();
     private SparkClosedLoopController posClosedLoopController;
 
-    public double targetPosition = 0.5;
+    public double targetPosition = -0.4;
     public double usualResistance = 1.0;
     //Stuff for shootVelocity PID
     RelativeEncoder flyEncoder;
@@ -88,14 +88,14 @@ public class ShooterSubsystem extends SubsystemBase{
      //VelocityPID for shooter with Krakens
 
       // in init function, set slot 0 gains
-      var slot0Configs = new Slot0Configs();
-      slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
-      slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-      slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-      slot0Configs.kI = 0; // no output for integrated error
-      slot0Configs.kD = 0; // no output for error derivative
+      // var slot0Configs = new Slot0Configs();
+      // slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
+      // slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+      // slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+      // slot0Configs.kI = 0; // no output for integrated error
+      // slot0Configs.kD = 0; // no output for error derivative
 
-      shooterMotor.getConfigurator().apply(slot0Configs);
+      // shooterMotor.getConfigurator().apply(slot0Configs);
 
       // // create a velocity closed-loop request, voltage output, slot 0 configs
       // final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
@@ -128,11 +128,11 @@ public class ShooterSubsystem extends SubsystemBase{
       // create a velocity closed-loop request, voltage output, slot 0 configs
       // if(Universals.shootReverse == false){
         // public VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-      shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
+      // shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
         // set velocity to 8 rps, add 0.5 V to overcome gravity
         // shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0.5));
 
-        encoderVel = shooterMotor.getVelocity().getValueAsDouble();
+        // encoderVel = shooterMotor.getVelocity().getValueAsDouble();
 
         SmartDashboard.putNumber("shootvel", encoderVel);
 
@@ -152,7 +152,7 @@ public class ShooterSubsystem extends SubsystemBase{
       encoderPos = hingeEncoder.getPosition();
 
       // Grab the position from SmartDashboard
-      targetPosition = SmartDashboard.getNumber("ShootRotTarget",targetPosition);
+      // targetPosition = SmartDashboard.getNumber("ShootRotTarget",targetPosition);
 
       posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
@@ -164,9 +164,9 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(.75);
   }
 
-  // public void reverseShoot(){
-  //   shooterMotor.set(-1);
-  // }
+  public void shoot(){
+    shooterMotor.set(1);
+  }
 
   public void disableShoot(){
     shooterMotor.set(0);
