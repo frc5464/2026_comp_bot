@@ -152,7 +152,7 @@ public class RobotContainer {
             )
         );    
         // shoot.setDefaultCommand(new FeedCommand(shoot));
-        // belt.setDefaultCommand(new BeltCommand(belt));
+        belt.setDefaultCommand(new BeltCommand(belt));
         // turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
         shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
         // Idle while the robot is disabled. This ensures the configured

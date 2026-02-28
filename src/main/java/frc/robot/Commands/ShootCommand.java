@@ -36,8 +36,8 @@ public class ShootCommand extends Command{
                 // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity).withFeedForward(0));
             shooter.targetVelocity = -110;
             if(shooter.encoderVel <= -100){
-                shooter.feed();
-                belt.runBelt();
+                // shooter.feed();
+                // belt.runBelt();
                 SmartDashboard.putBoolean("UpToSpeed", true);
             } else{SmartDashboard.putBoolean("UpToSpeed", false);} // JAKEREVIEW: You are printing true and false here forever.
         } else{
