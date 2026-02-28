@@ -124,12 +124,12 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void Intake(){
-        intakeRod.set(-1);
+        intakeRod.set(1);
     }
 
 
     public void IntakeReverse(){
-            intakeRod.set(1);
+            intakeRod.set(-1);
       
     }
 

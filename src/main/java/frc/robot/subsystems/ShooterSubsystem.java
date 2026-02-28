@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -27,7 +28,7 @@ import frc.robot.Constants.ShooterConstants;
 public class ShooterSubsystem extends SubsystemBase{
 
     private final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
-    private final SparkMax feederMotor = new SparkMax(17, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
+    private final SparkFlex feederMotor = new SparkFlex(17, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
     private final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
 
     //Stuff for shootPosition PID
@@ -37,16 +38,16 @@ public class ShooterSubsystem extends SubsystemBase{
     private SparkMaxConfig posConfig = new SparkMaxConfig();
     private SparkClosedLoopController posClosedLoopController;
 
-    public double targetPosition = 0;
+    public double targetPosition = 0.5;
     public double usualResistance = 1.0;
     //Stuff for shootVelocity PID
     RelativeEncoder flyEncoder;
     public double encoderVel;
 
     private SparkMaxConfig flyConfig = new SparkMaxConfig();
-    private SparkClosedLoopController flyClosedLoopController;
+    public SparkClosedLoopController flyClosedLoopController;
 
-    public double targetVelocity = 0;
+    public double targetVelocity = 100;
 
   public ShooterSubsystem(){
 
@@ -71,13 +72,13 @@ public class ShooterSubsystem extends SubsystemBase{
             .p(0.1)
             .i(0)
             .d(0)
-            .outputRange(-0.3, 0.3)
+            .outputRange(-0.2, 0.2)
             .feedForward
                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
                 shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-        SmartDashboard.setDefaultNumber("Target Position", 0);
+        SmartDashboard.setDefaultNumber("ShootHoodTargetPosition", 0);
 
 
      //VelocityPID for shooter with Krakens
@@ -125,9 +126,11 @@ public class ShooterSubsystem extends SubsystemBase{
         final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
 
         // set velocity to 8 rps, add 0.5 V to overcome gravity
-        shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0.5));
+        // shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0.5));
 
         encoderVel = shooterMotor.getVelocity().getValueAsDouble();
+
+        SmartDashboard.putNumber("shootvel", encoderVel);
       // }
 
       // Shooter Code with SparkMax
@@ -148,7 +151,7 @@ public class ShooterSubsystem extends SubsystemBase{
     }
   
   public void feed(){
-    feederMotor.set(0.1);
+    feederMotor.set(.75);
   }
 
   // public void reverseShoot(){
@@ -157,6 +160,10 @@ public class ShooterSubsystem extends SubsystemBase{
 
   public void disableShoot(){
     shooterMotor.set(0);
+    // feederMotor.set(0);
+  }
+
+  public void disableFeed(){
     feederMotor.set(0);
   }
 
