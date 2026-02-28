@@ -170,7 +170,7 @@ public class ShooterSubsystem extends SubsystemBase{
 
   public void disableShoot(){
     shooterMotor.set(0);
-    // feederMotor.set(0);
+    feederMotor.set(0);
   }
 
   public void disableFeed(){

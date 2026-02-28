@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
         m_robotContainer.intake.periodic();
         m_robotContainer.shoot.periodic();
         // m_robotContainer.belt.periodicrunbelt();
+        SmartDashboard.putBoolean("Manual Mode", Universals.manualMode);
         
     }
 

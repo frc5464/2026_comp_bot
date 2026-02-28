@@ -37,8 +37,9 @@ public class ShootCommand extends Command{
             SmartDashboard.putBoolean("shooting", true);
                 // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity).withFeedForward(0));
             shooter.shoot();
-            if((timer.get() >= 1) && RobotState.isAutonomous()){
+            if((timer.get() >= 1)){
                 shooter.feed();
+                SmartDashboard.putBoolean("feeding", true);
             }
                 // shooter.targetVelocity = shooter.rpmSetpoint;
             // if(shooter.encoderVel <= shooter.rpmSetpoint + 10){
@@ -58,6 +59,7 @@ public class ShootCommand extends Command{
         shooter.disableShoot();
         // belt.stopBelt();
         SmartDashboard.putBoolean("shooting", false);
+        SmartDashboard.putBoolean("feeding", false);
 
     }
 

@@ -30,14 +30,14 @@ public class FeedCommand extends Command{
     public void execute(){
         shoot.feed();
         // belt.runBelt();
-        SmartDashboard.putBoolean("feeding", true);
+        // SmartDashboard.putBoolean("feeding", true);
     }
 
     @Override
     public void end(boolean isFinished){
         shoot.disableFeed();
         // belt.stopBelt();
-        SmartDashboard.putBoolean("feeding", false);
+        // SmartDashboard.putBoolean("feeding", false);
     }
 
     @Override
