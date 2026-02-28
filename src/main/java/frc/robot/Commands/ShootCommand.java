@@ -48,6 +48,7 @@ public class ShootCommand extends Command{
             //     SmartDashboard.putBoolean("UpToSpeed", true);
             // } else{SmartDashboard.putBoolean("UpToSpeed", false);} // JAKEREVIEW: You are printing true and false here forever.
         } else{
+            shooter.reverseFeed();
             // shooter.targetVelocity = 50;
             }
 

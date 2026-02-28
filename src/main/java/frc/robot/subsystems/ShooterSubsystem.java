@@ -164,6 +164,10 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(.75);
   }
 
+  public void reverseFeed(){
+    feederMotor.set(-0.5);
+  }
+
   public void shoot(){
     shooterMotor.set(1);
   }
