@@ -11,7 +11,7 @@ public class BeltSubsystem extends SubsystemBase{
     
     private final SparkFlex belt = new SparkFlex(13, MotorType.kBrushless);
     
-    public void periodic(){
+    public void periodicrunbelt(){
         runBelt();
     }
     

@@ -1,5 +1,8 @@
 package frc.robot.Commands;
 
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.SparkBase.ControlType;
+
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,7 +18,7 @@ public class ShootCommand extends Command{
     private Timer timer = new Timer();
     public boolean reversed;
 
-    public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, boolean reversed){
+    public ShootCommand(ShooterSubsystem shooter, boolean reversed){
         this.shooter = shooter;
         this.belt = belt;
         this.reversed = reversed;
@@ -30,6 +33,7 @@ public class ShootCommand extends Command{
     public void execute(){
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
+                // shooter.flyClosedLoopController.setSetpoint(shooter.targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
             shooter.targetVelocity = 200;
             if(shooter.encoderVel >= 200){
                 shooter.feed();
