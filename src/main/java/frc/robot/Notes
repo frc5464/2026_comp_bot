@@ -9,3 +9,6 @@ TODO: put motors and sparkmax on robot, get CANIDs correct
 TODO: Make a plot for the turret's target angle
 
 no good: turret, shooter, intake, 
+
+not connecting to radio.
+tried configuring, did not work.

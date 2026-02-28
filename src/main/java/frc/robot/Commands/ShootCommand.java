@@ -33,15 +33,15 @@ public class ShootCommand extends Command{
     public void execute(){
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
-                // shooter.flyClosedLoopController.setSetpoint(shooter.targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
-            shooter.targetVelocity = 200;
-            if(shooter.encoderVel >= 200){
+                // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity).withFeedForward(0));
+            shooter.targetVelocity = -110;
+            if(shooter.encoderVel <= -100){
                 shooter.feed();
-                // belt.runBelt();
+                belt.runBelt();
                 SmartDashboard.putBoolean("UpToSpeed", true);
             } else{SmartDashboard.putBoolean("UpToSpeed", false);} // JAKEREVIEW: You are printing true and false here forever.
         } else{
-            shooter.targetVelocity = -100;
+            shooter.targetVelocity = 50;
             }
 
     }

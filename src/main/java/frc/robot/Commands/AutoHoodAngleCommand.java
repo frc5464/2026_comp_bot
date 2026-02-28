@@ -23,7 +23,7 @@ public class AutoHoodAngleCommand extends Command{
 
     @Override
     public void execute() {
-        m_ShooterSubsystem.changeAngle(drivetrain.getState().Pose.getX(), drivetrain.getState().Pose.getY());
+        // m_ShooterSubsystem.changeAngle(drivetrain.getState().Pose.getX(), drivetrain.getState().Pose.getY());
         /* Use the X value in pose estimation to raise the angle the smaller X equals. */
     }
 

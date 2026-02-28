@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Commands.AutoHoodAngleCommand;
 import frc.robot.Commands.AutoTurretAngleCommand;
+import frc.robot.Commands.BeltCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
 import frc.robot.Commands.ManualIntakeToPositionCommand;
@@ -36,6 +37,7 @@ import frc.robot.Commands.TurretCounterclockwiseCommand;
 import frc.robot.Commands.ZeroGyroCommand;
 import frc.robot.Commands.ZeroMechsCommand;
 import frc.robot.Commands.Scrapped.DummyCommand;
+import frc.robot.Commands.Scrapped.FeedCommand;
 import frc.robot.Commands.Scrapped.ReverseIntakeCommand;
 import frc.robot.Commands.Scrapped.ReverseShooterCommand;
 import frc.robot.generated.TunerConstants;
@@ -87,7 +89,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
-        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, false));
+        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, false));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
         // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
         // NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
@@ -110,7 +112,7 @@ public class RobotContainer {
             // ? stream.filter(auto -> auto.getName().startsWith("comp")) : stream); 
 
         configureBindings();
-
+        
         //controller deadband for drive controller
         double driveX = driveController.getRawAxis(1);
         double driveY = driveController.getRawAxis(0);
@@ -134,6 +136,8 @@ public class RobotContainer {
         if(Math.abs(tDriveX) < 0.1){ driveX = 0;}
         if(Math.abs(tDriveY) < 0.1){ driveY = 0;}
         if(Math.abs(tDriveRot) < 0.1){ driveRot = 0;}
+        
+
     }
 
     public void configureBindings() {
@@ -147,7 +151,9 @@ public class RobotContainer {
                     .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );    
-        turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
+        // shoot.setDefaultCommand(new FeedCommand(shoot));
+        // belt.setDefaultCommand(new BeltCommand(belt));
+        // turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
         shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -171,9 +177,12 @@ public class RobotContainer {
         // zackController.x().whileTrue(new ReverseIntakeCommand(intake));
  
         //rev up feeder motor up to speed, then shoots when up to speed
-        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, false));
+        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, false));
 
         zackController.back().whileTrue(new ManualModeCommand());
+        zackController.y().whileTrue(new FeedCommand(shoot));
+        // zackController.a().toggleOnTrue(new BeltCommand(belt));
+        // zackController.rightBumper().whileTrue(new BeltCommand(belt));
 
         zackController.a().onTrue(new IntakeToPositionCommand(intake, 0));
         zackController.b().onTrue(new IntakeToPositionCommand(intake, 1));
@@ -187,7 +196,7 @@ public class RobotContainer {
         // testController.axisGreaterThan(3, 0.5).whileTrue(new TurretClockwiseCommand(turret));
         // testController.axisLessThan(3, -0.5).whileTrue(new TurretCounterclockwiseCommand(turret));
 
-        zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, true));
+        zackController.leftBumper().whileTrue(new ShootCommand(shoot, true));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -201,7 +210,8 @@ public class RobotContainer {
         // Zero Gyro              //Reset the field-centric heading on left bumper press.
         driveController.start().onTrue(new ZeroGyroCommand(drivetrain));
 
-        zackController.start().whileTrue(new ZeroMechsCommand(intake));
+        zackController.start().whileTrue(new ZeroMechsCommand(intake, shoot, 0));
+        zackController.back().whileTrue(new ZeroMechsCommand(intake, shoot, 1));
 
         // joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 

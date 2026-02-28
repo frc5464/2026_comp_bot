@@ -21,7 +21,7 @@ public class BeltCommand extends Command{
 
     @Override
     public void end(boolean interrupted){
-
+        belt.stopBelt();
         SmartDashboard.putBoolean("Belting", false);
     }
 

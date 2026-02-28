@@ -27,9 +27,9 @@ import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase{
 
-    private final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
-    private final SparkFlex feederMotor = new SparkFlex(17, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
-    private final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
+    public final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
+    public final SparkFlex feederMotor = new SparkFlex(17, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
+    public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
 
     //Stuff for shootPosition PID
     public RelativeEncoder hingeEncoder;
@@ -47,7 +47,9 @@ public class ShooterSubsystem extends SubsystemBase{
     private SparkMaxConfig flyConfig = new SparkMaxConfig();
     public SparkClosedLoopController flyClosedLoopController;
 
-    public double targetVelocity = 100;
+    public double targetVelocity = 0;
+
+    public VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
 
   public ShooterSubsystem(){
 
@@ -123,8 +125,8 @@ public class ShooterSubsystem extends SubsystemBase{
       // Shooter Code with Krakens
       // create a velocity closed-loop request, voltage output, slot 0 configs
       // if(Universals.shootReverse == false){
-        final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-
+        // public VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+          shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
         // set velocity to 8 rps, add 0.5 V to overcome gravity
         // shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0.5));
 

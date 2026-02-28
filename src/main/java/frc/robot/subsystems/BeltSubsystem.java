@@ -16,7 +16,7 @@ public class BeltSubsystem extends SubsystemBase{
     }
     
     public void runBelt(){
-        belt.set(1);
+        belt.set(-0.25);
     }
 
     public void stopBelt(){
