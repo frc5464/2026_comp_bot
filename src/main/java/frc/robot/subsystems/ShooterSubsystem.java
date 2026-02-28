@@ -80,7 +80,7 @@ public class ShooterSubsystem extends SubsystemBase{
 
                 shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-        SmartDashboard.setDefaultNumber("ShootHoodTargetPosition", 0);
+        // SmartDashboard.setDefaultNumber("ShootHoodTargetPosition", 0);
 
 
      //VelocityPID for shooter with Krakens
@@ -126,7 +126,7 @@ public class ShooterSubsystem extends SubsystemBase{
       // create a velocity closed-loop request, voltage output, slot 0 configs
       // if(Universals.shootReverse == false){
         // public VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-          shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
+      shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
         // set velocity to 8 rps, add 0.5 V to overcome gravity
         // shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0.5));
 
@@ -145,6 +145,9 @@ public class ShooterSubsystem extends SubsystemBase{
 
       // ShootRot Code
       encoderPos = hingeEncoder.getPosition();
+
+      // Grab the position from SmartDashboard
+      targetPosition = SmartDashboard.getNumber("ShootRotTarget",targetPosition);
 
       posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
