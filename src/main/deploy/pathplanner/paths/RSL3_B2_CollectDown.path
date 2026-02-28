@@ -74,19 +74,19 @@
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": {
-        "type": "deadline",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": null
+                "name": "Shoot"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "Shoot"
+                "name": "Feed"
               }
             }
           ]

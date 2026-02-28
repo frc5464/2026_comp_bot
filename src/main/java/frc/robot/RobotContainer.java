@@ -212,7 +212,7 @@ public class RobotContainer {
         driveController.start().onTrue(new ZeroGyroCommand(drivetrain));
 
         zackController.start().whileTrue(new ZeroMechsCommand(intake, shoot, 0));
-        zackController.back().whileTrue(new ZeroMechsCommand(intake, shoot, 1));
+        // zackController.back().whileTrue(new ZeroMechsCommand(intake, shoot, 1));
 
         // joystick.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
