@@ -79,7 +79,7 @@ public class IntakeSubsystem extends SubsystemBase{
     public void periodic(){
         if(Universals.manualMode == false){
             leftjawEncoderPos = leftjawEncoder.getPosition();
-            leftjawClosedLoopController.setSetpoint(lefttargetPositionInt, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+            // leftjawClosedLoopController.setSetpoint(lefttargetPositionInt, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         }
 
         SmartDashboard.putNumber("JawEncoder", leftjawEncoderPos);

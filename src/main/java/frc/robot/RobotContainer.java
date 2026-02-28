@@ -30,6 +30,7 @@ import frc.robot.Commands.IntakeToPositionCommand;
 import frc.robot.Commands.ManualIntakeToPositionCommand;
 import frc.robot.Commands.ManualModeCommand;
 import frc.robot.Commands.ShootCommand;
+import frc.robot.Commands.ShooterHoodCommand;
 // import frc.robot.Commands.ClimbToPositionCommand;
 import frc.robot.Commands.SlowDriveModeCommand;
 import frc.robot.Commands.TurretClockwiseCommand;
@@ -176,7 +177,9 @@ public class RobotContainer {
         driveController.leftTrigger().whileTrue(new IntakeCommand(intake, 67, true));
         zackController.x().whileTrue(new IntakeCommand(intake, 67, false));
         // zackController.x().whileTrue(new ReverseIntakeCommand(intake));
- 
+
+        driveController.povUp().onTrue(new ShooterHoodCommand(shoot, true));
+        driveController.povDown().onTrue(new ShooterHoodCommand(shoot, false));
         //rev up feeder motor up to speed, then shoots when up to speed
         driveController.rightTrigger().whileTrue(new ShootCommand(shoot, false, 67));
 
