@@ -56,7 +56,7 @@ public class ShooterSubsystem extends SubsystemBase{
   public ShooterSubsystem(){
 
       initPidShoot();
-
+     SmartDashboard.putBoolean("shooting", false);
   }
 
 
