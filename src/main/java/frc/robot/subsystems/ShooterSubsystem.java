@@ -146,6 +146,9 @@ public class ShooterSubsystem extends SubsystemBase{
       // ShootRot Code
       encoderPos = hingeEncoder.getPosition();
 
+      // Grab the position from SmartDashboard
+      targetPosition = SmartDashboard.getNumber("ShootRotTarget",0);
+
       posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
       SmartDashboard.putNumber("ShootRotEncoder", encoderPos);
