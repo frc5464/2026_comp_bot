@@ -16,11 +16,13 @@ public class ShootCommand extends Command{
     private ShooterSubsystem shooter;
     private BeltSubsystem belt;
     private Timer timer = new Timer();
+    double time;
     public boolean reversed;
 
-    public ShootCommand(ShooterSubsystem shooter, boolean reversed){
+    public ShootCommand(ShooterSubsystem shooter, boolean reversed, double time){
         this.shooter = shooter;
         this.belt = belt;
+        this.time = time;
         this.reversed = reversed;
     }
 
@@ -58,7 +60,7 @@ public class ShootCommand extends Command{
     @Override
     public boolean isFinished(){
         // This should cause autonomous to only spit out game pieces for a bit
-        if((timer.get() > 3) && RobotState.isAutonomous()){
+        if((timer.get() > time) && RobotState.isAutonomous()){
             return true;
         }
         return false;

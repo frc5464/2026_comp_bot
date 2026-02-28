@@ -70,6 +70,30 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
+      "name": "Shoot",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "deadline",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": null
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "IntakeDown",
       "waypointRelativePos": 2.0,
       "endWaypointRelativePos": null,
