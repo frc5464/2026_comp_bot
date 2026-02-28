@@ -49,6 +49,8 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public double targetVelocity = 0;
 
+    public double rpmSetpoint = -110;
+
     public VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
 
   public ShooterSubsystem(){
@@ -133,6 +135,9 @@ public class ShooterSubsystem extends SubsystemBase{
         encoderVel = shooterMotor.getVelocity().getValueAsDouble();
 
         SmartDashboard.putNumber("shootvel", encoderVel);
+
+        rpmSetpoint = SmartDashboard.getNumber("rpmSetpoint", rpmSetpoint);
+        SmartDashboard.putNumber("rpmSetpoint", rpmSetpoint);
       // }
 
       // Shooter Code with SparkMax

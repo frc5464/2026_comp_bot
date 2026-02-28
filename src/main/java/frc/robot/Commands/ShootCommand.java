@@ -36,8 +36,8 @@ public class ShootCommand extends Command{
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
                 // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity).withFeedForward(0));
-            shooter.targetVelocity = -110;
-            if(shooter.encoderVel <= -100){
+            shooter.targetVelocity = shooter.rpmSetpoint;
+            if(shooter.encoderVel <= shooter.rpmSetpoint + 10){
                 // shooter.feed();
                 // belt.runBelt();
                 SmartDashboard.putBoolean("UpToSpeed", true);
