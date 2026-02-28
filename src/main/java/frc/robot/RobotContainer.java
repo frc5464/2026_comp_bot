@@ -90,9 +90,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
-        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, false, 3));
+        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, false, 4));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
-        NamedCommands.registerCommand("Feed", new FeedCommand(shoot, belt, 2));
+        // NamedCommands.registerCommand("Feed", new FeedCommand(shoot, belt, 2));
         // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
         // NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
         

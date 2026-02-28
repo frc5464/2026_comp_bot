@@ -8,7 +8,7 @@
     "Mexican (Pos2)",
     "Other (Pos1)"
   ],
-  "defaultMaxVel": 1.75,
+  "defaultMaxVel": 2.0,
   "defaultMaxAccel": 2.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

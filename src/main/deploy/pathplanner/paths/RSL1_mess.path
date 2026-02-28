@@ -8,58 +8,61 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6000000000000005,
-        "y": 5.675
+        "x": 8.524038765061041,
+        "y": 4.806759111665348
       },
       "isLocked": false,
       "linkedName": "RSL1"
     },
     {
       "anchor": {
-        "x": 0.75,
-        "y": 5.75
+        "x": 7.77,
+        "y": 2.15
       },
       "prevControl": {
-        "x": 1.75,
-        "y": 5.75
+        "x": 8.811889066001584,
+        "y": 8.058846518073247
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.9,
+      "rotationDegrees": -90.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0.4,
-      "endWaypointRelativePos": 1.0,
+      "name": "Shoot",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
       "command": {
-        "type": "sequential",
+        "type": "named",
         "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeDown"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Intake"
-              }
-            }
-          ]
+          "name": "Shoot"
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.2511816340310613,
+      "endWaypointRelativePos": 3.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "LongIntake"
         }
       }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 6.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -67,7 +70,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 135.0
+    "rotation": -115.0
   },
   "reversed": false,
   "folder": null,
@@ -75,5 +78,5 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

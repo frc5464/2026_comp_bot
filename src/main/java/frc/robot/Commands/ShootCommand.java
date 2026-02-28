@@ -15,7 +15,7 @@ public class ShootCommand extends Command{
 
     private ShooterSubsystem shooter;
     private BeltSubsystem belt;
-    private Timer timer = new Timer();
+    public Timer timer = new Timer();
     double time;
     public boolean reversed;
 
@@ -37,6 +37,9 @@ public class ShootCommand extends Command{
             SmartDashboard.putBoolean("shooting", true);
                 // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity).withFeedForward(0));
             shooter.shoot();
+            if((timer.get() >= 1) && RobotState.isAutonomous()){
+                shooter.feed();
+            }
                 // shooter.targetVelocity = shooter.rpmSetpoint;
             // if(shooter.encoderVel <= shooter.rpmSetpoint + 10){
             //     // shooter.feed();
