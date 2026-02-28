@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.Slot0Configs;
+// import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.PersistMode;
@@ -13,17 +13,17 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkBaseConfig;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+// import com.revrobotics.spark.config.SparkBaseConfig;
+// import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+// import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+// import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
+// import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Universals;
-import frc.robot.Commands.ShootCommand;
-import frc.robot.Constants.ShooterConstants;
+// import frc.robot.Universals;
+// import frc.robot.Commands.ShootCommand;
+// import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase{
 
@@ -44,7 +44,7 @@ public class ShooterSubsystem extends SubsystemBase{
     RelativeEncoder flyEncoder;
     public double encoderVel;
 
-    private SparkMaxConfig flyConfig = new SparkMaxConfig();
+    // private SparkMaxConfig flyConfig = new SparkMaxConfig();
     public SparkClosedLoopController flyClosedLoopController;
 
     public double targetVelocity = 0;

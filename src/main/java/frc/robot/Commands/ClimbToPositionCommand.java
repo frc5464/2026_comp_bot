@@ -4,17 +4,16 @@ import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimbSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 
 public class ClimbToPositionCommand extends Command{
     
-    private ClimbSubsystem climb;
+    // private ClimbSubsystem climb;
     private Timer timer = new Timer();
-    private double position;
+    // private double position;
 
     public ClimbToPositionCommand(ClimbSubsystem climb, double pos){
-        this.climb = climb;
-        this. position = pos;
+        // this.climb = climb;
+        // this. position = pos;
     }
 
     @Override

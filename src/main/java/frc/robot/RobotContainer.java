@@ -9,7 +9,6 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
@@ -22,9 +21,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.Commands.AutoHoodAngleCommand;
-import frc.robot.Commands.AutoTurretAngleCommand;
-import frc.robot.Commands.BeltCommand;
+// import frc.robot.Commands.AutoHoodAngleCommand;
+// import frc.robot.Commands.AutoTurretAngleCommand;
+// import frc.robot.Commands.BeltCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
 import frc.robot.Commands.ManualIntakeToPositionCommand;
@@ -33,14 +32,9 @@ import frc.robot.Commands.ShootCommand;
 import frc.robot.Commands.ShooterHoodCommand;
 // import frc.robot.Commands.ClimbToPositionCommand;
 import frc.robot.Commands.SlowDriveModeCommand;
-import frc.robot.Commands.TurretClockwiseCommand;
-import frc.robot.Commands.TurretCounterclockwiseCommand;
 import frc.robot.Commands.ZeroGyroCommand;
 import frc.robot.Commands.ZeroMechsCommand;
-import frc.robot.Commands.Scrapped.DummyCommand;
 import frc.robot.Commands.Scrapped.FeedCommand;
-import frc.robot.Commands.Scrapped.ReverseIntakeCommand;
-import frc.robot.Commands.Scrapped.ReverseShooterCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.BeltSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -65,8 +59,8 @@ public class RobotContainer {
 
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    // private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+            // .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -102,7 +96,7 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         // Warmup PathPlanner to avoid Java pauses
-        FollowPathCommand.warmupCommand().schedule();
+        FollowPathCommand.warmupCommand();
 
         // boolean isCompetition = true;
 
@@ -156,7 +150,7 @@ public class RobotContainer {
         // shoot.setDefaultCommand(new FeedCommand(shoot));
         // belt.setDefaultCommand(new BeltCommand(belt));
         // turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
-        shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
+        // shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
