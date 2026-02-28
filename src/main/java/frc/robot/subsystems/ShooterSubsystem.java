@@ -9,13 +9,15 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkFlex;
+// import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 // import com.revrobotics.spark.config.SparkBaseConfig;
 // import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+// import edu.wpi.first.wpilibj.motorcontrol.Talon;
 // import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 // import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +30,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ShooterSubsystem extends SubsystemBase{
 
     public final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
-    public final SparkFlex feederMotor = new SparkFlex(17, MotorType.kBrushless/*ShooterConstants.kFeederMotorPort*/);
+    public final TalonFX feederMotor = new TalonFX(17);
     public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
 
     //Stuff for shootPosition PID
