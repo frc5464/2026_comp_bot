@@ -4,6 +4,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.ctre.phoenix6.signals.RGBWColor;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -29,6 +30,8 @@ public class IntakeSubsystem extends SubsystemBase{
     public SparkClosedLoopController closedLoopController;
 
     public double targetPositionInt = 0;
+
+    private CandleSubsystem candel;
 
 
     public IntakeSubsystem(){
@@ -99,7 +102,8 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void Intake(){
-        intakeRod.set(-0.5);
+        // intakeRod.set(-0.5);
+        candel.light(RGBWColor.fromHSV(150, 90, 90), 10);
     }
 
 
@@ -110,5 +114,6 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public void DisableIntake(){
         intakeRod.set(0);
+        candel.light(RGBWColor.fromHSV(0, 0, 0), 0);
     }
 }

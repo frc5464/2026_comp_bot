@@ -15,6 +15,7 @@ import frc.robot.Commands.DummyCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
 import frc.robot.Commands.ShootCommand;
+import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -29,7 +30,7 @@ public class Robot extends TimedRobot {
     private IntakeToPositionCommand downers;
     private IntakeToPositionCommand uppies;
 
-
+    private final CandleSubsystem m_candleSubsystem;
     private final RobotContainer m_robotContainer/* = new RobotContainer()*/;
     // private final Vision m_vision = new Vision();
 
@@ -39,7 +40,7 @@ public class Robot extends TimedRobot {
         .withJoystickReplay();
 
     public Robot() {
-
+        m_candleSubsystem = new CandleSubsystem();
         m_robotContainer = new RobotContainer();
         SmartDashboard.putData("Auto Mode", m_robotContainer.autoChooser);
         
