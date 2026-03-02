@@ -3,14 +3,11 @@ package frc.robot.subsystems;
 
 //java
 import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
 import java.util.List;
 //photon
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonUtils;
-import org.photonvision.simulation.PhotonCameraSim;
-import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
@@ -101,19 +98,16 @@ public class Vision extends SubsystemBase {
     private Matrix<N3, N1> swerveStdDev;
     private Matrix<N3, N1> swerveVisMeasurementStdDev;
 
-    // sim
-    static VisionSystemSim PseudoVisionSystem = new VisionSystemSim("Main");
-
     public void getStateInfo(SwerveDriveState state) {
         swerveModPos = state.ModulePositions;
     }
 
-    public SwerveDrivePoseEstimator mainPoseEst = new SwerveDrivePoseEstimator(
-            swerveDriveKin,
-            new Rotation2d(),
-            swerveModPos,
+    // public SwerveDrivePoseEstimator mainPoseEst = new SwerveDrivePoseEstimator(
+    //         swerveDriveKin,
+    //         new Rotation2d(),
+    //         swerveModPos,
 
-            new Pose2d(2, 4, Rotation2d.fromDegrees(180))); /* PLACEHOLDER VALUES */
+    //         new Pose2d(2, 4, Rotation2d.fromDegrees(180))); /* PLACEHOLDER VALUES */
 
     // only updated once, used for defining the AprilTag layout
     private boolean visionLayoutDefined = false;
@@ -129,7 +123,7 @@ public class Vision extends SubsystemBase {
             visionLayoutDefined = true;
             SmartDashboard.putBoolean("has_targets", targetful);
             // SmartDashboard.putString("robot_position", debugOutputRobotPose3d);
-            SmartDashboard.putString("at_est_pos", mainPoseEst.toString());
+            //SmartDashboard.putString("at_est_pos", mainPoseEst.toString());
         }
 
         for (PhotonCamera c : cameras) {
@@ -162,7 +156,7 @@ public class Vision extends SubsystemBase {
             }
         }
 
-        mainPoseEst.update(swerveGyroAngle, swerveModPos);
+        //mainPoseEst.update(swerveGyroAngle, swerveModPos);
 
         SmartDashboard.updateValues();
     }
