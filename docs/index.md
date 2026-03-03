@@ -1,3 +1,7 @@
+## WIP
 
+for formatting *.md files see:
+    [/format.md]
 
-erm actually its not how it really work
+style guide / what to include in your docs:
+    [/style.md]
