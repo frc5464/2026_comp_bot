@@ -32,7 +32,7 @@ import frc.robot.Commands.ShootCommand;
 import frc.robot.Commands.ShooterHoodCommand;
 // import frc.robot.Commands.ClimbToPositionCommand;
 import frc.robot.Commands.SlowDriveModeCommand;
-import frc.robot.Commands.TurretClockwiseCommand;
+import frc.robot.Commands.ManualTurretCommand;
 import frc.robot.Commands.ZeroGyroCommand;
 import frc.robot.Commands.ZeroMechsCommand;
 import frc.robot.Commands.Scrapped.FeedCommand;
@@ -192,8 +192,8 @@ public class RobotContainer {
         // testController.povUp().whileTrue(new ClimbUpCommand(climb, true));
         // testController.povDown().whileTrue(new ClimbUpCommand(climb, false));
 
-        zackController.axisGreaterThan(5, 0.5).whileTrue(new TurretClockwiseCommand(turret, true));
-        zackController.axisLessThan(5, -0.5).whileTrue(new TurretClockwiseCommand(turret, false));
+        zackController.axisGreaterThan(5, 0.5).whileTrue(new ManualTurretCommand(turret, true));
+        zackController.axisLessThan(5, -0.5).whileTrue(new ManualTurretCommand(turret, false));
         // testController.axisLessThan(3, -0.5).whileTrue(new TurretCounterclockwiseCommand(turret));
 
         zackController.leftBumper().whileTrue(new ShootCommand(shoot, true, 67));

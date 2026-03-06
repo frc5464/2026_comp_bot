@@ -6,13 +6,13 @@ import frc.robot.subsystems.TurretSubsystem;
 
 // JAKEREVIEW: What is this for? When will the drivers need to use this?
 
-public class TurretClockwiseCommand extends Command{
+public class ManualTurretCommand extends Command{
     
     private TurretSubsystem turret;
 
     private boolean normalRot;
 
-    public TurretClockwiseCommand(TurretSubsystem turret, boolean normalRot){
+    public ManualTurretCommand(TurretSubsystem turret, boolean normalRot){
         this.turret = turret;
         this.normalRot = normalRot;
     }

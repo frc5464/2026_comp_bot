@@ -17,13 +17,13 @@ public class ShooterHoodCommand extends Command{
     public void execute(){
         if(up == true){
             if(shoot.encoderPos > shoot.hoodlimitup){
-                 shoot.targetPosition -= 0.25;
+                shoot.targetPosition -= 0.25;
             }
            
         } else{
 
             if(shoot.encoderPos < shoot.hoodlimitdown){
-                 shoot.targetPosition += 0.25;
+                shoot.targetPosition += 0.25;
             }
            
         }
