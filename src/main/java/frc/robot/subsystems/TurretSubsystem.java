@@ -32,6 +32,9 @@ public class TurretSubsystem extends SubsystemBase{
 
     public double turrettargetPosition = 0;
 
+    public double turretlimitleft = 26.7;
+    public double turretlimitright = -22.8;
+
 
     public TurretSubsystem(){
 
@@ -62,9 +65,10 @@ public class TurretSubsystem extends SubsystemBase{
 
     public void periodic(){
         if(Universals.manualMode == false){
-        turretEncoderPos = turretEncoder.getPosition();
+        // turretEncoderPos = turretEncoder.getPosition();
         turretClosedLoopController.setSetpoint(turrettargetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         }
+        turretEncoderPos = turretEncoder.getPosition();
         // turretClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
         SmartDashboard.putNumber("turretEncoder", turretEncoderPos);
@@ -78,11 +82,19 @@ public class TurretSubsystem extends SubsystemBase{
     }
 
     public void clockwise(){
-        turret.set(0.2);
+        if(turretEncoderPos > turretlimitleft) {
+            stop();
+        } else{
+            turret.set(0.2);
+        }
     }
 
     public void counterclockwise(){
-        turret.set(-0.2);
+        if(turretEncoderPos < turretlimitright){
+            stop();
+        } else{
+            turret.set(-0.2);
+        }
     }
 
     public void stop(){
