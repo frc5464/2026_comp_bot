@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-// import frc.robot.Commands.AutoHoodAngleCommand;
-// import frc.robot.Commands.AutoTurretAngleCommand;
+import frc.robot.Commands.AutoHoodAngleCommand;
+import frc.robot.Commands.AutoTurretAngleCommand;
 // import frc.robot.Commands.BeltCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
@@ -150,7 +150,7 @@ public class RobotContainer {
         );    
         // shoot.setDefaultCommand(new FeedCommand(shoot));
         // belt.setDefaultCommand(new BeltCommand(belt));
-        // turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
+        turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
         // shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.

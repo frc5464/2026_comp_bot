@@ -35,6 +35,9 @@ public class TurretSubsystem extends SubsystemBase{
     public double turretlimitleft = 26.7;
     public double turretlimitright = -22.8;
 
+    public double gear_ratio = 192;
+    public double degrees_per_rotation = 1.875;
+
 
     public TurretSubsystem(){
 
@@ -63,10 +66,12 @@ public class TurretSubsystem extends SubsystemBase{
         SmartDashboard.setDefaultNumber("turret target Position", 0);
     }
 
+
+
     public void periodic(){
         if(Universals.manualMode == false){
-        // turretEncoderPos = turretEncoder.getPosition();
-        turretClosedLoopController.setSetpoint(turrettargetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+            // turretEncoderPos = turretEncoder.getPosition();
+            turretClosedLoopController.setSetpoint(turrettargetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         }
         turretEncoderPos = turretEncoder.getPosition();
         // turretClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
@@ -101,13 +106,25 @@ public class TurretSubsystem extends SubsystemBase{
         turret.set(0);
     }
 
+    public void findTargetRotations(){
+        // find needed angle of turret to hub
+
+        // find the angle of the robot to the hub
+
+        // subtract out the robot angle
+
+        // convert that angle into motor rotations
+
+        // use that motor rotation as target
+    }
+
     public void autoAim(double x, double y){
         
         // Figure out which hub we need to be aiming at
         if(DriverStation.getAlliance().get() == Alliance.Blue){
 
             // Calculate the angle needed between turret and blue hub in degrees
-            angle =  Math.toDegrees(Math.atan((x-4.6)/(y-4)));
+            angle =  Math.toDegrees(Math.atan((y-4)/(x-4.6)));
         }
 
         else{

@@ -16,9 +16,16 @@ public class ShooterHoodCommand extends Command{
     @Override
     public void execute(){
         if(up == true){
-            shoot.targetPosition -= 0.25;
+            if(shoot.encoderPos > shoot.hoodlimitup){
+                 shoot.targetPosition -= 0.25;
+            }
+           
         } else{
-            shoot.targetPosition += 0.25;
+
+            if(shoot.encoderPos < shoot.hoodlimitdown){
+                 shoot.targetPosition += 0.25;
+            }
+           
         }
     }
 

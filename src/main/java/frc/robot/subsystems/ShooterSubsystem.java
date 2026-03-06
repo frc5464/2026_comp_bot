@@ -53,6 +53,9 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public double rpmSetpoint = -110;
 
+    public double hoodlimitup = -4;
+    public double hoodlimitdown = 0;
+
     public VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
 
   public ShooterSubsystem(){
@@ -161,6 +164,7 @@ public class ShooterSubsystem extends SubsystemBase{
       SmartDashboard.putNumber("ShootRotEncoder", encoderPos);
       SmartDashboard.putNumber("ShootRotTarget", targetPosition);
     }
+    
   
   public void feed(){
     feederMotor.set(.75);
