@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-// import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.PersistMode;
@@ -49,14 +49,14 @@ public class ShooterSubsystem extends SubsystemBase{
     // private SparkMaxConfig flyConfig = new SparkMaxConfig();
     public SparkClosedLoopController flyClosedLoopController;
 
-    public double targetVelocity = 0;
+    public double targetVelocity = 50;
 
     public double rpmSetpoint = -110;
 
     public double hoodlimitup = -4;
     public double hoodlimitdown = -0.4;
 
-    public VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+    public VelocityVoltage m_request;
 
   public ShooterSubsystem(){
 
@@ -93,14 +93,14 @@ public class ShooterSubsystem extends SubsystemBase{
      //VelocityPID for shooter with Krakens
 
       // in init function, set slot 0 gains
-      // var slot0Configs = new Slot0Configs();
-      // slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
-      // slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-      // slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-      // slot0Configs.kI = 0; // no output for integrated error
-      // slot0Configs.kD = 0; // no output for error derivative
+      var slot0Configs = new Slot0Configs();
+      slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
+      slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+      slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+      slot0Configs.kI = 0; // no output for integrated error
+      slot0Configs.kD = 0; // no output for error derivative
 
-      // shooterMotor.getConfigurator().apply(slot0Configs);
+      shooterMotor.getConfigurator().apply(slot0Configs);
 
       // // create a velocity closed-loop request, voltage output, slot 0 configs
       // final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
@@ -132,8 +132,9 @@ public class ShooterSubsystem extends SubsystemBase{
       // Shooter Code with Krakens
       // create a velocity closed-loop request, voltage output, slot 0 configs
       // if(Universals.shootReverse == false){
-        // public VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-      // shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
+      m_request = new VelocityVoltage(targetVelocity).withSlot(0);
+      // shooterMotor.setControl(m_re
+      // quest.withVelocity(targetVelocity).withFeedForward(0));
         // set velocity to 8 rps, add 0.5 V to overcome gravity
         // shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0.5));
 
