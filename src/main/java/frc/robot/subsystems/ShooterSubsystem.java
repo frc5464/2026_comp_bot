@@ -64,35 +64,23 @@ public class ShooterSubsystem extends SubsystemBase{
      SmartDashboard.putBoolean("shooting", false);
   }
 
-
-    
-  
   private void initPidShoot(){
-
       // Position PID for shoot hinge
-        // do your pid initialization here
-        posClosedLoopController = shootHinge.getClosedLoopController();
-        hingeEncoder = shootHinge.getEncoder();
-
-        
-        posConfig.closedLoop
-            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-            //Set PID values for position control
-            .p(0.1)
-            .i(0)
-            .d(0)
-            .outputRange(-0.5, 0.5)
-            .feedForward
-                .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
-
-                shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-
-        // SmartDashboard.setDefaultNumber("ShootHoodTargetPosition", 0);
-
+      posClosedLoopController = shootHinge.getClosedLoopController();
+      hingeEncoder = shootHinge.getEncoder();  
+      posConfig.closedLoop
+          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+          //Set PID values for position control
+          .p(0.1)
+          .i(0)
+          .d(0)
+          .outputRange(-0.5, 0.5)
+          .feedForward
+          .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
+      shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    // SmartDashboard.setDefaultNumber("ShootHoodTargetPosition", 0);
 
      //VelocityPID for shooter with Krakens
-
-      // in init function, set slot 0 gains
       var slot0Configs = new Slot0Configs();
       slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
       slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
@@ -101,71 +89,29 @@ public class ShooterSubsystem extends SubsystemBase{
       slot0Configs.kD = 0; // no output for error derivative
 
       shooterMotor.getConfigurator().apply(slot0Configs);
-
-      // // create a velocity closed-loop request, voltage output, slot 0 configs
-      // final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-
-      // // set velocity to 8 rps, add 0.5 V to overcome gravity
-      // shooterMotor.setControl(m_request.withVelocity(8).withFeedForward(0.5));
-
-
-      // Velocity PID for shooter with SparkMax
-        // flyClosedLoopController = shooterMotor.getClosedLoopController();
-        // flyEncoder = shooterMotor.getEncoder();
-
-        // flyConfig.closedLoop
-        //     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        //     .p(0.1)
-        //     .i(0)
-        //     .d(0)
-        //     .outputRange(-1, 1)
-        //     .feedForward
-        //         .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
-
-        //         shooterMotor.config(flyConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-
       SmartDashboard.setDefaultNumber("ShootTargetVel", 0);
   }
 
   public void periodic(){
 
-      // Shooter Code with Krakens
-      // create a velocity closed-loop request, voltage output, slot 0 configs
-      // if(Universals.shootReverse == false){
+      // ============================================== FLYWHEEL VELOCITY CODE!
+      // create a velocity closed-loop request, voltage output, slot 0 configs, then use it in setcontrol
       m_request = new VelocityVoltage(targetVelocity).withSlot(0);
-      // shooterMotor.setControl(m_re
-      // quest.withVelocity(targetVelocity).withFeedForward(0));
-        // set velocity to 8 rps, add 0.5 V to overcome gravity
-        // shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0.5));
-
-        encoderVel = shooterMotor.getVelocity().getValueAsDouble();
-
-        SmartDashboard.putNumber("shootvel", encoderVel);
-
-        rpmSetpoint = SmartDashboard.getNumber("rpmSetpoint", rpmSetpoint);
-        SmartDashboard.putNumber("rpmSetpoint", rpmSetpoint);
-      // }
-
-      // Shooter Code with SparkMax
-      // encoderVel = flyEncoder.getVelocity();
-
-      // flyClosedLoopController.setSetpoint(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+      shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
       
-      // SmartDashboard.putNumber("ShootVelocity", encoderVel);
-      // SmartDashboard.putNumber("FlyEncoder", targetVelocity);
+      encoderVel = shooterMotor.getVelocity().getValueAsDouble();
+      SmartDashboard.putNumber("shootvel", encoderVel);
 
-      // ShootRot Code
+      rpmSetpoint = SmartDashboard.getNumber("rpmSetpoint", rpmSetpoint);
+      SmartDashboard.putNumber("rpmSetpoint", rpmSetpoint);
+      
+      // ============================================== ROTATION POSITION CODE!
       encoderPos = hingeEncoder.getPosition();
-
-      // Grab the position from SmartDashboard
-      // targetPosition = SmartDashboard.getNumber("ShootRotTarget",targetPosition);
+      SmartDashboard.putNumber("ShootRotEncoder", encoderPos);
 
       posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-
-      SmartDashboard.putNumber("ShootRotEncoder", encoderPos);
       SmartDashboard.putNumber("ShootRotTarget", targetPosition);
     }
-    
   
   public void feed(){
     feederMotor.set(1);
