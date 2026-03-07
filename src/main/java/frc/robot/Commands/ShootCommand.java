@@ -1,5 +1,7 @@
 package frc.robot.Commands;
 
+import java.lang.annotation.Target;
+
 // import com.revrobotics.spark.ClosedLoopSlot;
 // import com.revrobotics.spark.SparkBase.ControlType;
 
@@ -36,7 +38,7 @@ public class ShootCommand extends Command{
     public void execute(){
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
-                shooter.shooterMotor.setControl(shooter.m_request);
+                shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 100));
             // shooter.shoot();
             if((timer.get() >= 0.75)){
                 shooter.feed();
@@ -58,8 +60,10 @@ public class ShootCommand extends Command{
 
     @Override
     public void end(boolean interrupted){
-        shooter.targetVelocity = 0;
-        shooter.disableShoot();
+        // shooter.targetVelocity = 0;
+        shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 0));
+        // shooter.disableShoot();
+        shooter.disableFeed();
         belt.stopBelt();
         SmartDashboard.putBoolean("shooting", false);
         SmartDashboard.putBoolean("feeding", false);
