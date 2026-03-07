@@ -81,7 +81,7 @@ public class ShooterSubsystem extends SubsystemBase{
             .p(0.1)
             .i(0)
             .d(0)
-            .outputRange(-0.2, 0.2)
+            .outputRange(-0.5, 0.5)
             .feedForward
                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
@@ -167,7 +167,7 @@ public class ShooterSubsystem extends SubsystemBase{
     
   
   public void feed(){
-    feederMotor.set(.75);
+    feederMotor.set(0.5);
   }
 
   public void reverseFeed(){
@@ -187,20 +187,20 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(0);
   }
 
-  public void changeAngle(double xdistance, double ydistance){
-    if(shootHinge.getOutputCurrent() > usualResistance){
-      shootHinge.set(0);
-    } else {
-    /* Make a Linear relationship between the distance value and the ShootHinge 
-     * motor encoder. Tune for smaller #'s. Y^2 - Y^1 / X^2 - X^1 = M. 
-     * Y^1 = MX^1 + b (Solve for b)
-     */
-    // y = mx + b
-    // m = slope = (y2 - y1)/(x2 - x1)
-      targetPosition = (-40*(Math.hypot(xdistance - 4, ydistance - 2.5))) + 130;
+  // public void changeAngle(double xdistance, double ydistance){
+  //   if(shootHinge.getOutputCurrent() > usualResistance){
+  //     shootHinge.set(0);
+  //   } else {
+  //   /* Make a Linear relationship between the distance value and the ShootHinge 
+  //    * motor encoder. Tune for smaller #'s. Y^2 - Y^1 / X^2 - X^1 = M. 
+  //    * Y^1 = MX^1 + b (Solve for b)
+  //    */
+  //   // y = mx + b
+  //   // m = slope = (y2 - y1)/(x2 - x1)
+  //     targetPosition = (-40*(Math.hypot(xdistance - 4, ydistance - 2.5))) + 130;
       
-    }
-  }
+  //   }
+  // }
 
   public void reBoot(){
       hingeEncoder.setPosition(0);

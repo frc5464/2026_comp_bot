@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.BeltSubsystem;
 // import frc.robot.Universals;
 // import frc.robot.subsystems.BeltSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -14,14 +15,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShootCommand extends Command{
 
     private ShooterSubsystem shooter;
-    // private BeltSubsystem belt;
+    private BeltSubsystem belt;
     public Timer timer = new Timer();
     double time;
     public boolean reversed;
 
-    public ShootCommand(ShooterSubsystem shooter, boolean reversed, double time){
+    public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, boolean reversed, double time){
         this.shooter = shooter;
-        // this.belt = belt;
+        this.belt = belt;
         this.time = time;
         this.reversed = reversed;
     }
@@ -39,6 +40,7 @@ public class ShootCommand extends Command{
             shooter.shoot();
             if((timer.get() >= 0.5)){
                 shooter.feed();
+                belt.runBelt();
                 SmartDashboard.putBoolean("feeding", true);
             }
                 // shooter.targetVelocity = shooter.rpmSetpoint;
@@ -58,7 +60,7 @@ public class ShootCommand extends Command{
     public void end(boolean interrupted){
         shooter.targetVelocity = 0;
         shooter.disableShoot();
-        // belt.stopBelt();
+        belt.stopBelt();
         SmartDashboard.putBoolean("shooting", false);
         SmartDashboard.putBoolean("feeding", false);
 

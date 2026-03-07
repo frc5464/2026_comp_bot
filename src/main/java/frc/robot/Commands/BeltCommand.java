@@ -16,13 +16,13 @@ public class BeltCommand extends Command{
     @Override
     public void execute(){
         belt.runBelt();
-        SmartDashboard.putBoolean("Belting", true);
+        // SmartDashboard.putBoolean("Belting", true);
     }
 
     @Override
     public void end(boolean interrupted){
         belt.stopBelt();
-        SmartDashboard.putBoolean("Belting", false);
+        // SmartDashboard.putBoolean("Belting", false);
     }
 
     @Override

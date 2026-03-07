@@ -13,11 +13,11 @@ public class BeltSubsystem extends SubsystemBase{
     private final SparkMax belt = new SparkMax(13, MotorType.kBrushless);
     
     public void periodicrunbelt(){
-        runBelt();
+        // runBelt();
     }
     
     public void runBelt(){
-        belt.set(-0.25);
+        belt.set(-1);
     }
 
     public void stopBelt(){
