@@ -38,7 +38,7 @@ public class ShootCommand extends Command{
             SmartDashboard.putBoolean("shooting", true);
                 // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity).withFeedForward(0));
             shooter.shoot();
-            if((timer.get() >= 0.5)){
+            if((timer.get() >= 0.75)){
                 shooter.feed();
                 belt.runBelt();
                 SmartDashboard.putBoolean("feeding", true);

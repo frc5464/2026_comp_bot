@@ -40,7 +40,7 @@ public class ShooterSubsystem extends SubsystemBase{
     private SparkMaxConfig posConfig = new SparkMaxConfig();
     private SparkClosedLoopController posClosedLoopController;
 
-    public double targetPosition = -0.4;
+    public double targetPosition = -0.24;
     public double usualResistance = 1.0;
     //Stuff for shootVelocity PID
     RelativeEncoder flyEncoder;
@@ -175,7 +175,7 @@ public class ShooterSubsystem extends SubsystemBase{
   }
 
   public void shoot(){
-    shooterMotor.set(1);
+    shooterMotor.set(0.95);
   }
 
   public void disableShoot(){

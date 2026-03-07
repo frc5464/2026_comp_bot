@@ -11,9 +11,12 @@ public class FeedCommand extends Command{
     // private BeltSubsystem belt;
     Timer timer = new Timer();
     double time;
-    public FeedCommand(ShooterSubsystem shoot, BeltSubsystem belt, double time){
+    boolean reversed;
+    
+    public FeedCommand(ShooterSubsystem shoot, BeltSubsystem belt, Boolean reversed, double time){
         this.shoot = shoot;
         // this.belt = belt;
+        this.reversed = reversed;
         this.time = time;
         addRequirements(shoot, belt);
     }
@@ -26,7 +29,12 @@ public class FeedCommand extends Command{
 
     @Override
     public void execute(){
-        shoot.feed();
+        if(reversed == false){
+            shoot.feed();
+        } else{
+            shoot.reverseFeed();
+        }
+        
         // belt.runBelt();
         // SmartDashboard.putBoolean("feeding", true);
     }

@@ -179,7 +179,7 @@ public class RobotContainer {
         driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, false, 67));
 
         zackController.back().whileTrue(new ManualModeCommand());
-        zackController.y().whileTrue(new FeedCommand(shoot, belt, 67));
+        zackController.y().whileTrue(new FeedCommand(shoot, belt, true, 67));
         // zackController.a().toggleOnTrue(new BeltCommand(belt));
         // zackController.rightBumper().whileTrue(new BeltCommand(belt));
 
