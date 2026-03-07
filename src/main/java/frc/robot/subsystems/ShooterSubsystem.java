@@ -137,7 +137,7 @@ public class ShooterSubsystem extends SubsystemBase{
         // set velocity to 8 rps, add 0.5 V to overcome gravity
         // shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0.5));
 
-        // encoderVel = shooterMotor.getVelocity().getValueAsDouble();
+        encoderVel = shooterMotor.getVelocity().getValueAsDouble();
 
         SmartDashboard.putNumber("shootvel", encoderVel);
 
@@ -167,7 +167,7 @@ public class ShooterSubsystem extends SubsystemBase{
     
   
   public void feed(){
-    feederMotor.set(0.5);
+    feederMotor.set(1);
   }
 
   public void reverseFeed(){
