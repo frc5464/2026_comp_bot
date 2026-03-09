@@ -8,31 +8,36 @@
     {
       "axisConfig": [
         {
-          "decKey": 87,
-          "incKey": 83
+          "decKey": 83,
+          "incKey": 87
         },
         {
-          "decKey": 68,
-          "incKey": 65
+          "decKey": 65,
+          "incKey": 68
         },
         {
-          "decayRate": 0.0,
           "incKey": 85,
           "keyRate": 0.009999999776482582
         },
         {},
         {
-          "decKey": 69,
-          "incKey": 81
+          "decKey": 81,
+          "incKey": 69
         }
       ],
       "axisCount": 5,
-      "buttonCount": 4,
+      "buttonCount": 10,
       "buttonKeys": [
         90,
         88,
         67,
-        86
+        86,
+        66,
+        78,
+        77,
+        44,
+        46,
+        47
       ],
       "povConfig": [
         {
@@ -62,10 +67,10 @@
       "axisCount": 2,
       "buttonCount": 4,
       "buttonKeys": [
-        77,
-        44,
-        46,
-        47
+        -1,
+        -1,
+        -1,
+        -1
       ],
       "povCount": 0
     },
@@ -100,14 +105,10 @@
   ],
   "robotJoysticks": [
     {
-      "guid": "78696e70757401000000000000000000",
-      "useGamepad": true
-    },
-    {
-      "useGamepad": true
-    },
-    {
       "guid": "Keyboard0"
+    },
+    {
+      "useGamepad": true
     }
   ]
 }

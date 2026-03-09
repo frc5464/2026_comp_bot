@@ -25,7 +25,7 @@ public class TurretSubsystem extends SubsystemBase{
 
     public RelativeEncoder turretEncoder;
     public double turretEncoderPos;
-    public double angle;
+    public double turretangle;
     
     private SparkMaxConfig turretConfig = new SparkMaxConfig();
     private SparkClosedLoopController turretClosedLoopController;
@@ -124,15 +124,15 @@ public class TurretSubsystem extends SubsystemBase{
         if(DriverStation.getAlliance().get() == Alliance.Blue){
 
             // Calculate the angle needed between turret and blue hub in degrees
-            angle =  Math.toDegrees(Math.atan((y-4)/(x-4.6)));
+            turretangle =  Math.toDegrees(Math.atan((y-4)/(x-4.6)));
         }
 
         else{
 
             // Calculate the angle needed between turret and red hub in degrees
-            angle =  Math.toDegrees(Math.atan((x-11.9)/(y-4)));            
+            turretangle =  Math.toDegrees(Math.atan((x-11.9)/(y-4)));            
         }
 
-        SmartDashboard.putNumber("Turret Angle", angle);
+        SmartDashboard.putNumber("Turret Angle", turretangle);
     }
 }
