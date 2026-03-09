@@ -13,8 +13,6 @@ import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-
-// import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Universals;
@@ -36,17 +34,8 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public double lefttargetPositionInt = -19;
 
-
     public IntakeSubsystem(){
-
-        // leftjawEncoder = leftJaw.getEncoder();
         initPid();       
-        
-        // SparkBaseConfig conf = new SparkMaxConfig();
-        // conf.idleMode(IdleMode.kCoast);
-        // // conf.openLoopRampRate(0.5);
-        // leftJaw.configure(conf, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
         // follow the yellow brick road (left jaw)
         SparkBaseConfig conf2 = new SparkMaxConfig();
         conf2.follow(10, false);
@@ -59,8 +48,7 @@ public class IntakeSubsystem extends SubsystemBase{
         // do your pid initialization here
         leftjawClosedLoopController = leftJaw.getClosedLoopController();
         leftjawEncoder = leftJaw.getEncoder();
-
-        
+ 
         leftjawMotorConfig.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             //Set PID values for position control
@@ -71,34 +59,20 @@ public class IntakeSubsystem extends SubsystemBase{
             .feedForward
                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
-                leftJaw.configure(leftjawMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        leftJaw.configure(leftjawMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
         SmartDashboard.setDefaultNumber("Target Position", 0);
     }
 
     public void periodic(){
-        if(Universals.manualMode == false){
-            leftjawEncoderPos = leftjawEncoder.getPosition();
+        if(Universals.manualMode == false){     
             // leftjawClosedLoopController.setSetpoint(lefttargetPositionInt, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         }
 
+        leftjawEncoderPos = leftjawEncoder.getPosition();
         SmartDashboard.putNumber("JawEncoder", leftjawEncoderPos);
         SmartDashboard.putNumber("JawTarget", lefttargetPositionInt);
-
-        // do your pid calculation here (use targetPosition!)
     }
-
-    // public void intakePID(){
-    //     if(){
-    //     }    lefttargetPositionInt = -0.1;
-        
-    //     if(){
-    //         lefttargetPositionInt = -4.8;
-    //     }
-    //     else{
-    //         leftJaw.set(0);
-    //     }
-    // }
 
     public void reBoot(){
         leftjawEncoder.setPosition(0);
@@ -106,16 +80,10 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public void ManualRaiseIntake(){
         leftJaw.set(0.1);
-        // rightJaw.set(0.20);
     }
 
     public void ManualLowerIntake(){
         leftJaw.set(-0.1);
-        // rightJaw.set(-0.10);
-    }
-
-    public void intakeUp(){
-
     }
 
     public void stopElevate(){
@@ -127,10 +95,8 @@ public class IntakeSubsystem extends SubsystemBase{
         intakeRod.set(1);
     }
 
-
     public void IntakeReverse(){
-            intakeRod.set(-1);
-      
+        intakeRod.set(-1);
     }
 
     public void DisableIntake(){
