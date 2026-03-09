@@ -1,21 +1,32 @@
 package frc.robot.Commands;
 
+import java.lang.annotation.Target;
+
+// import com.revrobotics.spark.ClosedLoopSlot;
+// import com.revrobotics.spark.SparkBase.ControlType;
+
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.BeltSubsystem;
+// import frc.robot.Universals;
+// import frc.robot.subsystems.BeltSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShootCommand extends Command{
 
     private ShooterSubsystem shooter;
     private BeltSubsystem belt;
-    private Timer timer = new Timer();
+    public Timer timer = new Timer();
+    double time;
+    public boolean reversed;
 
-    public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt){
+    public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, boolean reversed, double time){
         this.shooter = shooter;
         this.belt = belt;
+        this.time = time;
+        this.reversed = reversed;
     }
 
     @Override
@@ -25,30 +36,44 @@ public class ShootCommand extends Command{
     }
     @Override
     public void execute(){
-        // shooter.targetVelocity = 200;
-        // if(shooter.encoderVel >= 200){
-            // shooter.feed();
-            // belt.runBelt();
-            // SmartDashboard.putBoolean("UpToSpeed", true);   // JAKEREVIEW: You are printing true and false here forever.
-        // } else{
-            // SmartDashboard.putBoolean("UpToSpeed", false);
-        // }
-        SmartDashboard.putBoolean("shooting", true);
+        if(reversed == false){
+            SmartDashboard.putBoolean("shooting", true);
+                shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 95));
+            // shooter.shoot();
+            if((timer.get() >= 0.75)){
+                shooter.feed();
+                belt.runBelt();
+                SmartDashboard.putBoolean("feeding", true);
+            }
+                // shooter.targetVelocity = shooter.rpmSetpoint;
+            // if(shooter.encoderVel <= shooter.rpmSetpoint + 10){
+            //     // shooter.feed();
+            //     // belt.runBelt();
+            //     SmartDashboard.putBoolean("UpToSpeed", true);
+            // } else{SmartDashboard.putBoolean("UpToSpeed", false);} // JAKEREVIEW: You are printing true and false here forever.
+        } else{
+            shooter.reverseFeed();
+            // shooter.targetVelocity = 50;
+            }
+
     }
 
     @Override
     public void end(boolean interrupted){
         // shooter.targetVelocity = 0;
+        shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 0));
         // shooter.disableShoot();
-        // belt.stopBelt();
+        shooter.disableFeed();
+        belt.stopBelt();
         SmartDashboard.putBoolean("shooting", false);
+        SmartDashboard.putBoolean("feeding", false);
 
     }
 
     @Override
     public boolean isFinished(){
         // This should cause autonomous to only spit out game pieces for a bit
-        if((timer.get() > 2) && RobotState.isAutonomous()){
+        if((timer.get() > time) && RobotState.isAutonomous()){
             return true;
         }
         return false;

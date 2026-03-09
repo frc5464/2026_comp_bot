@@ -2,7 +2,6 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Universals;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class ZeroGyroCommand extends Command{

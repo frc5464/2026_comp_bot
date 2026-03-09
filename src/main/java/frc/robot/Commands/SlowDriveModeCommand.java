@@ -8,13 +8,13 @@ public class SlowDriveModeCommand extends Command{
     
     @Override
     public void execute(){
-        Universals.driveSpeedMultiplier = 1.5;
+        Universals.driveSpeedMultiplier = 0.5;
         SmartDashboard.putBoolean("SlowMode", true);
     }
 
     @Override
     public void end(boolean interrupted){
-        Universals.driveSpeedMultiplier = 3;
+        Universals.driveSpeedMultiplier = 1;
         SmartDashboard.putBoolean("SlowMode", false);
     }
 

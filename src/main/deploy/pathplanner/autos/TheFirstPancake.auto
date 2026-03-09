@@ -1,0 +1,25 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RSL1_BL5-downright"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BL5-right_B2_TW2"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Other (Pos1)",
+  "choreoAuto": false
+}

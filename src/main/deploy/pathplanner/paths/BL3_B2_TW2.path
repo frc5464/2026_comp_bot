@@ -50,13 +50,35 @@
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 1.17,
       "rotationDegrees": 0.0
     }
   ],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.63,
+        "y": 4.0
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 1.1786120591581253,
+      "maxWaypointRelativePos": 1.5608646188850928,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Shoot"
+        }
+      }
+    },
     {
       "name": "IntakeUp",
       "waypointRelativePos": 1.5,
@@ -67,21 +89,10 @@
           "name": "IntakeUp"
         }
       }
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 1.5,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Shoot"
-        }
-      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.75,
+    "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

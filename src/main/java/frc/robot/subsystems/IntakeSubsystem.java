@@ -14,11 +14,11 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+// import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Universals;
-import frc.robot.Commands.IntakeToPositionCommand;
+// import frc.robot.Commands.IntakeToPositionCommand;
 
 public class IntakeSubsystem extends SubsystemBase{
 
@@ -77,16 +77,13 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void periodic(){
-        leftjawEncoderPos = leftjawEncoder.getPosition();
-
-        leftjawClosedLoopController.setSetpoint(lefttargetPositionInt, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+        if(Universals.manualMode == false){
+            leftjawEncoderPos = leftjawEncoder.getPosition();
+            // leftjawClosedLoopController.setSetpoint(lefttargetPositionInt, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+        }
 
         SmartDashboard.putNumber("JawEncoder", leftjawEncoderPos);
         SmartDashboard.putNumber("JawTarget", lefttargetPositionInt);
-
-        // if(Universals.manualMode == false){
-        //     ;
-        // }
 
         // do your pid calculation here (use targetPosition!)
     }
@@ -127,12 +124,12 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void Intake(){
-        intakeRod.set(-1);
+        intakeRod.set(1);
     }
 
 
     public void IntakeReverse(){
-            intakeRod.set(1);
+            intakeRod.set(-1);
       
     }
 
