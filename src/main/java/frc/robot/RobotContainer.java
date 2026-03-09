@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Commands.AutoHoodAngleCommand;
 import frc.robot.Commands.AutoTurretAngleCommand;
+import frc.robot.Commands.FeedCommand;
 // import frc.robot.Commands.BeltCommand;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.IntakeToPositionCommand;
@@ -35,7 +36,6 @@ import frc.robot.Commands.SlowDriveModeCommand;
 import frc.robot.Commands.ManualTurretCommand;
 import frc.robot.Commands.ZeroGyroCommand;
 import frc.robot.Commands.ZeroMechsCommand;
-import frc.robot.Commands.Scrapped.FeedCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.BeltSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -47,7 +47,7 @@ import frc.robot.subsystems.TurretSubsystem;
 public class RobotContainer {
 
     private double MaxSpeed = 0.25 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxAngularRate = RotationsPerSecond.of(0.5).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     
     /* Setting up bindings for necessary control of the swerve drive platform */
     // private final SwerveRequest.FieldCentric slowdrive = new SwerveRequest.FieldCentric()

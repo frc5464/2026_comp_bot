@@ -32,9 +32,9 @@ public class ZeroMechsCommand extends Command{
             intake.reBoot();
         // } else if(resetType == 1){
             shoot.reBoot();
-        // } else if(resetType ==2){
+        // } else if(resetType == 2){
             turret.reBoot();
-        }/*else if(resetType == 2){
+        }/*else if(resetType == 3){
             climb.reBoot();
         } */
         SmartDashboard.putBoolean("MechsZeroed", true);

@@ -1,4 +1,4 @@
-package frc.robot.Commands.Scrapped;
+package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
