@@ -1,8 +1,10 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+
 public class Universals {
     
-
+    public static Pose2d robotPose;
     public static boolean zeroGyro = false;
     public static boolean brakeMode = false;
     public static double wait = 0;
