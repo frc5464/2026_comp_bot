@@ -32,7 +32,7 @@ public class TurretSubsystem extends SubsystemBase{
 
     public double turrettargetPosition = 0;
 
-    public double turretlimitleft = 26.7;
+    public double turretlimitleft = 22.7;
     public double turretlimitright = -22.8;
 
     public double gear_ratio = 192;
