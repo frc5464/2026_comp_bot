@@ -89,8 +89,6 @@ public class ShooterSubsystem extends SubsystemBase{
       slot0Configs.kD = 0; // no output for error derivative
 
       shooterMotor.getConfigurator().apply(slot0Configs);
-<<<<<<< Updated upstream
-=======
 
       // // create a velocity closed-loop request, voltage output, slot 0 configs
       m_request = new VelocityVoltage(targetVelocity).withSlot(0);
@@ -114,21 +112,13 @@ public class ShooterSubsystem extends SubsystemBase{
 
         //         shooterMotor.config(flyConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
->>>>>>> Stashed changes
       SmartDashboard.setDefaultNumber("ShootTargetVel", 0);
   }
 
   public void periodic(){
 
-<<<<<<< Updated upstream
       // ============================================== FLYWHEEL VELOCITY CODE!
       // create a velocity closed-loop request, voltage output, slot 0 configs, then use it in setcontrol
-      m_request = new VelocityVoltage(targetVelocity).withSlot(0);
-      shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
-=======
-      // Shooter Code with Krakens
-      // create a velocity closed-loop request, voltage output, slot 0 configs
-      // if(Universals.shootReverse == false){
         // m_request = new VelocityVoltage(0).withSlot(0);
       // shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
         // set velocity to 8 rps, add 0.5 V to overcome gravity
@@ -146,10 +136,8 @@ public class ShooterSubsystem extends SubsystemBase{
       // encoderVel = flyEncoder.getVelocity();
 
       // flyClosedLoopController.setSetpoint(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
->>>>>>> Stashed changes
       
       encoderVel = shooterMotor.getVelocity().getValueAsDouble();
-      SmartDashboard.putNumber("shootvel", encoderVel);
 
       rpmSetpoint = SmartDashboard.getNumber("rpmSetpoint", rpmSetpoint);
       SmartDashboard.putNumber("rpmSetpoint", rpmSetpoint);
