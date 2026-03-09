@@ -9,8 +9,6 @@ import java.util.List;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonUtils;
-import org.photonvision.simulation.PhotonCameraSim;
-import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
@@ -111,10 +109,7 @@ public class Vision extends SubsystemBase {
         PhotonPoseEstimator photonEstimator = new PhotonPoseEstimator(kTagLayout, kRobotToCam);
         // TODO print cameras
         // SmartDashboard.putRaw("camera" cameras);
-        if (Robot.isSimulation()) {
-            visionSim = new VisionSystemSim("Vision");
-            visionSim.addAprilTags(kTag);
-        }
+        
     }
 
     public void getStateInfo(SwerveDriveState state) {
@@ -130,7 +125,7 @@ public class Vision extends SubsystemBase {
 
     // only updated once, used for defining the AprilTag layout
     private boolean visionLayoutDefined = false;
-
+    
     @Override
     public void periodic() {
         
@@ -138,14 +133,16 @@ public class Vision extends SubsystemBase {
         targetful = false;
 
         if (visionLayoutDefined == false) {
-            simulation();
             visionLayout.addAprilTags(kTagLayout);
             visionLayoutDefined = true;
             SmartDashboard.putBoolean("has_targets", targetful);
             SmartDashboard.putString("robot_position", debugOutputRobotPose3d);
+            
         }
 
         for (PhotonCamera c : cameras) {
+            //TODO: figure out how to output cams
+            //SmartDashboard.putRaw("Camera-"+c.getName(),c);
             results = (c.getAllUnreadResults());
         }
 
@@ -185,7 +182,6 @@ public class Vision extends SubsystemBase {
             if (i.getFiducialId() != fiducialID) {
                 continue;
             }
-
             switch (targetField) {
                 case "yaw":
                     return i.getYaw();
@@ -263,24 +259,5 @@ public class Vision extends SubsystemBase {
             // "yaw")*Constants.kMaxTurnRateDegPerS
         }
     }
-    
-    public void simulation(){
-        
-        PseudoVisionSystem.addAprilTags(kTagLayout);
-        Translation3d cameraPosToPseudoBot = new Translation3d(0.1,0,0.5);
-        Rotation3d camRotationToPseudoBot = new Rotation3d(0,Math.toRadians(-15),0);
-        Transform3d cameraToPseudoBot = new Transform3d(cameraPosToPseudoBot,camRotationToPseudoBot);
-        
-        PhotonCamera PseudoCamera = new PhotonCamera("hornet");
-        PhotonCameraSim PseudoCameraInst = new PhotonCameraSim(PseudoCamera);
 
-        PseudoCameraInst.enableDrawWireframe(true);
-        PseudoVisionSystem.addCamera(PseudoCameraInst, cameraToPseudoBot);
-        
-    }
-    @Override
-    public void simulationPeriodic() {
-        System.out.println("test");
-        PseudoVisionSystem.update(robotPose());
-    }
 }
