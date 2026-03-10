@@ -55,6 +55,12 @@ public class IntakeSubsystem extends SubsystemBase{
    
     }
 
+    public void initialize(){
+        var talonFXSim = intakeRod.getSimState();
+   talonFXSim.Orientation = ChassisReference.CounterClockwise_Positive;
+   talonFXSim.setMotorType(TalonFXSimState.MotorType.KrakenX60);
+    }
+
     private void initPid(){
         // do your pid initialization here
         leftjawClosedLoopController = leftJaw.getClosedLoopController();
@@ -86,6 +92,29 @@ public class IntakeSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("JawTarget", lefttargetPositionInt);
 
         // do your pid calculation here (use targetPosition!)
+
+        if(Robot.isSimulation){
+            var talonFXSim = intakeRod.getSimState();
+
+   // set the supply voltage of the TalonFX
+   talonFXSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+
+   // get the motor voltage of the TalonFX
+   var motorVoltage = talonFXSim.getMotorVoltageMeasure();
+
+   // use the motor voltage to calculate new position and velocity
+   // using WPILib's DCMotorSim class for physics simulation
+   m_motorSimModel.setInputVoltage(motorVoltage.in(Volts));
+   m_motorSimModel.update(0.020); // assume 20 ms loop time
+
+   // apply the new rotor position and velocity to the TalonFX;
+   // note that this is rotor position/velocity (before gear ratio), but
+   // DCMotorSim returns mechanism position/velocity (after gear ratio)
+   talonFXSim.setRawRotorPosition(m_motorSimModel.getAngularPosition().times(kGearRatio));
+   talonFXSim.setRotorVelocity(m_motorSimModel.getAngularVelocity().times(kGearRatio));
+        
+        
+        }
     }
 
     // public void intakePID(){
