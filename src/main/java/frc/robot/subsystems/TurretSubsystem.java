@@ -25,7 +25,9 @@ public class TurretSubsystem extends SubsystemBase{
 
     public RelativeEncoder turretEncoder;
     public double turretEncoderPos;
-    public double turretangle;
+    public double angletoHub;
+
+    public double turretAngle;
     
     private SparkMaxConfig turretConfig = new SparkMaxConfig();
     private SparkClosedLoopController turretClosedLoopController;
@@ -38,9 +40,12 @@ public class TurretSubsystem extends SubsystemBase{
     public double gear_ratio = 192;
     public double degrees_per_rotation = 1.875;
 
+    private CommandSwerveDrivetrain drivetrain;
 
-    public TurretSubsystem(){
 
+    public TurretSubsystem(CommandSwerveDrivetrain drivetrain){
+
+        this.drivetrain = drivetrain;
         initPidTurret();         
 
     }
@@ -71,7 +76,7 @@ public class TurretSubsystem extends SubsystemBase{
     public void periodic(){
         if(Universals.manualMode == false){
             // turretEncoderPos = turretEncoder.getPosition();
-            turretClosedLoopController.setSetpoint(turrettargetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+            // turretClosedLoopController.setSetpoint(turrettargetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         }
         turretEncoderPos = turretEncoder.getPosition();
         // turretClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
@@ -106,31 +111,9 @@ public class TurretSubsystem extends SubsystemBase{
         turret.set(0);
     }
 
-    public void findTargetRotations(){
-                // double turretCenterx;
-        // double turretCentery;
-        // turretCenterx = xrobot-3.5;
-        // turretCentery = yrobot-6.75;
-        // Figure out which hub we need to be aiming at
-        // if(DriverStation.getAlliance().get() == Alliance.Blue){
-        // Calculate the angle needed between hood and blue hub in degrees
-        // distancetoHub = Math.hypot(turretCenterx-4.6, turretCentery-4);
-        // } else{
-        // Calculate the angle needed between hood and red hub in degrees
-        // distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
-        // }
-// 
-        // double calculatedPosition = distancetoHub * -0.0532 + 2.89;
-        // if(calculatedPosition < hoodlimitup){
-        // targetPosition = hoodlimitup;
-        // }
-        // else if(calculatedPosition > hoodlimitdown){
-        // targetPosition = hoodlimitdown;
-        // }
-        // else{
-        // targetPosition = calculatedPosition;
-        // }
-    // find needed angle of turret to hub
+    // public void findTargetRotations(double xrobot, double yrobot){
+        
+        // find needed angle of turret to hub
 
         // find the angle of the robot to the hub
 
@@ -139,23 +122,49 @@ public class TurretSubsystem extends SubsystemBase{
         // convert that angle into motor rotations
 
         // use that motor rotation as target
-    }
+    //}
 
-    public void autoAim(double x, double y){
+    public void autoAim(double xrobot, double yrobot, double heading){
+        xrobot = drivetrain.getState().Pose.getX();
+        yrobot = drivetrain.getState().Pose.getY();
+        heading = drivetrain.getState().Pose.getRotation().getDegrees();
+
+        double turretCenterx;
+        double turretCentery;
+
+        double calculatedPosition;
         
+        turretCenterx = xrobot-0.0889;
+        turretCentery = yrobot-0.17145;
+
         // Figure out which hub we need to be aiming at
         if(DriverStation.getAlliance().get() == Alliance.Blue){
-
-            // Calculate the angle needed between turret and blue hub in degrees
-            turretangle =  Math.toDegrees(Math.atan((y-4)/(x-4.6)));
+        //     // Calculate the angle needed between turret and blue hub in degrees
+            angletoHub =  Math.toDegrees(Math.atan((turretCentery-4)/(turretCenterx-4.6)));
         }
-
         else{
-
-            // Calculate the angle needed between turret and red hub in degrees
-            turretangle =  Math.toDegrees(Math.atan((x-11.9)/(y-4)));            
+        //     // Calculate the angle needed between turret and red hub in degrees
+            angletoHub =  Math.toDegrees(Math.atan((turretCenterx-11.9)/(turretCentery-4)));            
         }
 
-        SmartDashboard.putNumber("Turret Angle", turretangle);
+        if(heading > 0){
+            calculatedPosition = angletoHub + heading;
+        } else if(heading < 0){
+            calculatedPosition = angletoHub - heading;
+        } else{
+            calculatedPosition = turrettargetPosition;
+        }
+
+        // if(calculatedPosition < turretlimitleft){
+        // turrettargetPosition = turretlimitleft;
+        // }
+        // else if(calculatedPosition > turretlimitright){
+        // turrettargetPosition = turretlimitright;
+        // } else{
+        // turrettargetPosition = calculatedPosition;
+        // }
+
+        SmartDashboard.putNumber("angletoHub", angletoHub);
+        SmartDashboard.putNumber("calcTurretPos", calculatedPosition);
     }
 }
