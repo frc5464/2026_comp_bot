@@ -1,263 +1,204 @@
-//frc
 package frc.robot.subsystems;
 
-//java
-import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
-import java.util.List;
-//photon
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonUtils;
-import org.photonvision.simulation.VisionSystemSim;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
-import org.photonvision.targeting.TargetCorner;
-
-import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
-
-//wpi
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-/*vision docs;
- * 
- * finding robot position:
- *  using april tags- Pose3d robotPose()
- *  (WIP) using swerve drive + april tags- mainPoseEst 
- * 
- * getting apriltag info:
- *  yaw/pitch/area/skew:
- *      double getTargetInfoDouble(int fiducialID, String targetField)
- *  distance(relative):
- *      double aprilTagDistance(double atMD, int fiducialID)
- *  camera transform to target:
- *      Transform3d getTargetInfoPose(int fiducialID)
- *  corners of target:
- *      List<TargetCorner> getTargetInfoCorners(int fiducialID)
- * 
+/*
+ * MIT License
+ *
+ * Copyright (c) PhotonVision
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-public class Vision extends SubsystemBase {
-    public PhotonCamera[] cameras = {
-            new PhotonCamera("apis"), /* shooter-side */
-            new PhotonCamera("crabro") /* other-side */
-    };
-    public static final AprilTagFieldLayout kTag = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
 
-    public VisionSystemSim visionSim;
+import static frc.robot.Constants.Vision.*;
 
-    private static final String jsonPath = "C:\\Users\\cummi\\Documents\\2026 Code\\2026_comp_bot\\src\\main\\java\\frc\\robot\\subsystems\\vision_extra\\2026-rebuilt-andymark.json";
-    private static final boolean enableDebugOutput = true;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 
-    private AprilTagFieldLayout ATFLsuperConstructor() {
-        // used to catch errors on file read/write for AprilTag Field Layouts
-        try {
-            return (new AprilTagFieldLayout(jsonPath));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return (new AprilTagFieldLayout(null, (double) 0, (int) 1));
+import java.util.List;
+import java.util.Optional;
+import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.simulation.PhotonCameraSim;
+import org.photonvision.simulation.SimCameraProperties;
+import org.photonvision.simulation.VisionSystemSim;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
+public class Vision {
+    private final PhotonCamera camera;
+    private final PhotonPoseEstimator photonEstimator;
+    private Matrix<N3, N1> curStdDevs;
+    private final EstimateConsumer estConsumer;
+
+    // Simulation
+    private PhotonCameraSim cameraSim;
+    private VisionSystemSim visionSim;
+
+    /**
+     * @param estConsumer Lamba that will accept a pose estimate and pass it to your desired {@link
+     *     edu.wpi.first.math.estimator.SwerveDrivePoseEstimator}
+     */
+    public Vision(EstimateConsumer estConsumer) {
+        this.estConsumer = estConsumer;
+        camera = new PhotonCamera(kCameraName);
+        photonEstimator = new PhotonPoseEstimator(kTagLayout, kRobotToCam);
+
+        // ----- Simulation
+        if (Robot.isSimulation()) {
+            // Create the vision system simulation which handles cameras and targets on the field.
+            visionSim = new VisionSystemSim("main");
+            // Add all the AprilTags inside the tag layout as visible targets to this simulated field.
+            visionSim.addAprilTags(kTagLayout);
+            // Create simulated camera properties. These can be set to mimic your actual camera.
+            var cameraProp = new SimCameraProperties();
+            cameraProp.setCalibration(960, 720, Rotation2d.fromDegrees(90));
+            cameraProp.setCalibError(0.35, 0.10);
+            cameraProp.setFPS(15);
+            cameraProp.setAvgLatencyMs(50);
+            cameraProp.setLatencyStdDevMs(15);
+            // Create a PhotonCameraSim which will update the linked PhotonCamera's values with visible
+            // targets.
+            cameraSim = new PhotonCameraSim(camera, cameraProp);
+            // Add the simulated camera to view the targets on this simulated field.
+            visionSim.addCamera(cameraSim, kRobotToCam);
+
+            cameraSim.enableDrawWireframe(true);
         }
-
     }
 
-    public final AprilTagFieldLayout kTagLayout = ATFLsuperConstructor();
-
-    public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
-
-    private String debugOutputRobotPose3d = robotPose().toString();
-    private List<PhotonPipelineResult> results;
-    private VisionSystemSim visionLayout = new VisionSystemSim("primary");
-    private boolean targetful = false;
-    private List<PhotonTrackedTarget> cuTrackedTargets;
-    // TODO: Fill in placeholder values with real values
-    private SwerveDriveKinematics swerveDriveKin;
-    private Rotation2d swerveGyroAngle;
-    private SwerveModulePosition[] swerveModPos; // in getStateInfo
-
-    private Pose2d swerveInitPos;
-    private Matrix<N3, N1> swerveStdDev;
-    private Matrix<N3, N1> swerveVisMeasurementStdDev;
-
-
-    // sim
-    static VisionSystemSim PseudoVisionSystem = new VisionSystemSim("Main");
-
-    public Vision() {
-
-        PhotonPoseEstimator photonEstimator = new PhotonPoseEstimator(kTagLayout, kRobotToCam);
-        // TODO print cameras
-        // SmartDashboard.putRaw("camera" cameras);
-        
-    }
-
-    public void getStateInfo(SwerveDriveState state) {
-        swerveModPos = state.ModulePositions;
-    }
-
-    public SwerveDrivePoseEstimator mainPoseEst = new SwerveDrivePoseEstimator(
-            swerveDriveKin,
-            new Rotation2d(),
-            swerveModPos,
-
-            new Pose2d(2, 4, Rotation2d.fromDegrees(180))); /* PLACEHOLDER VALUES */
-
-    // only updated once, used for defining the AprilTag layout
-    private boolean visionLayoutDefined = false;
-    
-    @Override
     public void periodic() {
-        
-        // update result list, find targets, and update position estimates
-        targetful = false;
+        Optional<EstimatedRobotPose> visionEst = Optional.empty();
+        for (var result : camera.getAllUnreadResults()) {
+            SmartDashboard.putBoolean("AprilTagData",result.targets.isEmpty());
+            visionEst = photonEstimator.estimateCoprocMultiTagPose(result);
+            if (visionEst.isEmpty()) {
+                visionEst = photonEstimator.estimateLowestAmbiguityPose(result);
+            }
+            updateEstimationStdDevs(visionEst, result.getTargets());
 
-        if (visionLayoutDefined == false) {
-            visionLayout.addAprilTags(kTagLayout);
-            visionLayoutDefined = true;
-            SmartDashboard.putBoolean("has_targets", targetful);
-            SmartDashboard.putString("robot_position", debugOutputRobotPose3d);
-            
-        }
-
-        for (PhotonCamera c : cameras) {
-            //TODO: figure out how to output cams
-            //SmartDashboard.putRaw("Camera-"+c.getName(),c);
-            results = (c.getAllUnreadResults());
-        }
-
-        if (cuTrackedTargets.size() > 20) {
-            cuTrackedTargets.remove(cuTrackedTargets.size() - 1);
-        }
-
-        for (PhotonPipelineResult r : results) {
-            if (r.hasTargets()) {
-                targetful = true;
-                break;
-            } else {
-                continue;
+            if (Robot.isSimulation()) {
+                visionEst.ifPresentOrElse(
+                        est ->
+                                getSimDebugField()
+                                        .getObject("VisionEstimation")
+                                        .setPose(est.estimatedPose.toPose2d()),
+                        () -> {
+                            getSimDebugField().getObject("VisionEstimation").setPoses();
+                        });
             }
 
+            visionEst.ifPresent(
+                    est -> {
+                        // Change our trust in the measurement based on the tags we can see
+                        var estStdDevs = getEstimationStdDevs();
+
+                        estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+                    });
         }
-        if (targetful) {
-            for (PhotonPipelineResult r : results) {
-                results.add(r);
-                cuTrackedTargets.add(r.getBestTarget());
 
-            }
-        }
-
-        mainPoseEst.update(swerveGyroAngle, swerveModPos);
-
-        SmartDashboard.putString("AprilTag Estimated Position", mainPoseEst.toString());
-        SmartDashboard.updateValues();
     }
 
-    public double getTargetInfoDouble(int fiducialID, String targetField) {
-        // returns targetField(yaw,pitch,area,skew) of fiducialID AprilTag
-        if (!targetful) {
-            return (double) 0;
-        }
-        for (PhotonTrackedTarget i : cuTrackedTargets) {
-            if (i.getFiducialId() != fiducialID) {
-                continue;
-            }
-            switch (targetField) {
-                case "yaw":
-                    return i.getYaw();
-                case "pitch":
-                    return i.getPitch();
-                case "area":
-                    return i.getArea();
-                case "skew":
-                    return i.getSkew();
-                default:
-                    continue;
-            }
-        }
-        // return zero if no AprilTag found
-        return ((double) 0);
-    }
+    /**
+     * Calculates new standard deviations This algorithm is a heuristic that creates dynamic standard
+     * deviations based on number of tags, estimation strategy, and distance from the tags.
+     *
+     * @param estimatedPose The estimated pose to guess standard deviations for.
+     * @param targets All targets in this camera frame
+     */
+    private void updateEstimationStdDevs(
+            Optional<EstimatedRobotPose> estimatedPose, List<PhotonTrackedTarget> targets) {
+        if (estimatedPose.isEmpty()) {
+            // No pose input. Default to single-tag std devs
+            curStdDevs = kSingleTagStdDevs;
 
-    public Transform3d getTargetInfoPose(int fiducialID) {
-        // gets Transform3d of fiducialID AprilTag
-        for (PhotonTrackedTarget i : cuTrackedTargets) {
-            if (i.getFiducialId() == fiducialID) {
-                return i.getBestCameraToTarget();
-            }
-        }
-        return (null);
-    }
-
-    public List<TargetCorner> getTargetInfoCorners(int fiducialID) {
-        // get corners of fiducialID AprilTag
-        for (PhotonTrackedTarget i : cuTrackedTargets) {
-            if (i.getFiducialId() == fiducialID) {
-                return i.getDetectedCorners();
-            }
-        }
-        return (null);
-    }
-
-    public Pose3d robotPose() {
-        // gets pose3d of robot based off of AprilTag positions
-        if (!targetful) {
-            return null;
-        }
-        for (PhotonTrackedTarget i : cuTrackedTargets) {
-            if (kTagLayout.getTagPose(i.getFiducialId()).isPresent()) {
-                return PhotonUtils.estimateFieldToRobotAprilTag(
-                        i.getBestCameraToTarget(),
-                        kTagLayout.getTagPose(i.getFiducialId()).get(),
-                        getTargetInfoPose(i.getFiducialId()));
-            }
-        }
-        return null;
-    }
-
-    public double aprilTagDistance(double atMD, int fiducialID) {
-        // returns 0.0 if april tag not found
-        // returns 1.0 if april tag area >= atMS
-
-        final double ATArea = getTargetInfoDouble(fiducialID, "area") * 0.01;
-
-        if (ATArea == 0) {
-            return (double) 0;
-        }
-
-        if (ATArea >= 1 - atMD) {
-            return (double) 1;
         } else {
-            return ATArea;
+            // Pose present. Start running Heuristic
+            var estStdDevs = kSingleTagStdDevs;
+            int numTags = 0;
+            double avgDist = 0;
+
+            // Precalculation - see how many tags we found, and calculate an average-distance metric
+            for (var tgt : targets) {
+                var tagPose = photonEstimator.getFieldTags().getTagPose(tgt.getFiducialId());
+                if (tagPose.isEmpty()) continue;
+                numTags++;
+                avgDist +=
+                        tagPose
+                                .get()
+                                .toPose2d()
+                                .getTranslation()
+                                .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
+            }
+
+            if (numTags == 0) {
+                // No tags visible. Default to single-tag std devs
+                curStdDevs = kSingleTagStdDevs;
+            } else {
+                // One or more tags visible, run the full heuristic.
+                avgDist /= numTags;
+                // Decrease std devs if multiple targets are visible
+                if (numTags > 1) estStdDevs = kMultiTagStdDevs;
+                // Increase std devs based on (average) distance
+                if (numTags == 1 && avgDist > 4)
+                    estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+                else estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
+                curStdDevs = estStdDevs;
+            }
         }
     }
 
-    public void rotateToTag(int fiducialId) {
-        if (targetful) {
-
-            // private turn = -1.0*getTargetInfoDouble(fiducialId,
-            // "yaw")*Constants.kMaxTurnRateDegPerS
-        }
+    /**
+     * Returns the latest standard deviations of the estimated pose from {@link
+     * #getEstimatedGlobalPose()}, for use with {@link
+     * edu.wpi.first.math.estimator.SwerveDrivePoseEstimator SwerveDrivePoseEstimator}. This should
+     * only be used when there are targets visible.
+     */
+    public Matrix<N3, N1> getEstimationStdDevs() {
+        return curStdDevs;
     }
 
+    // ----- Simulation
+
+    public void simulationPeriodic(Pose2d robotSimPose) {
+        visionSim.update(robotSimPose);
+    }
+
+    /** Reset pose history of the robot in the vision system simulation. */
+    public void resetSimPose(Pose2d pose) {
+        if (Robot.isSimulation()) visionSim.resetRobotPose(pose);
+    }
+
+    /** A Field2d for visualizing our robot and objects on the field. */
+    public Field2d getSimDebugField() {
+        if (!Robot.isSimulation()) return null;
+        return visionSim.getDebugField();
+    }
+
+    @FunctionalInterface
+    public static interface EstimateConsumer {
+        public void accept(Pose2d pose, double timestamp, Matrix<N3, N1> estimationStdDevs);
+    }
 }
