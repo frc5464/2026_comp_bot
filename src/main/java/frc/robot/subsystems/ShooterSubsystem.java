@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.RelativeEncoder;
@@ -17,6 +18,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 // import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 // import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 // import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
@@ -33,6 +36,7 @@ public class ShooterSubsystem extends SubsystemBase{
     public final TalonFX feederMotor = new TalonFX(17);
     public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
 
+    private final CommandSwerveDrivetrain commandSwerveDrivetrain;
     //Stuff for shootPosition PID
     public RelativeEncoder hingeEncoder;
     public double encoderPos;
@@ -58,8 +62,10 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public VelocityVoltage m_request;
 
-  public ShooterSubsystem(){
+    public double distancetoHub;
 
+  public ShooterSubsystem(CommandSwerveDrivetrain drivetrain){
+      this.commandSwerveDrivetrain = drivetrain;
       initPidShoot();
      SmartDashboard.putBoolean("shooting", false);
   }
@@ -112,7 +118,7 @@ public class ShooterSubsystem extends SubsystemBase{
       encoderPos = hingeEncoder.getPosition();
       SmartDashboard.putNumber("ShootRotEncoder", encoderPos);
 
-      posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+      // posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
       SmartDashboard.putNumber("ShootRotTarget", targetPosition);
     }
   
@@ -137,7 +143,41 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(0);
   }
 
-  // public void changeAngle(double xdistance, double ydistance){
+  public void changeAngle(double xrobot, double yrobot){
+    xrobot = commandSwerveDrivetrain.getState().Pose.getX();
+    yrobot = commandSwerveDrivetrain.getState().Pose.getY();
+
+    double turretCenterx;
+    double turretCentery;
+
+    turretCenterx = xrobot-0.0889;
+    turretCentery = yrobot-0.17145;
+
+    // Figure out which hub we need to be aiming at
+    if(DriverStation.getAlliance().get() == Alliance.Blue){
+        // Calculate the angle needed between hood and blue hub in degrees
+        distancetoHub = Math.hypot(turretCenterx-4.6, turretCentery-4);
+    } else{
+        // Calculate the angle needed between hood and red hub in degrees
+        distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
+    }
+    
+    double calculatedPosition = distancetoHub * -0.0532 + 2.89;
+
+    if(calculatedPosition < hoodlimitup){
+      targetPosition = hoodlimitup;
+    }
+    else if(calculatedPosition > hoodlimitdown){
+      targetPosition = hoodlimitdown;
+    }
+    else{
+      targetPosition = calculatedPosition;
+    }
+
+    SmartDashboard.putNumber("distancetoHub", distancetoHub);
+  }      
+
+      
   //   if(shootHinge.getOutputCurrent() > usualResistance){
   //     shootHinge.set(0);
   //   } else {

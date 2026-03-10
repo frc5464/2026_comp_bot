@@ -76,7 +76,7 @@ public class RobotContainer {
     public final SendableChooser<Command> autoChooser;
 
     public IntakeSubsystem intake = new IntakeSubsystem();
-    public ShooterSubsystem shoot = new ShooterSubsystem();
+    public ShooterSubsystem shoot = new ShooterSubsystem(drivetrain);
     public ClimbSubsystem climb = new ClimbSubsystem();
     public TurretSubsystem turret = new TurretSubsystem();
     public BeltSubsystem belt = new BeltSubsystem();
@@ -151,7 +151,7 @@ public class RobotContainer {
         // shoot.setDefaultCommand(new FeedCommand(shoot));
         // belt.setDefaultCommand(new BeltCommand(belt));
         turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
-        // shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
+        shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
