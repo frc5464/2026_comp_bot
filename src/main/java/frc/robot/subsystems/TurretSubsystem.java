@@ -166,5 +166,6 @@ public class TurretSubsystem extends SubsystemBase{
         // }
 
         SmartDashboard.putNumber("angletoHub", angletoHub);
+        SmartDashboard.putNumber("calcTurretPos", calculatedPosition);
     }
 }
