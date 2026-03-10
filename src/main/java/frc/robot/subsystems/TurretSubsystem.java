@@ -108,15 +108,23 @@ public class TurretSubsystem extends SubsystemBase{
         turret.set(0);
     }
 
-    public void findTargetRotations(){
+    public void findTargetRotations(double xrobot, double yrobot){
         double turretCenterx;
         double turretCentery;
         turretCenterx = xrobot-3.5;
         turretCentery = yrobot-6.75;
 
         // Calculate the angle needed between hood and red hub in degrees
+        angletoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4); 
+    // Figure out which hub we need to be aiming at
+        if(DriverStation.getAlliance().get() == Alliance.Blue){
+        // Calculate the angle needed between hood and blue hub in degrees
+        angletoHub = Math.hypot(turretCenterx-4.6, turretCentery-4);
+        } else{
+        // Calculate the angle needed between hood and red hub in degrees
         angletoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
-
+        }
+         
         double calculatedPosition = angletoHub * -0.0532 + 2.89;
         
         if(calculatedPosition < turretlimitleft){
