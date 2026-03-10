@@ -150,8 +150,8 @@ public class ShooterSubsystem extends SubsystemBase{
     double turretCenterx;
     double turretCentery;
 
-    turretCenterx = xrobot-3.5;
-    turretCentery = yrobot-6.75;
+    turretCenterx = xrobot-0.0889;
+    turretCentery = yrobot-0.17145;
 
     // Figure out which hub we need to be aiming at
     if(DriverStation.getAlliance().get() == Alliance.Blue){
