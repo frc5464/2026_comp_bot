@@ -118,7 +118,7 @@ public class ShooterSubsystem extends SubsystemBase{
       encoderPos = hingeEncoder.getPosition();
       SmartDashboard.putNumber("ShootRotEncoder", encoderPos);
 
-      posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+      // posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
       SmartDashboard.putNumber("ShootRotTarget", targetPosition);
     }
   
@@ -156,7 +156,7 @@ public class ShooterSubsystem extends SubsystemBase{
         distancetoHub =  Math.hypot(xrobot-11.9, yrobot-4);  
     }
     
-    encoderPos = distancetoHub * -0.0532 + 2.89;
+    targetPosition = distancetoHub * -0.0532 + 2.89;
 
     SmartDashboard.putNumber("distancetoHub", distancetoHub);
   }      
