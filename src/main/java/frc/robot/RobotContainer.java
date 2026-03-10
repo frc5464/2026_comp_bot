@@ -78,7 +78,7 @@ public class RobotContainer {
     public IntakeSubsystem intake = new IntakeSubsystem();
     public ShooterSubsystem shoot = new ShooterSubsystem();
     public ClimbSubsystem climb = new ClimbSubsystem();
-    public TurretSubsystem turret = new TurretSubsystem();
+    public TurretSubsystem turret = new TurretSubsystem(drivetrain);
     public BeltSubsystem belt = new BeltSubsystem();
 
     public RobotContainer() {
