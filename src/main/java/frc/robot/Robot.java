@@ -5,20 +5,11 @@
 package frc.robot;
 
 import com.ctre.phoenix6.HootAutoReplay;
-// import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-// import frc.robot.Commands.IntakeCommand;
-// import frc.robot.Commands.IntakeToPositionCommand;
-// import frc.robot.Commands.ShootCommand;
-// import frc.robot.Commands.Scrapped.DummyCommand;
-// import frc.robot.subsystems.ClimbSubsystem;
-// import frc.robot.subsystems.IntakeSubsystem;
-// import frc.robot.subsystems.ShooterSubsystem;
-// import frc.robot.subsystems.Vision;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
@@ -43,11 +34,8 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run(); 
-        m_robotContainer.intake.periodic();
-        m_robotContainer.shoot.periodic();
-        // m_robotContainer.belt.periodicrunbelt();
         SmartDashboard.putBoolean("Manual Mode", Universals.manualMode);
-        
+        m_robotContainer.periodic();
     }
 
     @Override
