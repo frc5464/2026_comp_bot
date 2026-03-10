@@ -76,7 +76,7 @@ public class TurretSubsystem extends SubsystemBase{
     public void periodic(){
         if(Universals.manualMode == false){
             // turretEncoderPos = turretEncoder.getPosition();
-            turretClosedLoopController.setSetpoint(turrettargetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+            // turretClosedLoopController.setSetpoint(turrettargetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         }
         turretEncoderPos = turretEncoder.getPosition();
         // turretClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
@@ -125,14 +125,15 @@ public class TurretSubsystem extends SubsystemBase{
         // use that motor rotation as target
     }
 
-    public void autoAim(double xrobot, double yrobot){
+    public void autoAim(double xrobot, double yrobot, double heading){
         xrobot = drivetrain.getState().Pose.getX();
         yrobot = drivetrain.getState().Pose.getY();
+        heading = drivetrain.getState().Pose.getRotation().getDegrees();
 
         double turretCenterx;
         double turretCentery;
 
-        // double calculatedPosition;
+        double calculatedPosition = turrettargetPosition;
         
         turretCenterx = xrobot-3.5;
         turretCentery = yrobot-6.75;
@@ -147,8 +148,12 @@ public class TurretSubsystem extends SubsystemBase{
             angletoHub =  Math.toDegrees(Math.atan((turretCenterx-11.9)/(turretCentery-4)));            
         }
 
-        if(angletoHub > 0){
-            angletoHub + 
+        if(heading > 0){
+            calculatedPosition = angletoHub + heading;
+        } else if(heading < 0){
+            calculatedPosition = angletoHub - heading;
+        } else{
+            calculatedPosition = turrettargetPosition;
         }
 
         // if(calculatedPosition < turretlimitleft){
