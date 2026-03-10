@@ -46,8 +46,8 @@ import frc.robot.subsystems.TurretSubsystem;
 
 public class RobotContainer {
 
-    private double MaxSpeed = 0.25 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxAngularRate = RotationsPerSecond.of(0.5).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     
     /* Setting up bindings for necessary control of the swerve drive platform */
     // private final SwerveRequest.FieldCentric slowdrive = new SwerveRequest.FieldCentric()
@@ -85,7 +85,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
-        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, false, 4));
+        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, intake, false, 4));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
         // NamedCommands.registerCommand("Feed", new FeedCommand(shoot, belt, 2));
         // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
@@ -173,10 +173,10 @@ public class RobotContainer {
         zackController.x().whileTrue(new IntakeCommand(intake, 67, false));
         // zackController.x().whileTrue(new ReverseIntakeCommand(intake));
 
-        driveController.povUp().onTrue(new ShooterHoodCommand(shoot, true));
-        driveController.povDown().onTrue(new ShooterHoodCommand(shoot, false));
+        zackController.povUp().onTrue(new ShooterHoodCommand(shoot, true));
+        zackController.povDown().onTrue(new ShooterHoodCommand(shoot, false));
         //rev up feeder motor up to speed, then shoots when up to speed
-        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, false, 67));
+        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, intake, false, 67));
 
         zackController.back().whileTrue(new ManualModeCommand());
         zackController.y().whileTrue(new FeedCommand(shoot, belt, true, 67));
@@ -196,7 +196,7 @@ public class RobotContainer {
         zackController.axisLessThan(5, -0.5).whileTrue(new ManualTurretCommand(turret, false));
         // testController.axisLessThan(3, -0.5).whileTrue(new TurretCounterclockwiseCommand(turret));
 
-        zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, true, 67));
+        zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, intake, true, 67));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
