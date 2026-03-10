@@ -192,8 +192,8 @@ public class RobotContainer {
         // testController.povUp().whileTrue(new ClimbUpCommand(climb, true));
         // testController.povDown().whileTrue(new ClimbUpCommand(climb, false));
 
-        zackController.axisGreaterThan(5, 0.5).whileTrue(new ManualTurretCommand(turret, true));
-        zackController.axisLessThan(5, -0.5).whileTrue(new ManualTurretCommand(turret, false));
+        zackController.axisGreaterThan(4, 0.5).whileTrue(new ManualTurretCommand(turret, true));
+        zackController.axisLessThan(4, -0.5).whileTrue(new ManualTurretCommand(turret, false));
         // testController.axisLessThan(3, -0.5).whileTrue(new TurretCounterclockwiseCommand(turret));
 
         zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, intake, true, 67));
