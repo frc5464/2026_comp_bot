@@ -109,6 +109,24 @@ public class TurretSubsystem extends SubsystemBase{
     }
 
     public void findTargetRotations(){
+        double turretCenterx;
+        double turretCentery;
+        turretCenterx = xrobot-3.5;
+        turretCentery = yrobot-6.75;
+
+        // Calculate the angle needed between hood and red hub in degrees
+        angletoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
+
+        double calculatedPosition = angletoHub * -0.0532 + 2.89;
+        
+        if(calculatedPosition < turretlimitleft){
+        turrettargetPosition = turretlimitleft;
+        }
+        else if(calculatedPosition > turretlimitright){
+        turrettargetPosition = turretlimitright;
+        } else{
+        turrettargetPosition = calculatedPosition;
+        }
         // find needed angle of turret to hub
 
         // find the angle of the robot to the hub
