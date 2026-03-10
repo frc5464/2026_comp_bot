@@ -143,6 +143,16 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(0);
   }
 
+  public void changeVel(){
+      double calculatedVelocity = distancetoHub * 0.195 + 65.3;
+
+      if(calculatedVelocity > 100){
+        targetVelocity = 100;
+      }
+
+      SmartDashboard.putNumber("calcVel", calculatedVelocity);
+  }
+
   public void changeAngle(double xrobot, double yrobot){
     xrobot = commandSwerveDrivetrain.getState().Pose.getX();
     yrobot = commandSwerveDrivetrain.getState().Pose.getY();
@@ -175,6 +185,7 @@ public class ShooterSubsystem extends SubsystemBase{
     }
 
     SmartDashboard.putNumber("distancetoHub", distancetoHub);
+    SmartDashboard.putNumber("calcHoodPos", calculatedPosition);
   }      
 
       
