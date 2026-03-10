@@ -147,13 +147,19 @@ public class ShooterSubsystem extends SubsystemBase{
     xrobot = commandSwerveDrivetrain.getState().Pose.getX();
     yrobot = commandSwerveDrivetrain.getState().Pose.getY();
 
+    double turretCenterx;
+    double turretCentery;
+
+    turretCenterx = xrobot-3.5;
+    turretCentery = yrobot-6.75;
+
     // Figure out which hub we need to be aiming at
     if(DriverStation.getAlliance().get() == Alliance.Blue){
         // Calculate the angle needed between hood and blue hub in degrees
-        distancetoHub = Math.hypot(xrobot-4.6, yrobot-4);
+        distancetoHub = Math.hypot(turretCenterx-4.6, turretCentery-4);
     } else{
         // Calculate the angle needed between hood and red hub in degrees
-        distancetoHub =  Math.hypot(xrobot-11.9, yrobot-4);  
+        distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
     }
     
     double calculatedPosition = distancetoHub * -0.0532 + 2.89;

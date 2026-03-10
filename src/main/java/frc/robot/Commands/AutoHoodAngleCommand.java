@@ -37,11 +37,6 @@ public class AutoHoodAngleCommand extends Command{
 
     @Override
     public void end(boolean interrupted){
-        if(shoot.targetpos < -4 || shoot.targetpos > -0.4){
-            
-        }
-
-        //the calculated targetpos is outside of safe range, write limit
     }
 
     @Override
