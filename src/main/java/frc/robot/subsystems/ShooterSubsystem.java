@@ -156,7 +156,17 @@ public class ShooterSubsystem extends SubsystemBase{
         distancetoHub =  Math.hypot(xrobot-11.9, yrobot-4);  
     }
     
-    targetPosition = distancetoHub * -0.0532 + 2.89;
+    double calculatedPosition = distancetoHub * -0.0532 + 2.89;
+
+    if(calculatedPosition < hoodlimitup){
+      targetPosition = hoodlimitup;
+    }
+    else if(calculatedPosition > hoodlimitdown){
+      targetPosition = hoodlimitdown;
+    }
+    else{
+      targetPosition = calculatedPosition;
+    }
 
     SmartDashboard.putNumber("distancetoHub", distancetoHub);
   }      
