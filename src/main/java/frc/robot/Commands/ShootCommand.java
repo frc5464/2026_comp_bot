@@ -41,8 +41,9 @@ public class ShootCommand extends Command{
     public void execute(){
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
-            shooter.changeVel();
-            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity));
+            double velocity = shooter.changeVel();
+            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(
+                                            shooter.targetVelocity = velocity));
             if((timer.get() >= 0.75)){
                 shooter.feed();
                 belt.runBelt();

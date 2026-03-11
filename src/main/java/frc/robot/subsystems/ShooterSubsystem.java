@@ -60,8 +60,8 @@ public class ShooterSubsystem extends SubsystemBase{
     public double distancetoHub;
 
   public ShooterSubsystem(){
-      initPidShoot();
-     SmartDashboard.putBoolean("shooting", false);
+    initPidShoot();
+    SmartDashboard.putBoolean("shooting", false);
   }
 
   private void initPidShoot(){
@@ -130,12 +130,13 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(0);
   }
 
-  public void changeVel(){
+  public double changeVel(){
       double calculatedVelocity = (7.69*distancetoHub) + 65.3;
       if(calculatedVelocity > 100){
-        targetVelocity = 100;
+        calculatedVelocity = 100;
       }
       SmartDashboard.putNumber("calcShootVel", calculatedVelocity);
+      return calculatedVelocity;
   }
 
   public void changeAngle(double xrobot, double yrobot){
