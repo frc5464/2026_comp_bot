@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 1.05,
-        "y": 2.8
+        "x": 1.07,
+        "y": 2.75
       },
       "prevControl": {
-        "x": 1.05,
-        "y": 1.0499999999999998
+        "x": 1.07,
+        "y": 1.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -58,12 +58,12 @@
   "pointTowardsZones": [
     {
       "fieldPosition": {
-        "x": 4.63,
+        "x": 4.5,
         "y": 4.0
       },
       "rotationOffset": 0.0,
       "minWaypointRelativePos": 1.1786120591581253,
-      "maxWaypointRelativePos": 1.5608646188850928,
+      "maxWaypointRelativePos": 1.393351800554027,
       "name": "Point Towards Zone"
     }
   ],
