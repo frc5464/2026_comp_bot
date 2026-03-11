@@ -74,11 +74,9 @@ public class TurretSubsystem extends SubsystemBase{
     public void periodic(){
         if(Universals.manualMode == false){
             turretEncoderPos = turretEncoder.getPosition();
-            // turretClosedLoopController.setSetpoint(turrettargetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+            turretClosedLoopController.setSetpoint(turrettargetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         }
         turretEncoderPos = turretEncoder.getPosition();
-        // turretClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-
         SmartDashboard.putNumber("turretEncoder", turretEncoderPos);
     }
 

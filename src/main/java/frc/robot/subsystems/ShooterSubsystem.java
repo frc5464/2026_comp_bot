@@ -19,7 +19,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 // import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 // import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -101,7 +100,7 @@ public class ShooterSubsystem extends SubsystemBase{
       // ============================================== ROTATION POSITION CODE!
       encoderPos = hingeEncoder.getPosition();
 
-      // posClosedLoopController.setSetpoint(targetHoodPos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+      posClosedLoopController.setSetpoint(targetHoodPos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
       SmartDashboard.putNumber("targetHoodPos", targetHoodPos);
       SmartDashboard.putNumber("hoodRot", encoderPos);
       SmartDashboard.putNumber("shootVel", encoderVel);
