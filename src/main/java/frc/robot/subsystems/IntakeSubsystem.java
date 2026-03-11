@@ -61,11 +61,11 @@ public class IntakeSubsystem extends SubsystemBase{
    
     }
 
-    public void initialize(){
-        var talonFXSim = intakeRod.getSimState();
-   talonFXSim.Orientation = ChassisReference.CounterClockwise_Positive;
-//    talonFXSim.setMotorType(TalonFX.MotorType.KrakenX60);
-    }
+//     public void initialize(){
+//         var talonFXSim = intakeRod.getSimState();
+//    talonFXSim.Orientation = ChassisReference.CounterClockwise_Positive;
+// //    talonFXSim.setMotorType(TalonFX.MotorType.KrakenX60);
+//     }
 
     private void initPid(){
         // do your pid initialization here
@@ -79,7 +79,7 @@ public class IntakeSubsystem extends SubsystemBase{
             .p(0.1)
             .i(0)
             .d(0)
-            .outputRange(-0.2, 0.2)
+            .outputRange(-0.15, 0.15)
             .feedForward
                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
@@ -100,13 +100,13 @@ public class IntakeSubsystem extends SubsystemBase{
         // do your pid calculation here (use targetPosition!)
 
         if(Robot.isSimulation()){
-            var talonFXSim = intakeRod.getSimState();
+            // var talonFXSim = intakeRod.getSimState();
 
             // set the supply voltage of the TalonFX
-            talonFXSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+            // talonFXSim.setSupplyVoltage(RobotController.getBatteryVoltage());
 
             // get the motor voltage of the TalonFX
-            var motorVoltage = talonFXSim.getMotorVoltageMeasure();
+            // var motorVoltage = talonFXSim.getMotorVoltageMeasure();
 
             // // use the motor voltage to calculate new position and velocity
             // // using WPILib's DCMotorSim class for physics simulation

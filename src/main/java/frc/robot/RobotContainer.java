@@ -49,7 +49,7 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
 
     private double MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.5).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     
     /* Setting up bindings for necessary control of the swerve drive platform */
     // private final SwerveRequest.FieldCentric slowdrive = new SwerveRequest.FieldCentric()
@@ -202,9 +202,8 @@ public class RobotContainer {
         // testController.povUp().whileTrue(new ClimbUpCommand(climb, true));
         // testController.povDown().whileTrue(new ClimbUpCommand(climb, false));
 
-        zackController.axisGreaterThan(5, 0.5).whileTrue(new ManualTurretCommand(turret, true));
-        zackController.axisLessThan(5, -0.5).whileTrue(new ManualTurretCommand(turret, false));
-        // testController.axisLessThan(3, -0.5).whileTrue(new TurretCounterclockwiseCommand(turret));
+        zackController.axisGreaterThan(4, 0.5).whileTrue(new ManualTurretCommand(turret, true));
+        zackController.axisLessThan(4, -0.5).whileTrue(new ManualTurretCommand(turret, false));
 
         zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, intake, true, 67));
 
