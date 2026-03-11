@@ -80,7 +80,7 @@ public class ShooterSubsystem extends SubsystemBase{
           .p(0.1)
           .i(0)
           .d(0)
-          .outputRange(-0.5, 0.5)
+          .outputRange(-0.3, 0.3)
           .feedForward
           .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
       shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
@@ -152,8 +152,11 @@ public class ShooterSubsystem extends SubsystemBase{
 
       SmartDashboard.putNumber("calcVel", calculatedVelocity);
   }
+public double xrobot;
+public double yrobot;
 
   public void changeAngle(double xrobot, double yrobot){
+    
     xrobot = commandSwerveDrivetrain.getState().Pose.getX();
     yrobot = commandSwerveDrivetrain.getState().Pose.getY();
 

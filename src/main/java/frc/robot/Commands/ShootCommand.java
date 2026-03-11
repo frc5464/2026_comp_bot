@@ -41,13 +41,14 @@ public class ShootCommand extends Command{
     public void execute(){
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
-            shooter.changeVel();
-            // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 95));
+            // shooter.changeVel();
+            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 95));
             if((timer.get() >= 0.75)){
                 shooter.feed();
                 belt.runBelt();
                 intake.Intake();
                 SmartDashboard.putBoolean("feeding", true);
+                SmartDashboard.putBoolean("intaking", true);
             }
 
         } else{
@@ -59,13 +60,14 @@ public class ShootCommand extends Command{
 
     @Override
     public void end(boolean interrupted){
-        shooter.targetVelocity = 0;
-        // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 0));
+        // shooter.targetVelocity = 0;
+        shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 0));
         shooter.disableFeed();
         belt.stopBelt();
         intake.DisableIntake();
         SmartDashboard.putBoolean("shooting", false);
         SmartDashboard.putBoolean("feeding", false);
+        SmartDashboard.putBoolean("intaking", false);
 
     }
 

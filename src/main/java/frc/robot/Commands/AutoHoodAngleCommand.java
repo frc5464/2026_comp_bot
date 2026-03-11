@@ -24,7 +24,7 @@ public class AutoHoodAngleCommand extends Command{
     @Override
     public void execute() {
         // if(shoot.encoderPos > shoot.hoodlimitup && shoot.encoderPos < shoot.hoodlimitdown){
-        shoot.changeAngle(drivetrain.getState().Pose.getX(), drivetrain.getState().Pose.getY());
+        shoot.changeAngle(shoot.xrobot, shoot.yrobot);
         // } else if(shoot.encoderPos < shoot.hoodlimitup){
             // shoot.targetPosition = shoot.hoodlimitup;
         // } else{

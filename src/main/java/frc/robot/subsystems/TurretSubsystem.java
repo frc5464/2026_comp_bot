@@ -75,7 +75,7 @@ public class TurretSubsystem extends SubsystemBase{
 
     public void periodic(){
         if(Universals.manualMode == false){
-            // turretEncoderPos = turretEncoder.getPosition();
+            turretEncoderPos = turretEncoder.getPosition();
             // turretClosedLoopController.setSetpoint(turrettargetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         }
         turretEncoderPos = turretEncoder.getPosition();
@@ -123,6 +123,9 @@ public class TurretSubsystem extends SubsystemBase{
 
         // use that motor rotation as target
     //}
+public double xrobot;
+public double yrobot;
+public double heading;
 
     public void autoAim(double xrobot, double yrobot, double heading){
         xrobot = drivetrain.getState().Pose.getX();
