@@ -43,8 +43,8 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.VisionRetry;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.OldVision;
 
 public class RobotContainer {
 
@@ -83,7 +83,7 @@ public class RobotContainer {
     public TurretSubsystem turret = new TurretSubsystem(drivetrain);
     public BeltSubsystem belt = new BeltSubsystem();
     // public OldVision vision = new OldVision();
-    public Vision vision;
+    public VisionRetry vision;
 
     public RobotContainer() {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
@@ -138,7 +138,7 @@ public class RobotContainer {
         if(Math.abs(tDriveY) < 0.1){ driveY = 0;}
         if(Math.abs(tDriveRot) < 0.1){ driveRot = 0;}
         
-        vision = new Vision(drivetrain::addVisionMeasurement);
+        vision = new VisionRetry(drivetrain::addVisionMeasurement);
     }
 
     public void periodic(){
