@@ -175,7 +175,7 @@ public double yrobot;
         distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
     }
     
-    double calculatedPosition = distancetoHub * -0.0532 + 2.89;
+    double calculatedPosition = -(distancetoHub * -0.0532 + 2.89);
 
     if(calculatedPosition < hoodlimitup){
       targetPosition = hoodlimitup;
