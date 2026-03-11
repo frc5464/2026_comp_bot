@@ -1,5 +1,3 @@
-package frc.robot.subsystems;
-
 /*
  * MIT License
  *
@@ -24,6 +22,7 @@ package frc.robot.subsystems;
  * SOFTWARE.
  */
 
+ package frc.robot.subsystems;
 
 import static frc.robot.Constants.Vision.*;
 
@@ -36,7 +35,6 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-
 import java.util.List;
 import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
@@ -118,7 +116,6 @@ public class VisionRetry {
                         estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
                     });
         }
-
     }
 
     /**

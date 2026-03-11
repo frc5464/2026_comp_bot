@@ -7,6 +7,8 @@ package frc.robot;
 import com.ctre.phoenix6.HootAutoReplay;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.simulation.BatterySim;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -87,7 +89,24 @@ public class Robot extends TimedRobot {
     public void testExit() {}
 
     @Override
-    public void simulationPeriodic() {}
+    public void simulationPeriodic() {
+        // Update drivetrain simulation
+        // drivetrain.simulationPeriodic();
+        // Update camera simulation
+        m_robotContainer.vision.simulationPeriodic(m_robotContainer.drivetrain.getState().Pose);
+
+        var debugField = m_robotContainer.vision.getSimDebugField();
+        debugField.getObject("EstimatedRobot").setPose(m_robotContainer.drivetrain.getState().Pose);
+        // debugField.getObject("EstimatedRobotModules").setPoses(drivetrain.getModulePoses());
+
+        // // Calculate battery voltage sag due to current draw
+        // var batteryVoltage =
+        //         BatterySim.calculateDefaultBatteryLoadedVoltage(drivetrain.getCurrentDraw());
+
+        // // Using max(0.1, voltage) here isn't a *physically correct* solution,
+        // // but it avoids problems with battery voltage measuring 0.
+        // RoboRioSim.setVInVoltage(Math.max(0.1, batteryVoltage));
+    }
 
     public void uselessFunctionMauahahaha(){
         // This can be removed.
