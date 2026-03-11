@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -22,7 +23,7 @@ import frc.robot.Universals;
 public class TurretSubsystem extends SubsystemBase{
 
     private final SparkMax turret = new SparkMax(14, MotorType.kBrushless);
-
+    // private final SparkMaxSim turretsim = new SparkMaxSim(turret, null);
     public RelativeEncoder turretEncoder;
     public double turretEncoderPos;
     public double angletoHub;
