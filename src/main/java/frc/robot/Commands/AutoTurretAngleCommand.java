@@ -17,7 +17,8 @@ public class AutoTurretAngleCommand extends Command {
 
         @Override
         public void execute(){
-            turret.autoAim(turret.xrobot, turret.yrobot, turret.heading);
-
+            turret.autoAim(drivetrain.getState().Pose.getX(),
+                           drivetrain.getState().Pose.getY(), 
+                           drivetrain.getState().Pose.getRotation().getDegrees());
         }
 }

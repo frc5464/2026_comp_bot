@@ -78,9 +78,9 @@ public class RobotContainer {
     public final SendableChooser<Command> autoChooser;
 
     public IntakeSubsystem intake = new IntakeSubsystem();
-    public ShooterSubsystem shoot = new ShooterSubsystem(drivetrain);
+    public ShooterSubsystem shoot = new ShooterSubsystem();
     public ClimbSubsystem climb = new ClimbSubsystem();
-    public TurretSubsystem turret = new TurretSubsystem(drivetrain);
+    public TurretSubsystem turret = new TurretSubsystem();
     public BeltSubsystem belt = new BeltSubsystem();
     // public OldVision vision = new OldVision();
     public VisionRetry vision;

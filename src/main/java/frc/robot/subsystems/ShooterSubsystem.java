@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.RelativeEncoder;
@@ -36,7 +35,6 @@ public class ShooterSubsystem extends SubsystemBase{
     public final TalonFX feederMotor = new TalonFX(17);
     public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
 
-    private final CommandSwerveDrivetrain commandSwerveDrivetrain;
     //Stuff for shootPosition PID
     public RelativeEncoder hingeEncoder;
     public double encoderPos;
@@ -61,11 +59,7 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public double distancetoHub;
 
-    public double xrobot;
-    public double yrobot;
-
-  public ShooterSubsystem(CommandSwerveDrivetrain drivetrain){
-      this.commandSwerveDrivetrain = drivetrain;
+  public ShooterSubsystem(){
       initPidShoot();
      SmartDashboard.putBoolean("shooting", false);
   }
@@ -145,9 +139,6 @@ public class ShooterSubsystem extends SubsystemBase{
   }
 
   public void changeAngle(double xrobot, double yrobot){
-    
-    xrobot = commandSwerveDrivetrain.getState().Pose.getX();
-    yrobot = commandSwerveDrivetrain.getState().Pose.getY();
 
     double turretCenterx;
     double turretCentery;

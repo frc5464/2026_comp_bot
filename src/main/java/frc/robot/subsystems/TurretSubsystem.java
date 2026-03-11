@@ -43,12 +43,7 @@ public class TurretSubsystem extends SubsystemBase{
     public double gear_ratio = 192;
     public double degrees_per_rotation = 1.875;
 
-    private CommandSwerveDrivetrain drivetrain;
-
-
-    public TurretSubsystem(CommandSwerveDrivetrain drivetrain){
-
-        this.drivetrain = drivetrain;
+    public TurretSubsystem(){
         initPidTurret();         
 
     }
@@ -111,26 +106,8 @@ public class TurretSubsystem extends SubsystemBase{
         turret.set(0);
     }
 
-    // public void findTargetRotations(double xrobot, double yrobot){
-        
-        // find needed angle of turret to hub
-
-        // find the angle of the robot to the hub
-
-        // subtract out the robot angle
-
-        // convert that angle into motor rotations
-
-        // use that motor rotation as target
-    //}
-public double xrobot;
-public double yrobot;
-public double heading;
-
     public void autoAim(double xrobot, double yrobot, double heading){
-        xrobot = drivetrain.getState().Pose.getX();
-        yrobot = drivetrain.getState().Pose.getY();
-        heading = drivetrain.getState().Pose.getRotation().getDegrees();
+
 
         double turretCenterx;
         double turretCentery;
