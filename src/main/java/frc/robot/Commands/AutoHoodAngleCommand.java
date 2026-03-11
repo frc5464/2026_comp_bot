@@ -23,16 +23,7 @@ public class AutoHoodAngleCommand extends Command{
 
     @Override
     public void execute() {
-        // if(shoot.encoderPos > shoot.hoodlimitup && shoot.encoderPos < shoot.hoodlimitdown){
         shoot.changeAngle(shoot.xrobot, shoot.yrobot);
-        // } else if(shoot.encoderPos < shoot.hoodlimitup){
-            // shoot.targetPosition = shoot.hoodlimitup;
-        // } else{
-            // shoot.targetPosition = shoot.hoodlimitdown;
-        // }
-        
-        
-        /* Use the X value in pose estimation to raise the angle the smaller X equals. */
     }
 
     @Override

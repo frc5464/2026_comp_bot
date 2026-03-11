@@ -44,18 +44,15 @@ public class ShooterSubsystem extends SubsystemBase{
     private SparkMaxConfig posConfig = new SparkMaxConfig();
     private SparkClosedLoopController posClosedLoopController;
 
-    public double targetPosition = -0.24;
+    public double targetHoodPos = -0.24;
     public double usualResistance = 1.0;
     //Stuff for shootVelocity PID
     RelativeEncoder flyEncoder;
     public double encoderVel;
 
-    // private SparkMaxConfig flyConfig = new SparkMaxConfig();
     public SparkClosedLoopController flyClosedLoopController;
 
-    public double targetVelocity;
-
-    public double rpmSetpoint = -110;
+    public double targetVelocity = 95; // start out at roughly our max velocity
 
     public double hoodlimitup = -4;
     public double hoodlimitdown = -0.4;
@@ -63,6 +60,9 @@ public class ShooterSubsystem extends SubsystemBase{
     public VelocityVoltage m_request;
 
     public double distancetoHub;
+
+    public double xrobot;
+    public double yrobot;
 
   public ShooterSubsystem(CommandSwerveDrivetrain drivetrain){
       this.commandSwerveDrivetrain = drivetrain;
@@ -84,7 +84,6 @@ public class ShooterSubsystem extends SubsystemBase{
           .feedForward
           .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
       shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    // SmartDashboard.setDefaultNumber("ShootHoodTargetPosition", 0);
 
      //VelocityPID for shooter with Krakens
       var slot0Configs = new Slot0Configs();
@@ -96,30 +95,24 @@ public class ShooterSubsystem extends SubsystemBase{
 
       shooterMotor.getConfigurator().apply(slot0Configs);
       m_request = new VelocityVoltage(targetVelocity).withSlot(0);
-
-      SmartDashboard.setDefaultNumber("ShootTargetVel", 0);
   }
 
   public void periodic(){
-
-
       // ============================================== FLYWHEEL VELOCITY CODE!
       // create a velocity closed-loop request, voltage output, slot 0 configs, then use it in setcontrol
       m_request = new VelocityVoltage(targetVelocity).withSlot(0);
       shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
-
-      rpmSetpoint = SmartDashboard.getNumber("rpmSetpoint", rpmSetpoint);
-      SmartDashboard.putNumber("rpmSetpoint", rpmSetpoint);
-      
       encoderVel = shooterMotor.getVelocity().getValueAsDouble();
-      SmartDashboard.putNumber("shootvel", encoderVel);
       
       // ============================================== ROTATION POSITION CODE!
       encoderPos = hingeEncoder.getPosition();
-      SmartDashboard.putNumber("ShootRotEncoder", encoderPos);
 
-      // posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-      SmartDashboard.putNumber("ShootRotTarget", targetPosition);
+      // posClosedLoopController.setSetpoint(targetHoodPos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+      SmartDashboard.putNumber("targetHoodPos", targetHoodPos);
+      SmartDashboard.putNumber("hoodRot", encoderPos);
+      SmartDashboard.putNumber("shootVel", encoderVel);
+      SmartDashboard.putNumber("targetShootVel", targetVelocity);
+      
     }
   
   public void feed(){
@@ -144,16 +137,12 @@ public class ShooterSubsystem extends SubsystemBase{
   }
 
   public void changeVel(){
-      double calculatedVelocity = distancetoHub * 0.195 + 65.3;
-
+      double calculatedVelocity = (7.69*distancetoHub) + 65.3;
       if(calculatedVelocity > 100){
         targetVelocity = 100;
       }
-
-      SmartDashboard.putNumber("calcVel", calculatedVelocity);
+      SmartDashboard.putNumber("calcShootVel", calculatedVelocity);
   }
-public double xrobot;
-public double yrobot;
 
   public void changeAngle(double xrobot, double yrobot){
     
@@ -175,20 +164,20 @@ public double yrobot;
         distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
     }
     
-    double calculatedPosition = -(distancetoHub * -0.0532 + 2.89);
+    double calcHoodPos = (-2.09*distancetoHub) + 2.89;
 
-    if(calculatedPosition < hoodlimitup){
-      targetPosition = hoodlimitup;
+    if(calcHoodPos < hoodlimitup){
+      targetHoodPos = hoodlimitup;
     }
-    else if(calculatedPosition > hoodlimitdown){
-      targetPosition = hoodlimitdown;
+    else if(calcHoodPos > hoodlimitdown){
+      targetHoodPos = hoodlimitdown;
     }
     else{
-      targetPosition = calculatedPosition;
+      targetHoodPos = calcHoodPos;
     }
 
     SmartDashboard.putNumber("distancetoHub", distancetoHub);
-    SmartDashboard.putNumber("calcHoodPos", calculatedPosition);
+    SmartDashboard.putNumber("calcHoodPos", calcHoodPos);
   }      
 
       
@@ -201,8 +190,7 @@ public double yrobot;
   //    */
   //   // y = mx + b
   //   // m = slope = (y2 - y1)/(x2 - x1)
-  //     targetPosition = (-40*(Math.hypot(xdistance - 4, ydistance - 2.5))) + 130;
-      
+  //     targetHoodPos = (-40*(Math.hypot(xdistance - 4, ydistance - 2.5))) + 130;
   //   }
   // }
 
