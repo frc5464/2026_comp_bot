@@ -38,6 +38,8 @@ public class TurretSubsystem extends SubsystemBase{
     public double turretlimitleft = 22.7;
     public double turretlimitright = -22.8;
 
+    public boolean turretAimedtoShoot = false;
+
     public double gear_ratio = 192;
     public double degrees_per_rotation = 1.875;
 
@@ -69,7 +71,7 @@ public class TurretSubsystem extends SubsystemBase{
 
                 turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-        SmartDashboard.setDefaultNumber("turret target Position", 0);
+        // SmartDashboard.setDefaultNumber("turret target Position", 0);
     }
 
 
@@ -83,9 +85,6 @@ public class TurretSubsystem extends SubsystemBase{
         // turretClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
 
         SmartDashboard.putNumber("turretEncoder", turretEncoderPos);
-        SmartDashboard.putNumber("TurretTarget", turrettargetPosition);
-
-        // do your pid calculation here (use targetPosition!)
     }
 
     public void reBoot(){
@@ -137,38 +136,70 @@ public double heading;
         double turretCentery;
 
         double calculatedPosition;
-        
+        double calculatedTurretAngle;
+
         turretCenterx = xrobot-0.0889;
         turretCentery = yrobot-0.17145;
 
         // Figure out which hub we need to be aiming at
         if(DriverStation.getAlliance().get() == Alliance.Blue){
-        //     // Calculate the angle needed between turret and blue hub in degrees
-            angletoHub =  Math.toDegrees(Math.atan((turretCentery-4)/(turretCenterx-4.6)));
+            // Calculate the angle needed between turret and blue hub in degrees
+            angletoHub =  -Math.toDegrees(Math.atan((turretCentery-4)/(turretCenterx-4.6)));
         }
         else{
-        //     // Calculate the angle needed between turret and red hub in degrees
-            angletoHub =  Math.toDegrees(Math.atan((turretCenterx-11.9)/(turretCentery-4)));            
+            // Calculate the angle needed between turret and red hub in degrees
+            angletoHub =  Math.toDegrees(Math.atan((turretCenterx-11.9)/(turretCentery-4))); 
+            
+            // normalize the value to be 0 when facing the turret
+            if(angletoHub >= 0){
+                angletoHub -= 90;
+            }
+            else{
+                angletoHub += 90;
+            }
+            
+            // swap heading if we are on the red team
+            if(heading > 0){
+                heading -= 180;
+            }
+            else{
+                heading += 180;
+            }
         }
 
-        if(heading > 0){
-            calculatedPosition = angletoHub + heading;
-        } else if(heading < 0){
-            calculatedPosition = angletoHub - heading;
+        // Add the chassis angle to the angle to the hub
+        calculatedTurretAngle = heading + angletoHub;   
+
+        // left rotations = more positive
+        // right rotations = more negative
+        // for both sides, calcTurretAngle going positive = too far left.
+        // If chassis is aimed left, then aim the turret right.
+        // That means we must invert the value that we send to the control loop.
+        calculatedPosition = -(calculatedTurretAngle / degrees_per_rotation);
+
+        // always shoot straight forward if not in our scoring zone
+        if((xrobot > 5) && xrobot < 11.4){
+            turrettargetPosition = 0;
+            turretAimedtoShoot = true;
+        }
+        // keep our values within safe limits if in scoring zone
+        else if(calculatedPosition > turretlimitleft){
+            turrettargetPosition = turretlimitleft;
+            turretAimedtoShoot = false;
+        }
+        else if(calculatedPosition < turretlimitright){
+            turrettargetPosition = turretlimitright;
+            turretAimedtoShoot = false;
         } else{
-            calculatedPosition = turrettargetPosition;
+            turretAimedtoShoot = true;
+            turrettargetPosition = calculatedPosition;
         }
-
-        // if(calculatedPosition < turretlimitleft){
-        // turrettargetPosition = turretlimitleft;
-        // }
-        // else if(calculatedPosition > turretlimitright){
-        // turrettargetPosition = turretlimitright;
-        // } else{
-        // turrettargetPosition = calculatedPosition;
-        // }
 
         SmartDashboard.putNumber("angletoHub", angletoHub);
+        SmartDashboard.putNumber("heading", heading);
+        SmartDashboard.putNumber("calcTurretAngle", calculatedTurretAngle);
         SmartDashboard.putNumber("calcTurretPos", calculatedPosition);
+        SmartDashboard.putNumber("TurretTarget", turrettargetPosition);
+        SmartDashboard.putBoolean("TurretAimed2Shoot", turretAimedtoShoot);
     }
 }
