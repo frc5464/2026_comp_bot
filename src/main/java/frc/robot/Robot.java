@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.HootAutoReplay;
 
+import edu.wpi.first.units.measure.Frequency;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
@@ -87,6 +89,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testExit() {}
+
+    @Override
+    public void simulationInit(){
+        
+    }
 
     @Override
     public void simulationPeriodic() {
