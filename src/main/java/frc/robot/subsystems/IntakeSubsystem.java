@@ -85,7 +85,7 @@ public class IntakeSubsystem extends SubsystemBase{
 
                 leftJaw.configure(leftjawMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-        SmartDashboard.setDefaultNumber("Target Position", 0);
+        SmartDashboard.setDefaultNumber("IntakeTargetPosition", 0);
     }
 
     public void periodic(){
