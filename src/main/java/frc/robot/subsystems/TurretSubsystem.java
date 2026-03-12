@@ -35,13 +35,13 @@ public class TurretSubsystem extends SubsystemBase{
 
     public double turrettargetPosition = 0;
 
-    public double turretlimitleft = 22.7;
-    public double turretlimitright = -22.8;
+    public double turretlimitleft = 7.6;
+    public double turretlimitright = -7.6;
 
     public boolean turretAimedtoShoot = false;
 
-    public double gear_ratio = 192;
-    public double degrees_per_rotation = 1.875;
+    public double gear_ratio = 64;
+    public double degrees_per_rotation = 5.625;
 
     public TurretSubsystem(){
         initPidTurret();         
@@ -57,13 +57,14 @@ public class TurretSubsystem extends SubsystemBase{
         turretConfig.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             //Set PID values for position control
-            .p(0.1)
+            .p(0.03)
             .i(0)
             .d(0)
-            .outputRange(-0.3, 0.3)
+            .outputRange(-0.5, 0.5)
             .feedForward
                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
+                turretConfig.inverted(true);
                 turret.configure(turretConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
         // SmartDashboard.setDefaultNumber("turret target Position", 0);
@@ -88,7 +89,7 @@ public class TurretSubsystem extends SubsystemBase{
         if(turretEncoderPos > turretlimitleft) {
             stop();
         } else{
-            turret.set(0.2);
+            turret.set(0.4);
         }
     }
 
@@ -96,7 +97,7 @@ public class TurretSubsystem extends SubsystemBase{
         if(turretEncoderPos < turretlimitright){
             stop();
         } else{
-            turret.set(-0.2);
+            turret.set(-0.4);
         }
     }
 
@@ -123,7 +124,7 @@ public class TurretSubsystem extends SubsystemBase{
         }
         else{
             // Calculate the angle needed between turret and red hub in degrees
-            angletoHub =  Math.toDegrees(Math.atan((turretCenterx-11.9)/(turretCentery-4))); 
+            angletoHub =  Math.toDegrees(Math.atan((turretCenterx-11.6)/(turretCentery-4))); 
             
             // normalize the value to be 0 when facing the turret
             if(angletoHub >= 0){

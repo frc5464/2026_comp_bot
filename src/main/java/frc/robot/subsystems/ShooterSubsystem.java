@@ -49,7 +49,7 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public SparkClosedLoopController flyClosedLoopController;
 
-    public double targetVelocity = 95; // start out at roughly our max velocity
+    public double targetVelocity = 0; // start out at roughly our max velocity
 
     public double hoodlimitup = -4;
     public double hoodlimitdown = -0.4;
@@ -157,15 +157,15 @@ public class ShooterSubsystem extends SubsystemBase{
     
     double calcHoodPos = (-2.09*distancetoHub) + 2.89;
 
-    if(calcHoodPos < hoodlimitup){
-      targetHoodPos = hoodlimitup;
-    }
-    else if(calcHoodPos > hoodlimitdown){
-      targetHoodPos = hoodlimitdown;
-    }
-    else{
-      targetHoodPos = calcHoodPos;
-    }
+    // if(calcHoodPos < hoodlimitup){
+    //   targetHoodPos = hoodlimitup;
+    // }
+    // else if(calcHoodPos > hoodlimitdown){
+    //   targetHoodPos = hoodlimitdown;
+    // }
+    // else{
+    //   targetHoodPos = calcHoodPos;
+    // }
 
     SmartDashboard.putNumber("distancetoHub", distancetoHub);
     SmartDashboard.putNumber("calcHoodPos", calcHoodPos);
