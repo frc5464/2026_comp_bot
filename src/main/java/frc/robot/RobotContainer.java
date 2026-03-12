@@ -92,10 +92,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
         NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, intake, false, 4));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
-        // NamedCommands.registerCommand("Feed", new FeedCommand(shoot, belt, 2));
-        // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
-        // NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
-        
 
         autoChooser = AutoBuilder.buildAutoChooser();
         // autoChooser.setDefaultOption("Pos3_20pc", getAutonomousCommand());
