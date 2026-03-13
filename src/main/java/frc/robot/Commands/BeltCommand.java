@@ -15,7 +15,7 @@ public class BeltCommand extends Command{
 
     @Override
     public void execute(){
-        belt.runBelt();
+        // belt.runBelt();
         // SmartDashboard.putBoolean("Belting", true);
     }
 

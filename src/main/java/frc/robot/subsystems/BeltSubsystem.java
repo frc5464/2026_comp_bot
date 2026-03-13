@@ -16,8 +16,8 @@ public class BeltSubsystem extends SubsystemBase{
         // runBelt();
     }
     
-    public void runBelt(){
-        belt.set(-1);
+    public void runBelt(double beltspd){
+        belt.set(beltspd);
     }
 
     public void stopBelt(){
