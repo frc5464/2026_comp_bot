@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 4.0
+        "x": 3.5900000000000003,
+        "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.85,
-        "y": 4.0
+        "x": 3.8400000000000003,
+        "y": 2.5
       },
       "isLocked": false,
-      "linkedName": "RSL2"
+      "linkedName": "RSL3"
     },
     {
       "anchor": {
         "x": 3.2,
-        "y": 4.0
+        "y": 2.5
       },
       "prevControl": {
         "x": 2.95,
-        "y": 4.0
+        "y": 2.5
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "backitup"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
