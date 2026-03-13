@@ -23,6 +23,7 @@ public class ShootCommand extends Command{
     public Timer timer = new Timer();
     double time;
     public boolean reversed;
+    double beltspd;
 
     public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, IntakeSubsystem intake, boolean reversed, double time){
         this.shooter = shooter;
@@ -46,11 +47,16 @@ public class ShootCommand extends Command{
                                             shooter.targetVelocity = 95));
             if((timer.get() >= 0.75)){
                 shooter.feed();
-                belt.runBelt();
                 // intake.Intake();
                 SmartDashboard.putBoolean("feeding", true);
+                if(timer.get() >= 2){
+                    belt.runBelt(-0.75);
+                } else{
+                    belt.runBelt(-1);
+                }
                 // SmartDashboard.putBoolean("intaking", true);
             }
+
 
         } else{
             shooter.reverseFeed();

@@ -90,7 +90,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
-        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, intake, false, 4));
+        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, intake, false, 3));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
 
         autoChooser = AutoBuilder.buildAutoChooser();
