@@ -19,6 +19,25 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 2.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Shoot"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
                       "type": "path",
                       "data": {
                         "pathName": "RSL3_B2_CollectDown"
@@ -37,21 +56,53 @@
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "parallel",
                       "data": {
-                        "pathName": "RSL3_B2_BL4-5"
+                        "commands": [
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 2.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Shoot"
+                            }
+                          }
+                        ]
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "BL4-5_BL3-up"
+                        "pathName": "RSL3_BL3"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "BL3_B2_TW2"
+                        "pathName": "BL3_B2_RSL3"
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 2.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Shoot"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]

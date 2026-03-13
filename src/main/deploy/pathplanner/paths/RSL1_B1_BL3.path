@@ -20,15 +20,20 @@
         "y": 4.0
       },
       "prevControl": {
-        "x": 7.092893218813452,
-        "y": 4.707106781186548
+        "x": 7.8,
+        "y": 6.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BL3"
+      "linkedName": "BL3_down"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -67,7 +72,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": null,

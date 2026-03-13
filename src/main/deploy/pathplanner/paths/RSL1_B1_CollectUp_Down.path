@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.082962913144534,
-        "y": 5.545590477448739
+        "x": 3.85,
+        "y": 5.675
       },
       "isLocked": false,
       "linkedName": "RSL1"
@@ -17,30 +17,30 @@
     {
       "anchor": {
         "x": 4.625,
-        "y": 5.5
+        "y": 5.49
       },
       "prevControl": {
         "x": 4.125,
-        "y": 5.5
+        "y": 5.49
       },
       "nextControl": {
-        "x": 5.875,
-        "y": 5.5
+        "x": 6.125,
+        "y": 5.49
       },
       "isLocked": false,
       "linkedName": "B1"
     },
     {
       "anchor": {
-        "x": 6.3,
+        "x": 6.43,
         "y": 6.4
       },
       "prevControl": {
-        "x": 6.3,
+        "x": 6.43,
         "y": 5.814595832553437
       },
       "nextControl": {
-        "x": 6.3,
+        "x": 6.43,
         "y": 6.985404167446564
       },
       "isLocked": false,
@@ -48,11 +48,11 @@
     },
     {
       "anchor": {
-        "x": 7.8,
+        "x": 7.9,
         "y": 7.15
       },
       "prevControl": {
-        "x": 7.446446609406726,
+        "x": 7.546446609406726,
         "y": 7.503553390593273
       },
       "nextControl": null,
@@ -69,30 +69,6 @@
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 3.0
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Shoot"
-              }
-            }
-          ]
-        }
-      }
-    },
     {
       "name": "IntakeDown",
       "waypointRelativePos": 2.0,
