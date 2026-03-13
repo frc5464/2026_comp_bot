@@ -35,8 +35,8 @@ public class TurretSubsystem extends SubsystemBase{
 
     public double turrettargetPosition = 0;
 
-    public double turretlimitleft = 7.6;
-    public double turretlimitright = -7.6;
+    public double turretlimitleft = 7.2;
+    public double turretlimitright = -7.2;
 
     public boolean turretAimedtoShoot = false;
 
@@ -57,10 +57,10 @@ public class TurretSubsystem extends SubsystemBase{
         turretConfig.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             //Set PID values for position control
-            .p(0.03)
+            .p(0.05)
             .i(0)
             .d(0)
-            .outputRange(-0.5, 0.5)
+            .outputRange(-0.2, 0.2)
             .feedForward
                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
@@ -89,7 +89,7 @@ public class TurretSubsystem extends SubsystemBase{
         if(turretEncoderPos > turretlimitleft) {
             stop();
         } else{
-            turret.set(0.4);
+            turret.set(-0.2);
         }
     }
 
@@ -97,7 +97,7 @@ public class TurretSubsystem extends SubsystemBase{
         if(turretEncoderPos < turretlimitright){
             stop();
         } else{
-            turret.set(-0.4);
+            turret.set(0.2);
         }
     }
 
@@ -120,7 +120,7 @@ public class TurretSubsystem extends SubsystemBase{
         // Figure out which hub we need to be aiming at
         if(DriverStation.getAlliance().get() == Alliance.Blue){
             // Calculate the angle needed between turret and blue hub in degrees
-            angletoHub =  -Math.toDegrees(Math.atan((turretCentery-4)/(turretCenterx-4.6)));
+            angletoHub =  -Math.toDegrees(Math.atan((turretCentery-4)/(turretCenterx-5.4)));
         }
         else{
             // Calculate the angle needed between turret and red hub in degrees

@@ -84,13 +84,14 @@ public class RobotContainer {
     public TurretSubsystem turret = new TurretSubsystem();
     public BeltSubsystem belt = new BeltSubsystem();
     // public OldVision vision = new OldVision();
-    public VisionRetry vision;
+    // public VisionRetry vision;
 
     public RobotContainer() {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
         NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, intake, false, 3));
+        NamedCommands.registerCommand("LongShoot", new ShootCommand(shoot, belt, intake, false, 8));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
 
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -135,13 +136,13 @@ public class RobotContainer {
         if(Math.abs(tDriveY) < 0.1){ driveY = 0;}
         if(Math.abs(tDriveRot) < 0.1){ driveRot = 0;}
         
-        vision = new VisionRetry(drivetrain::addVisionMeasurement);
+        // vision = new VisionRetry(drivetrain::addVisionMeasurement);
     }
 
     public void periodic(){
         shoot.periodic();
         intake.periodic();
-        vision.periodic();
+        // vision.periodic();
     }
 
     public void configureBindings() {
@@ -155,8 +156,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(driveController.getLeftY() * MaxSpeed * Universals.driveSpeedMultiplier) // Drive forward with negative Y (forward)
-                    .withVelocityY(driveController.getLeftX() * MaxSpeed * Universals.driveSpeedMultiplier) // Drive left with negative X (left)
+                drive.withVelocityX(-driveController.getLeftY() * MaxSpeed * Universals.driveSpeedMultiplier) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driveController.getLeftX() * MaxSpeed * Universals.driveSpeedMultiplier) // Drive left with negative X (left)
                     .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );    

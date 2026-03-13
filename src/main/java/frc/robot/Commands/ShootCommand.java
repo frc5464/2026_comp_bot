@@ -23,7 +23,6 @@ public class ShootCommand extends Command{
     public Timer timer = new Timer();
     double time;
     public boolean reversed;
-    double beltspd;
 
     public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, IntakeSubsystem intake, boolean reversed, double time){
         this.shooter = shooter;

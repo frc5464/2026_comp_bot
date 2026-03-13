@@ -100,10 +100,10 @@ public class Robot extends TimedRobot {
         // Update drivetrain simulation
         // drivetrain.simulationPeriodic();
         // Update camera simulation
-        m_robotContainer.vision.simulationPeriodic(m_robotContainer.drivetrain.getState().Pose);
+        // m_robotContainer.vision.simulationPeriodic(m_robotContainer.drivetrain.getState().Pose);
 
-        var debugField = m_robotContainer.vision.getSimDebugField();
-        debugField.getObject("EstimatedRobot").setPose(m_robotContainer.drivetrain.getState().Pose);
+        // var debugField = m_robotContainer.vision.getSimDebugField();
+        // debugField.getObject("EstimatedRobot").setPose(m_robotContainer.drivetrain.getState().Pose);
         // debugField.getObject("EstimatedRobotModules").setPoses(drivetrain.getModulePoses());
 
         // // Calculate battery voltage sag due to current draw
