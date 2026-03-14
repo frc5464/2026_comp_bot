@@ -2,12 +2,12 @@
 package frc.robot.subsystems;
 
 //java
-import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
+// import java.io.IOException;
+// import java.lang.ModuleLayer.Controller;
 import java.util.List;
 //photon
 import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
+// import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonUtils;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -19,7 +19,7 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
 //wpi
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.Matrix;
+// import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -30,16 +30,15 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.wpilibj.Joystick;
+// import edu.wpi.first.math.numbers.N1;
+// import edu.wpi.first.math.numbers.N3;
+// import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import frc.robot.Constants;
+// import frc.robot.Robot;
+// import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*vision docs;
  * 
@@ -68,8 +67,8 @@ public class Vision extends SubsystemBase {
 
     public VisionSystemSim visionSim;
 
-    private static final String jsonPath = "C:\\Users\\cummi\\Documents\\2026 Code\\2026_comp_bot\\src\\main\\java\\frc\\robot\\subsystems\\vision_extra\\2026-rebuilt-andymark.json";
-    private static final boolean enableDebugOutput = true;
+    // private static final String jsonPath = "C:\\Users\\cummi\\Documents\\2026 Code\\2026_comp_bot\\src\\main\\java\\frc\\robot\\subsystems\\vision_extra\\2026-rebuilt-andymark.json";
+    // private static final boolean enableDebugOutput = true;
 
     // private AprilTagFieldLayout ATFLsuperConstructor() {
     //     // used to catch errors on file read/write for AprilTag Field Layouts
@@ -93,12 +92,12 @@ public class Vision extends SubsystemBase {
     private List<PhotonTrackedTarget> cuTrackedTargets;
     // TODO: Fill in placeholder values with real values
     private SwerveDriveKinematics swerveDriveKin;
-    private Rotation2d swerveGyroAngle;
+    // private Rotation2d swerveGyroAngle;
     private SwerveModulePosition[] swerveModPos; // in getStateInfo
 
-    private Pose2d swerveInitPos;
-    private Matrix<N3, N1> swerveStdDev;
-    private Matrix<N3, N1> swerveVisMeasurementStdDev;
+    // private Pose2d swerveInitPos;
+    // private Matrix<N3, N1> swerveStdDev;
+    // private Matrix<N3, N1> swerveVisMeasurementStdDev;
 
 
     // sim
@@ -106,7 +105,7 @@ public class Vision extends SubsystemBase {
 
     public Vision() {
 
-        PhotonPoseEstimator photonEstimator = new PhotonPoseEstimator(kTag, kRobotToCam);
+        // PhotonPoseEstimator photonEstimator = new PhotonPoseEstimator(kTag, kRobotToCam);
         // TODO print cameras
         // SmartDashboard.putRaw("camera" cameras);
         
