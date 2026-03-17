@@ -1,6 +1,6 @@
 package frc.robot.Commands;
 
-import java.lang.annotation.Target;
+// import java.lang.annotation.Target;
 
 // import com.revrobotics.spark.ClosedLoopSlot;
 // import com.revrobotics.spark.SparkBase.ControlType;
@@ -18,7 +18,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShootCommand extends Command{
 
     private ShooterSubsystem shooter;
-    private IntakeSubsystem intake;
+    // private IntakeSubsystem intake;
     private BeltSubsystem belt;
     public Timer timer = new Timer();
     double time;
@@ -27,7 +27,7 @@ public class ShootCommand extends Command{
     public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, IntakeSubsystem intake, boolean reversed, double time){
         this.shooter = shooter;
         this.belt = belt;
-        this.intake = intake;
+        // this.intake = intake;
         this.time = time;
         this.reversed = reversed;
     }
@@ -41,7 +41,7 @@ public class ShootCommand extends Command{
     public void execute(){
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
-            double velocity = shooter.changeVel();
+            // double velocity = shooter.changeVel();
             shooter.shooterMotor.setControl(shooter.m_request.withVelocity(
                                             shooter.targetVelocity = 100));
             if((timer.get() >= 0.75)){
