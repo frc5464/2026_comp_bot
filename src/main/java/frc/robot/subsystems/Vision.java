@@ -16,8 +16,13 @@ public class Vision extends SubsystemBase {
             new PhotonCamera("driver") /*driver cam wont actually be used for vision due to variable position */
     };
 
-    @Override
+    // @Override
     public void periodic(){
+        //this is bad and should be removed most likely
+        //the List<PhotonPipelineResult> isnt used for anything
+        //and this doesnt need to be run periodicly
+        //right now at least
+        //eventually this might be a good idea if it's referenced by more then one other function at a given moment
         newest_scan("allVision");
     }
 

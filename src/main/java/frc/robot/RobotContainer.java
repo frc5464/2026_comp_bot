@@ -44,6 +44,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
 
@@ -82,6 +83,7 @@ public class RobotContainer {
     public TurretSubsystem turret = new TurretSubsystem();
     public BeltSubsystem belt = new BeltSubsystem();
     public CandleSubsystem candle = new CandleSubsystem();
+    public Vision vision = new Vision();
     public RobotContainer() {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));

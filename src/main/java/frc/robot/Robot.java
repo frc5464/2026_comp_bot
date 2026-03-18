@@ -20,6 +20,7 @@ import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 // import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Vision;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
@@ -53,7 +54,7 @@ public class Robot extends TimedRobot {
         m_robotContainer.intake.periodic();
         m_robotContainer.shoot.periodic();
         m_robotContainer.belt.periodic();
-        // m_vision.periodic();
+        m_robotContainer.vision.periodic();
         
     }
 
