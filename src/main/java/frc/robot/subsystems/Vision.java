@@ -40,9 +40,7 @@ public class Vision extends SubsystemBase {
             SmartDashboard.putString("AT found",camera[i].getAllUnreadResults().toString());
         }
 
-            
-
-        if (targ == ""){
+        if (targ == "allVision"){
             // used if you want all results instead of just those of a specfic camera
             return compiled_targets;
         }
@@ -81,10 +79,11 @@ public class Vision extends SubsystemBase {
     }
 
     public void rotate_to_tag(int targetAprilTag){
-        List<PhotonTrackedTarget> all_detected = targets_all(""); /*pass empty to use all cameras */
+        List<PhotonTrackedTarget> all_detected = targets_all("allVision"); /*pass empty to use all cameras */
         
         for (PhotonTrackedTarget at : all_detected) {
             if (at.getFiducialId() == targetAprilTag){
+                SmartDashboard.putBoolean("winner", true);
                 //TODO: implement rotation
                 //  take corners of given at + area + pitch/yaw/rotation
                 //  rotate shooter (after reset) until match?
