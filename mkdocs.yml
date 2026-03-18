@@ -1,0 +1,8 @@
+site_name: 2026 5464 Robot Code Docs
+theme: readthedocs
+nav:
+  - Home: index.md
+  - Index 2: index2.md
+  - Index 3: index3.md
+  - Formatting Guide: format.md
+

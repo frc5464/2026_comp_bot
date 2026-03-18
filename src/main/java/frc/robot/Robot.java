@@ -11,20 +11,26 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-// import frc.robot.Commands.IntakeCommand;
-// import frc.robot.Commands.IntakeToPositionCommand;
-// import frc.robot.Commands.ShootCommand;
-// import frc.robot.Commands.Scrapped.DummyCommand;
-// import frc.robot.subsystems.ClimbSubsystem;
-// import frc.robot.subsystems.IntakeSubsystem;
-// import frc.robot.subsystems.ShooterSubsystem;
-// import frc.robot.subsystems.Vision;
+import frc.robot.Commands.IntakeCommand;
+import frc.robot.Commands.IntakeToPositionCommand;
+import frc.robot.Commands.ShootCommand;
+import frc.robot.subsystems.CandleSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Vision;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
+    private IntakeCommand intakeCommand;
+    private ShootCommand shootCommand;
+    private IntakeToPositionCommand downers;
+    private IntakeToPositionCommand uppies;
+
+    private final CandleSubsystem m_candleSubsystem;
     private final RobotContainer m_robotContainer/* = new RobotContainer()*/;
-    // private Vision vision;
+    // private final Vision m_vision = new Vision();
 
     /* log and replay timestamp and joystick data */
     private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay()
@@ -32,7 +38,7 @@ public class Robot extends TimedRobot {
         .withJoystickReplay();
 
     public Robot() {
-
+        m_candleSubsystem = new CandleSubsystem();
         m_robotContainer = new RobotContainer();
         SmartDashboard.putData("Auto Mode", m_robotContainer.autoChooser);
         // SmartDashboard.putData("apis", vision.cameras);
@@ -45,8 +51,8 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run(); 
         m_robotContainer.intake.periodic();
         m_robotContainer.shoot.periodic();
-        // m_robotContainer.belt.periodicrunbelt();
         SmartDashboard.putBoolean("Manual Mode", Universals.manualMode);
+        m_robotContainer.vision.periodic();
         
     }
 
