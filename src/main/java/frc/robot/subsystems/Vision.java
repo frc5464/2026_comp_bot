@@ -31,14 +31,18 @@ public class Vision extends SubsystemBase {
         List<PhotonPipelineResult> compiled_targets = new ArrayList<>();
         for (int i = 0; i < camera.length; i++) {
             if (camera[i].getName() == targ) {
-                SmartDashboard.putString("AT found",camera[i].getAllUnreadResults().toString());
+                SmartDashboard.putString("AT found","OC/"+camera[i].getAllUnreadResults().toString());
                 return camera[i].getAllUnreadResults();
             }
             if (targ == "allVision" && camera[i].getName() != "driver"){
                 compiled_targets.addAll(camera[i].getAllUnreadResults());
             }
-            SmartDashboard.putString("AT found",camera[i].getAllUnreadResults().toString());
+            SmartDashboard.putString("AT found","AV/"+camera[i].getAllUnreadResults().toString());
+        
+        
+            
         }
+
 
         if (targ == "allVision"){
             // used if you want all results instead of just those of a specfic camera
