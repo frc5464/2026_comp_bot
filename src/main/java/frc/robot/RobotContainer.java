@@ -14,6 +14,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,10 +47,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.Vision;
 
+// import frc.robot.subsystems.VisionRetry;
+// import frc.robot.subsystems.Vision;
+
+
 public class RobotContainer {
 
-    private double MaxSpeed = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.5).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxSpeed = 0.8 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxAngularRate = RotationsPerSecond.of(1.0).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     
     /* Setting up bindings for necessary control of the swerve drive platform */
     // private final SwerveRequest.FieldCentric slowdrive = new SwerveRequest.FieldCentric()
@@ -82,18 +87,20 @@ public class RobotContainer {
     public ClimbSubsystem climb = new ClimbSubsystem();
     public TurretSubsystem turret = new TurretSubsystem();
     public BeltSubsystem belt = new BeltSubsystem();
+
     public CandleSubsystem candle = new CandleSubsystem();
     public Vision vision = new Vision();
+
+    // public OldVision vision = new OldVision();
+    // public VisionRetry vision;
+
     public RobotContainer() {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
-        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, intake, false, 4));
+        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, intake, false, 3));
+        NamedCommands.registerCommand("LongShoot", new ShootCommand(shoot, belt, intake, false, 8));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
-        // NamedCommands.registerCommand("Feed", new FeedCommand(shoot, belt, 2));
-        // NamedCommands.registerCommand("ClimbUp", new ClimbToPositionCommand(climb, 0));
-        // NamedCommands.registerCommand("ClimbDown", new ClimbToPositionCommand(climb, 1));
-        
 
         autoChooser = AutoBuilder.buildAutoChooser();
         // autoChooser.setDefaultOption("Pos3_20pc", getAutonomousCommand());
@@ -137,24 +144,35 @@ public class RobotContainer {
         if(Math.abs(tDriveY) < 0.1){ driveY = 0;}
         if(Math.abs(tDriveRot) < 0.1){ driveRot = 0;}
         
+        // vision = new VisionRetry(drivetrain::addVisionMeasurement);
+    }
 
+    public void periodic(){
+        shoot.periodic();
+        intake.periodic();
+        // vision.periodic();
     }
 
     public void configureBindings() {
+        // silence the unplugged controller message if we are simulating!
+        if(Robot.isSimulation()){
+            DriverStation.silenceJoystickConnectionWarning(true);
+        }
+
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(driveController.getLeftY() * MaxSpeed * Universals.driveSpeedMultiplier) // Drive forward with negative Y (forward)
-                    .withVelocityY(driveController.getLeftX() * MaxSpeed * Universals.driveSpeedMultiplier) // Drive left with negative X (left)
+                drive.withVelocityX(-driveController.getLeftY() * MaxSpeed * Universals.driveSpeedMultiplier) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driveController.getLeftX() * MaxSpeed * Universals.driveSpeedMultiplier) // Drive left with negative X (left)
                     .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );    
         // shoot.setDefaultCommand(new FeedCommand(shoot));
         // belt.setDefaultCommand(new BeltCommand(belt));
         turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
-        // shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
+        shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
@@ -197,7 +215,6 @@ public class RobotContainer {
 
         zackController.axisGreaterThan(4, 0.5).whileTrue(new ManualTurretCommand(turret, true));
         zackController.axisLessThan(4, -0.5).whileTrue(new ManualTurretCommand(turret, false));
-        // testController.axisLessThan(3, -0.5).whileTrue(new TurretCounterclockwiseCommand(turret));
 
         zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, intake, true, 67));
 

@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 4.625,
-        "y": 2.5
+        "y": 2.4
       },
       "prevControl": {
         "x": 4.125,
-        "y": 2.5
+        "y": 2.4
       },
       "nextControl": {
         "x": 5.125,
-        "y": 2.5
+        "y": 2.4
       },
       "isLocked": false,
       "linkedName": "B2"
@@ -58,9 +58,22 @@
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": {
-        "type": "named",
+        "type": "parallel",
         "data": {
-          "name": "Shoot"
+          "commands": [
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 3.0
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
+              }
+            }
+          ]
         }
       }
     }

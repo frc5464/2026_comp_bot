@@ -3,59 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.0,
-        "y": 2.5
+        "x": 3.6,
+        "y": 5.675
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.75,
-        "y": 2.5
-      },
-      "isLocked": false,
-      "linkedName": "BL4_5"
-    },
-    {
-      "anchor": {
-        "x": 4.625,
-        "y": 2.4
-      },
-      "prevControl": {
-        "x": 5.176792168674699,
-        "y": 2.4
-      },
-      "nextControl": {
-        "x": 4.073207831325301,
-        "y": 2.4
-      },
-      "isLocked": false,
-      "linkedName": "B2"
-    },
-    {
-      "anchor": {
-        "x": 3.6,
-        "y": 2.5
-      },
-      "prevControl": {
         "x": 3.85,
-        "y": 2.5
+        "y": 5.675
+      },
+      "isLocked": false,
+      "linkedName": "RSL1"
+    },
+    {
+      "anchor": {
+        "x": 3.2,
+        "y": 5.675
+      },
+      "prevControl": {
+        "x": 2.95,
+        "y": 5.675
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.65,
-      "rotationDegrees": 0.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -69,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

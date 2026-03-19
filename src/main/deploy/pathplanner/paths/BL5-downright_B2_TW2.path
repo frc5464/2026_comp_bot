@@ -17,27 +17,27 @@
     {
       "anchor": {
         "x": 4.625,
-        "y": 2.5
+        "y": 2.4
       },
       "prevControl": {
         "x": 5.625,
-        "y": 2.5
+        "y": 2.4
       },
       "nextControl": {
         "x": 3.625,
-        "y": 2.5
+        "y": 2.4
       },
       "isLocked": false,
       "linkedName": "B2"
     },
     {
       "anchor": {
-        "x": 1.05,
-        "y": 2.8
+        "x": 1.07,
+        "y": 2.75
       },
       "prevControl": {
-        "x": 1.9896926207859083,
-        "y": 2.457979856674331
+        "x": 2.009692620785909,
+        "y": 2.407979856674331
       },
       "nextControl": null,
       "isLocked": false,

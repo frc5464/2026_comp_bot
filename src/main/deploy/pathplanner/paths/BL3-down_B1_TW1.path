@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.8,
+        "x": 8.0,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.092893218813453,
+        "x": 7.292893218813453,
         "y": 4.707106781186547
       },
       "isLocked": false,
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 4.625,
-        "y": 5.5
+        "y": 5.66
       },
       "prevControl": {
         "x": 6.125,
-        "y": 5.5
+        "y": 5.66
       },
       "nextControl": {
         "x": 3.125,
-        "y": 5.5
+        "y": 5.66
       },
       "isLocked": false,
       "linkedName": "B1"
@@ -46,7 +46,11 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 0.7598594299101906,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.1815696993361955,
       "rotationDegrees": 0.0
     },
     {
@@ -55,8 +59,30 @@
     }
   ],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 5.0,
+        "y": 3.9
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 1.2234533702677794,
+      "maxWaypointRelativePos": 1.6112650046168002,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Shoot"
+        }
+      }
+    },
     {
       "name": "IntakeUp",
       "waypointRelativePos": 1.3909657320872233,
@@ -72,17 +98,6 @@
               }
             }
           ]
-        }
-      }
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 1.4,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Shoot"
         }
       }
     }

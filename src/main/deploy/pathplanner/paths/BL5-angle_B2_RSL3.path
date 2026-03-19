@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 4.0
+        "x": 7.8,
+        "y": 2.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6,
-        "y": 3.0
+        "x": 7.55,
+        "y": 2.15
       },
       "isLocked": false,
-      "linkedName": "RSL2"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -20,11 +20,11 @@
         "y": 2.4
       },
       "prevControl": {
-        "x": 3.125,
+        "x": 4.875,
         "y": 2.4
       },
       "nextControl": {
-        "x": 6.125,
+        "x": 4.375,
         "y": 2.4
       },
       "isLocked": false,
@@ -32,47 +32,27 @@
     },
     {
       "anchor": {
-        "x": 7.9,
-        "y": 2.15
+        "x": 3.5900000000000003,
+        "y": 2.5
       },
       "prevControl": {
-        "x": 6.9,
-        "y": 2.15
+        "x": 3.8400000000000003,
+        "y": 2.5
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BL5-right"
+      "linkedName": "RSL3"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.65,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake",
-      "waypointRelativePos": 1.4496365524402717,
-      "endWaypointRelativePos": 2.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeDown"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Intake"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,

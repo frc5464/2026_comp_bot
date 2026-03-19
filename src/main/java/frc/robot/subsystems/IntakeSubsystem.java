@@ -5,10 +5,10 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+// import static edu.wpi.first.units.Units.Volts;
+
 import com.ctre.phoenix6.hardware.TalonFX;
-
-import com.ctre.phoenix6.signals.RGBWColor;
-
+// import com.ctre.phoenix6.sim.ChassisReference;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -18,9 +18,11 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+// import edu.wpi.first.wpilibj.RobotController;
 // import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Universals;
 // import frc.robot.Commands.IntakeToPositionCommand;
 
@@ -61,6 +63,12 @@ public class IntakeSubsystem extends SubsystemBase{
    
     }
 
+//     public void initialize(){
+//         var talonFXSim = intakeRod.getSimState();
+//    talonFXSim.Orientation = ChassisReference.CounterClockwise_Positive;
+// //    talonFXSim.setMotorType(TalonFX.MotorType.KrakenX60);
+//     }
+
     private void initPid(){
         // do your pid initialization here
         leftjawClosedLoopController = leftJaw.getClosedLoopController();
@@ -73,13 +81,13 @@ public class IntakeSubsystem extends SubsystemBase{
             .p(0.1)
             .i(0)
             .d(0)
-            .outputRange(-0.2, 0.2)
+            .outputRange(-0.15, 0.15)
             .feedForward
                 .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
 
                 leftJaw.configure(leftjawMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-        SmartDashboard.setDefaultNumber("Target Position", 0);
+        SmartDashboard.setDefaultNumber("IntakeTargetPosition", 0);
     }
 
     public void periodic(){
@@ -92,6 +100,29 @@ public class IntakeSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("JawTarget", lefttargetPositionInt);
 
         // do your pid calculation here (use targetPosition!)
+
+        if(Robot.isSimulation()){
+            // var talonFXSim = intakeRod.getSimState();
+
+            // set the supply voltage of the TalonFX
+            // talonFXSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+
+            // get the motor voltage of the TalonFX
+            // var motorVoltage = talonFXSim.getMotorVoltageMeasure();
+
+            // // use the motor voltage to calculate new position and velocity
+            // // using WPILib's DCMotorSim class for physics simulation
+            // m_motorSimModel.setInputVoltage(motorVoltage.in(Volts));
+            // m_motorSimModel.update(0.020); // assume 20 ms loop time
+
+            // // apply the new rotor position and velocity to the TalonFX;
+            // // note that this is rotor position/velocity (before gear ratio), but
+            // // DCMotorSim returns mechanism position/velocity (after gear ratio)
+            // talonFXSim.setRawRotorPosition(m_motorSimModel.getAngularPosition().times(kGearRatio));
+            // talonFXSim.setRotorVelocity(m_motorSimModel.getAngularVelocity().times(kGearRatio));
+        
+        
+        }
     }
 
     // public void intakePID(){
@@ -142,6 +173,6 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public void DisableIntake(){
         intakeRod.set(0);
-        candel.light(RGBWColor.fromHSV(0, 0, 0), 0);
+        // candel.light(RGBWColor.fromHSV(0, 0, 0), 0);
     }
 }

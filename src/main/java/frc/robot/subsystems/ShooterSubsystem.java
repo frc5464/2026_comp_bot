@@ -17,7 +17,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 // import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 // import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 // import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,28 +41,26 @@ public class ShooterSubsystem extends SubsystemBase{
     private SparkMaxConfig posConfig = new SparkMaxConfig();
     private SparkClosedLoopController posClosedLoopController;
 
-    public double targetPosition = -0.24;
+    public double targetHoodPos = -0.24;
     public double usualResistance = 1.0;
     //Stuff for shootVelocity PID
     RelativeEncoder flyEncoder;
     public double encoderVel;
 
-    // private SparkMaxConfig flyConfig = new SparkMaxConfig();
     public SparkClosedLoopController flyClosedLoopController;
 
-    public double targetVelocity;
-
-    public double rpmSetpoint = -110;
+    public double targetVelocity = 0; // start out at roughly our max velocity
 
     public double hoodlimitup = -4;
     public double hoodlimitdown = -0.4;
 
     public VelocityVoltage m_request;
 
-  public ShooterSubsystem(){
+    public double distancetoHub;
 
-      initPidShoot();
-     SmartDashboard.putBoolean("shooting", false);
+  public ShooterSubsystem(){
+    initPidShoot();
+    SmartDashboard.putBoolean("shooting", false);
   }
 
   private void initPidShoot(){
@@ -74,11 +73,10 @@ public class ShooterSubsystem extends SubsystemBase{
           .p(0.1)
           .i(0)
           .d(0)
-          .outputRange(-0.5, 0.5)
+          .outputRange(-0.3, 0.3)
           .feedForward
           .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
       shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    // SmartDashboard.setDefaultNumber("ShootHoodTargetPosition", 0);
 
      //VelocityPID for shooter with Krakens
       var slot0Configs = new Slot0Configs();
@@ -90,30 +88,24 @@ public class ShooterSubsystem extends SubsystemBase{
 
       shooterMotor.getConfigurator().apply(slot0Configs);
       m_request = new VelocityVoltage(targetVelocity).withSlot(0);
-
-      SmartDashboard.setDefaultNumber("ShootTargetVel", 0);
   }
 
   public void periodic(){
-
-
       // ============================================== FLYWHEEL VELOCITY CODE!
       // create a velocity closed-loop request, voltage output, slot 0 configs, then use it in setcontrol
       m_request = new VelocityVoltage(targetVelocity).withSlot(0);
       shooterMotor.setControl(m_request.withVelocity(targetVelocity).withFeedForward(0));
-
-      rpmSetpoint = SmartDashboard.getNumber("rpmSetpoint", rpmSetpoint);
-      SmartDashboard.putNumber("rpmSetpoint", rpmSetpoint);
-      
       encoderVel = shooterMotor.getVelocity().getValueAsDouble();
-      SmartDashboard.putNumber("shootvel", encoderVel);
       
       // ============================================== ROTATION POSITION CODE!
       encoderPos = hingeEncoder.getPosition();
-      SmartDashboard.putNumber("ShootRotEncoder", encoderPos);
 
-      posClosedLoopController.setSetpoint(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-      SmartDashboard.putNumber("ShootRotTarget", targetPosition);
+      posClosedLoopController.setSetpoint(targetHoodPos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+      SmartDashboard.putNumber("targetHoodPos", targetHoodPos);
+      SmartDashboard.putNumber("hoodRot", encoderPos);
+      SmartDashboard.putNumber("shootVel", encoderVel);
+      SmartDashboard.putNumber("targetShootVel", targetVelocity);
+      
     }
   
   public void feed(){
@@ -137,20 +129,61 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(0);
   }
 
-  public void changeAngle(double xdistance, double ydistance){
-    if(shootHinge.getOutputCurrent() > usualResistance){
-      shootHinge.set(0);
-    } else {
-    /* Make a Linear relationship between the distance value and the ShootHinge 
-     * motor encoder. Tune for smaller #'s. Y^2 - Y^1 / X^2 - X^1 = M. 
-     * Y^1 = MX^1 + b (Solve for b)
-     */
-    // y = mx + b
-    // m = slope = (y2 - y1)/(x2 - x1)
-      targetPosition = (-40*(Math.hypot(xdistance - 4.5, ydistance - 4.0))) + 130;
-      
-    }
+  public double changeVel(){
+      double calculatedVelocity = (7.69*distancetoHub) + 65.3;
+      if(calculatedVelocity > 100){
+        calculatedVelocity = 100;
+      }
+      SmartDashboard.putNumber("calcShootVel", calculatedVelocity);
+      return calculatedVelocity;
   }
+
+  public void changeAngle(double xrobot, double yrobot){
+
+    double turretCenterx;
+    double turretCentery;
+
+    turretCenterx = xrobot-0.0889;
+    turretCentery = yrobot-0.17145;
+
+    // Figure out which hub we need to be aiming at
+    if(DriverStation.getAlliance().get() == Alliance.Blue){
+        // Calculate the angle needed between hood and blue hub in degrees
+        distancetoHub = Math.hypot(turretCenterx-4.6, turretCentery-4);
+    } else{
+        // Calculate the angle needed between hood and red hub in degrees
+        distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
+    }
+    
+    double calcHoodPos = (-2.09*distancetoHub) + 2.89;
+
+    // if(calcHoodPos < hoodlimitup){
+    //   targetHoodPos = hoodlimitup;
+    // }
+    // else if(calcHoodPos > hoodlimitdown){
+    //   targetHoodPos = hoodlimitdown;
+    // }
+    // else{
+    //   targetHoodPos = calcHoodPos;
+    // }
+
+    SmartDashboard.putNumber("distancetoHub", distancetoHub);
+    SmartDashboard.putNumber("calcHoodPos", calcHoodPos);
+  }      
+
+      
+  //   if(shootHinge.getOutputCurrent() > usualResistance){
+  //     shootHinge.set(0);
+  //   } else {
+  //   /* Make a Linear relationship between the distance value and the ShootHinge 
+  //    * motor encoder. Tune for smaller #'s. Y^2 - Y^1 / X^2 - X^1 = M. 
+  //    * Y^1 = MX^1 + b (Solve for b)
+  //    */
+  //   // y = mx + b
+  //   // m = slope = (y2 - y1)/(x2 - x1)
+  //     targetHoodPos = (-40*(Math.hypot(xdistance - 4, ydistance - 2.5))) + 130;
+  //   }
+  // }
 
   public void reBoot(){
       hingeEncoder.setPosition(0);

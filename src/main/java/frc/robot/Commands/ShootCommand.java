@@ -1,6 +1,6 @@
 package frc.robot.Commands;
 
-import java.lang.annotation.Target;
+// import java.lang.annotation.Target;
 
 // import com.revrobotics.spark.ClosedLoopSlot;
 // import com.revrobotics.spark.SparkBase.ControlType;
@@ -18,7 +18,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShootCommand extends Command{
 
     private ShooterSubsystem shooter;
-    private IntakeSubsystem intake;
+    // private IntakeSubsystem intake;
     private BeltSubsystem belt;
     public Timer timer = new Timer();
     double time;
@@ -27,7 +27,7 @@ public class ShootCommand extends Command{
     public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, IntakeSubsystem intake, boolean reversed, double time){
         this.shooter = shooter;
         this.belt = belt;
-        this.intake = intake;
+        // this.intake = intake;
         this.time = time;
         this.reversed = reversed;
     }
@@ -41,20 +41,22 @@ public class ShootCommand extends Command{
     public void execute(){
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
-                shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 95));
-            // shooter.shoot();
+            // double velocity = shooter.changeVel();
+            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(
+                                            shooter.targetVelocity = 100));
             if((timer.get() >= 0.75)){
                 shooter.feed();
-                belt.runBelt();
-                intake.Intake();
+                // intake.Intake();
                 SmartDashboard.putBoolean("feeding", true);
+                if(timer.get() >= 2){
+                    belt.runBelt(-0.75);
+                } else{
+                    belt.runBelt(-1);
+                }
+                // SmartDashboard.putBoolean("intaking", true);
             }
-                // shooter.targetVelocity = shooter.rpmSetpoint;
-            // if(shooter.encoderVel <= shooter.rpmSetpoint + 10){
-            //     // shooter.feed();
-            //     // belt.runBelt();
-            //     SmartDashboard.putBoolean("UpToSpeed", true);
-            // } else{SmartDashboard.putBoolean("UpToSpeed", false);} // JAKEREVIEW: You are printing true and false here forever.
+
+
         } else{
             shooter.reverseFeed();
             // shooter.targetVelocity = 50;
@@ -66,12 +68,12 @@ public class ShootCommand extends Command{
     public void end(boolean interrupted){
         // shooter.targetVelocity = 0;
         shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 0));
-        // shooter.disableShoot();
         shooter.disableFeed();
         belt.stopBelt();
-        intake.DisableIntake();
+        // intake.DisableIntake();
         SmartDashboard.putBoolean("shooting", false);
         SmartDashboard.putBoolean("feeding", false);
+        // SmartDashboard.putBoolean("intaking", false);
 
     }
 

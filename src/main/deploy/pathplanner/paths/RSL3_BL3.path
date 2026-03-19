@@ -3,55 +3,60 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 5.675
+        "x": 3.5900000000000003,
+        "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.35,
-        "y": 5.675
+        "x": 3.8400000000000003,
+        "y": 2.5
       },
       "isLocked": false,
-      "linkedName": "RSL1"
+      "linkedName": "RSL3"
     },
     {
       "anchor": {
         "x": 4.625,
-        "y": 5.66
+        "y": 2.4
       },
       "prevControl": {
-        "x": 4.125,
-        "y": 5.66
+        "x": 4.375,
+        "y": 2.4
       },
       "nextControl": {
-        "x": 6.125,
-        "y": 5.66
+        "x": 5.625,
+        "y": 2.4
       },
       "isLocked": false,
-      "linkedName": "B1"
+      "linkedName": "B2"
     },
     {
       "anchor": {
-        "x": 7.8,
-        "y": 5.875
+        "x": 7.9,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 6.8,
-        "y": 5.875
+        "x": 7.9,
+        "y": 2.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BL1"
+      "linkedName": "BL3_up"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.25,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 1.5,
-      "endWaypointRelativePos": 2.0,
+      "waypointRelativePos": 1.2,
+      "endWaypointRelativePos": 1.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -83,7 +88,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": null,

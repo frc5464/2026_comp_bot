@@ -20,8 +20,8 @@
         "y": 2.15
       },
       "prevControl": {
-        "x": 8.811889066001584,
-        "y": 8.058846518073247
+        "x": 8.73201090427479,
+        "y": 7.605834951687633
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,28 +30,17 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9,
-      "rotationDegrees": -90.0
+      "waypointRelativePos": 0.2,
+      "rotationDegrees": 0.0
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Shoot",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Shoot"
-        }
-      }
-    },
-    {
       "name": "Intake",
-      "waypointRelativePos": 0.2511816340310613,
-      "endWaypointRelativePos": 3.0,
+      "waypointRelativePos": 0.2,
+      "endWaypointRelativePos": 1.0,
       "command": {
         "type": "named",
         "data": {

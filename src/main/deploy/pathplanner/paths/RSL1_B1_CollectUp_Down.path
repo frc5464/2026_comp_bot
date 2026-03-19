@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.082962913144534,
-        "y": 5.545590477448739
+        "x": 3.85,
+        "y": 5.675
       },
       "isLocked": false,
       "linkedName": "RSL1"
@@ -17,42 +17,42 @@
     {
       "anchor": {
         "x": 4.625,
-        "y": 5.5
+        "y": 5.66
       },
       "prevControl": {
         "x": 4.125,
-        "y": 5.5
+        "y": 5.66
       },
       "nextControl": {
-        "x": 5.875,
-        "y": 5.5
+        "x": 6.625,
+        "y": 5.66
       },
       "isLocked": false,
       "linkedName": "B1"
     },
     {
       "anchor": {
-        "x": 6.3,
-        "y": 6.4
+        "x": 6.97,
+        "y": 6.539
       },
       "prevControl": {
-        "x": 6.3,
-        "y": 5.814595832553437
+        "x": 6.97,
+        "y": 5.953595832553436
       },
       "nextControl": {
-        "x": 6.3,
-        "y": 6.985404167446564
+        "x": 6.97,
+        "y": 7.1244041674465635
       },
       "isLocked": false,
       "linkedName": "Pickup_Topcurve"
     },
     {
       "anchor": {
-        "x": 7.8,
+        "x": 8.0,
         "y": 7.15
       },
       "prevControl": {
-        "x": 7.446446609406726,
+        "x": 7.646446609406726,
         "y": 7.503553390593273
       },
       "nextControl": null,
@@ -69,17 +69,6 @@
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Shoot"
-        }
-      }
-    },
     {
       "name": "IntakeDown",
       "waypointRelativePos": 2.0,
