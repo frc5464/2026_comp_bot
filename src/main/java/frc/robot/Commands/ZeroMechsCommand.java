@@ -31,7 +31,7 @@ public class ZeroMechsCommand extends Command{
         if(resetType == 0){
             intake.reBoot();
         // } else if(resetType == 1){
-            shoot.reBoot();
+            // shoot.reBoot();
         // } else if(resetType ==2){
             turret.reBoot();
         }/*else if(resetType == 2){

@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -34,6 +35,20 @@ public class ShooterSubsystem extends SubsystemBase{
     public final TalonFX feederMotor = new TalonFX(17);
     // public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
 
+    Orchestra m_orchestra = new Orchestra();
+
+    // // Add a single device to the orchestra
+    // m_orchestra.addInstrument(shooterMotor);
+
+    // // // Attempt to load the chrp
+    // // var status = m_orchestra.loadMusic("track.chrp");
+
+    // if (!status.isOK()) {
+    //   // log error
+    // }
+
+
+    
     //Stuff for shootPosition PID
     public RelativeEncoder hingeEncoder;
     public double encoderPos;
@@ -60,6 +75,14 @@ public class ShooterSubsystem extends SubsystemBase{
 
   public ShooterSubsystem(){
     initPidShoot();
+    // Add a single device to the orchestra
+    // m_orchestra.addInstrument(shooterMotor);
+    // // Attempt to load the chrp
+    // var status = m_orchestra.loadMusic("supermario.chrp");
+
+    // if (!status.isOK()) {
+    //   // log error
+    // }
     SmartDashboard.putBoolean("shooting", false);
   }
 
