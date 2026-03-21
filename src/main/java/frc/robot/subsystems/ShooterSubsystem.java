@@ -32,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
     public final TalonFX feederMotor = new TalonFX(17);
-    public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
+    // public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
 
     //Stuff for shootPosition PID
     public RelativeEncoder hingeEncoder;
@@ -65,18 +65,18 @@ public class ShooterSubsystem extends SubsystemBase{
 
   private void initPidShoot(){
       // Position PID for shoot hinge
-      posClosedLoopController = shootHinge.getClosedLoopController();
-      hingeEncoder = shootHinge.getEncoder();  
-      posConfig.closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          //Set PID values for position control
-          .p(0.1)
-          .i(0)
-          .d(0)
-          .outputRange(-0.3, 0.3)
-          .feedForward
-          .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
-      shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+      // posClosedLoopController = shootHinge.getClosedLoopController();
+      // hingeEncoder = shootHinge.getEncoder();  
+      // posConfig.closedLoop
+      //     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+      //     //Set PID values for position control
+      //     .p(0.1)
+      //     .i(0)
+      //     .d(0)
+      //     .outputRange(-0.3, 0.3)
+      //     .feedForward
+      //     .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
+      // shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
      //VelocityPID for shooter with Krakens
       var slot0Configs = new Slot0Configs();
@@ -98,9 +98,9 @@ public class ShooterSubsystem extends SubsystemBase{
       encoderVel = shooterMotor.getVelocity().getValueAsDouble();
       
       // ============================================== ROTATION POSITION CODE!
-      encoderPos = hingeEncoder.getPosition();
+      // encoderPos = hingeEncoder.getPosition();
 
-      posClosedLoopController.setSetpoint(targetHoodPos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+      // posClosedLoopController.setSetpoint(targetHoodPos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
       SmartDashboard.putNumber("targetHoodPos", targetHoodPos);
       SmartDashboard.putNumber("hoodRot", encoderPos);
       SmartDashboard.putNumber("shootVel", encoderVel);
