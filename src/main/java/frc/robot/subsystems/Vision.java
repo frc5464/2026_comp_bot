@@ -13,15 +13,21 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonTargetSortMode;
+import org.photonvision.PhotonUtils;
 import org.photonvision.proto.Photon;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -124,6 +130,7 @@ public class Vision extends SubsystemBase {
 
     private PhotonPoseEstimator estimatePoseFromCamera(PhotonCamera Camera) {
         // TODO: enable multitag in GUI
+        // TODO: get actual offsets for center of robot
         Transform3d relativeCameraPosition = null;
         switch (Camera.getName()) {
             case "ribombee":
@@ -149,9 +156,10 @@ public class Vision extends SubsystemBase {
         return new PhotonPoseEstimator(kTagFieldLayout, relativeCameraPosition);
     }
 
-    public Pose3d completePose() {
+    public Pose3d compiledCenterPoseMM() {
         // uses several cameras to result in one position
         // average positions to reduce offset
+
         List<EstimatedRobotPose> estimatedPositions = new ArrayList<>();
         Translation3d completeTranslation = new Translation3d();
         for (PhotonCamera c : cameras) {
@@ -165,7 +173,8 @@ public class Vision extends SubsystemBase {
                 }
 
                 // backup estimation method
-                constructorObject = estimatePoseFromCamera(c).estimateLowestAmbiguityPose(item);
+                constructorObject = estimatePoseFromCamera(c)
+                        .estimateLowestAmbiguityPose(item);
 
                 if (constructorObject.isPresent() && !constructorObject.isEmpty()) {
                     estimatedPositions.add(constructorObject.get());
@@ -177,15 +186,56 @@ public class Vision extends SubsystemBase {
             }
         }
 
-
         // return mean of all estimations
-        Translation3d avgTranslation = new Translation3d();
+        Translation3d avgTranslation = new Translation3d(); // seperate into translation and rotation
         Rotation3d avgRotation = new Rotation3d();
         for (EstimatedRobotPose estPos : estimatedPositions) {
-          avgTranslation = avgTranslation.plus(estPos.estimatedPose.getTranslation());
-          avgRotation = avgRotation.plus(estPos.estimatedPose.getRotation()); 
+            avgTranslation = avgTranslation.plus(estPos.estimatedPose.getTranslation()); // add all together seperately
+            avgRotation = avgRotation.plus(estPos.estimatedPose.getRotation());
         }
-        Pose3d completePose = new Pose3d(avgTranslation, avgRotation);
+        Pose3d completePose = new Pose3d(avgTranslation, avgRotation); // recombine
+        completePose = completePose.div(estimatedPositions.size()); // divide by len
         return completePose;
+    }
+
+    public Pose3d turretPose() {
+        //just completePose modified to be offset from turret point
+        // TODO: get offset from center to the turret
+
+        final Transform3d turretOffset = new Transform3d();
+
+        return compiledCenterPoseMM().plus(turretOffset);
+    }
+
+    private Rotation2d rotationToTag(int fidID, Boolean fromTurret) {
+        // fiducial ID of april tag
+        // and True if centered on turret,
+        // False if from the center of the robot
+        // returns a transform from the center to the target tag
+        PhotonTrackedTarget locatedFID = null;
+        Pose2d tagPose2d;
+        Pose2d selfPose2d;
+
+        for (PhotonTrackedTarget target : getAllTargets()) {
+            if (target.getFiducialId() == fidID){
+                locatedFID = target;
+            }
+        }
+        if (locatedFID == null) {
+            return null;
+        } else {
+            //TODO: get april tag position
+        }
+
+        
+
+        if (fromTurret){
+            selfPose2d = turretPose().toPose2d();
+        } else {
+            selfPose2d = compiledCenterPoseMM().toPose2d();
+        }
+
+        return PhotonUtils.getYawToPose(selfPose2d, tagPose2d);
+
     }
 }
