@@ -86,7 +86,6 @@ public class Vision extends SubsystemBase {
     }
 
     private PhotonCamera[] cameras = {
-            new PhotonCamera("ribombee"), /* are these camera names allowed? like frc-wise */
             new PhotonCamera("combee"),
             new PhotonCamera("beedril"),
             new PhotonCamera("vespiquen")
@@ -95,7 +94,7 @@ public class Vision extends SubsystemBase {
 
     public void periodic() {
         // dont uncomment and push to main till stable
-        // VisionLoop();
+        VisionLoop();
     }
 
     public void VisionLoop() {
@@ -103,11 +102,17 @@ public class Vision extends SubsystemBase {
         cameraTable.clear(); /* clear table before adding items again */
 
         for (PhotonCamera c : cameras) {
-            cameraTable.addItem(c.getName(), c.getAllUnreadResults());
+            if (!c.getAllUnreadResults().isEmpty()) {
+                cameraTable.addItem(c.getName(), c.getAllUnreadResults());
+            }
+
         }
 
         for (String key : cameraTable.keys) {
-            SmartDashboard.putString(key, cameraTable.retrieveItem(key).toString());
+            if (!cameraTable.retrieveItem(key).isEmpty()) {
+                SmartDashboard.putString(key, cameraTable.retrieveItem(key).toString());
+            }
+
         }
     }
 
@@ -199,7 +204,7 @@ public class Vision extends SubsystemBase {
     }
 
     public Pose3d turretPose() {
-        //just completePose modified to be offset from turret point
+        // just completePose modified to be offset from turret point
         // TODO: get offset from center to the turret
 
         final Transform3d turretOffset = new Transform3d();
@@ -213,29 +218,31 @@ public class Vision extends SubsystemBase {
         // False if from the center of the robot
         // returns a transform from the center to the target tag
         PhotonTrackedTarget locatedFID = null;
-        Pose2d tagPose2d;
-        Pose2d selfPose2d;
+        Pose3d tagPose3d;
+        Pose3d selfPose3d;
 
         for (PhotonTrackedTarget target : getAllTargets()) {
-            if (target.getFiducialId() == fidID){
+            if (target.getFiducialId() == fidID) {
                 locatedFID = target;
             }
         }
         if (locatedFID == null) {
             return null;
         } else {
-            //TODO: get april tag position
+            tagPose3d = new Pose3d(
+                    new Translation3d(locatedFID.bestCameraToTarget.getX(), locatedFID.bestCameraToTarget.getY(),
+                            locatedFID.bestCameraToTarget.getZ()),
+                    new Rotation3d(locatedFID.skew, locatedFID.pitch, locatedFID.yaw));
+            // TODO: get april tag position
         }
 
-        
-
-        if (fromTurret){
-            selfPose2d = turretPose().toPose2d();
+        if (fromTurret) {
+            selfPose3d = turretPose();
         } else {
-            selfPose2d = compiledCenterPoseMM().toPose2d();
+            selfPose3d = compiledCenterPoseMM();
         }
 
-        return PhotonUtils.getYawToPose(selfPose2d, tagPose2d);
+        return PhotonUtils.getYawToPose(selfPose3d.toPose2d(), tagPose3d.toPose2d());
 
     }
 }
