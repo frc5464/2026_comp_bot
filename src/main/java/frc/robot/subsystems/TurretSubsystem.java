@@ -35,8 +35,8 @@ public class TurretSubsystem extends SubsystemBase{
 
     public double turrettargetPosition = 0;
 
-    public double turretlimitleft = 7.2;
-    public double turretlimitright = -7.2;
+    public double turretlimitleft = 18;
+    public double turretlimitright = -15.5;
 
     public boolean turretAimedtoShoot = false;
 
