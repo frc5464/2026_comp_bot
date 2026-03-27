@@ -56,6 +56,10 @@ public class Vision extends SubsystemBase {
                 results.set(keys.indexOf(Key), value);
             }
 
+            if (keys.size() != results.size()) {
+                System.err.println("Size mismatch in lookuptable");
+            }
+
             return keys.indexOf(Key);
         }
 
