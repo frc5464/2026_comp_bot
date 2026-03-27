@@ -32,16 +32,16 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
     public final TalonFX feederMotor = new TalonFX(17);
-    public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
+    // public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
 
     //Stuff for shootPosition PID
-    public RelativeEncoder hingeEncoder;
-    public double encoderPos;
+    // public RelativeEncoder hingeEncoder;
+    // public double encoderPos;
     
     private SparkMaxConfig posConfig = new SparkMaxConfig();
     private SparkClosedLoopController posClosedLoopController;
 
-    public double targetHoodPos = -0.24;
+    // public double targetHoodPos = -0.24;
     public double usualResistance = 1.0;
     //Stuff for shootVelocity PID
     RelativeEncoder flyEncoder;
@@ -51,8 +51,8 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public double targetVelocity = 0; // start out at roughly our max velocity
 
-    public double hoodlimitup = -4;
-    public double hoodlimitdown = -0.4;
+    // public double hoodlimitup = -4;
+    // public double hoodlimitdown = -0.4;
 
     public VelocityVoltage m_request;
 
@@ -65,18 +65,18 @@ public class ShooterSubsystem extends SubsystemBase{
 
   private void initPidShoot(){
       // Position PID for shoot hinge
-      posClosedLoopController = shootHinge.getClosedLoopController();
-      hingeEncoder = shootHinge.getEncoder();  
-      posConfig.closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          //Set PID values for position control
-          .p(0.1)
-          .i(0)
-          .d(0)
-          .outputRange(-0.3, 0.3)
-          .feedForward
-          .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
-      shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+      // posClosedLoopController = shootHinge.getClosedLoopController();
+      // hingeEncoder = shootHinge.getEncoder();  
+      // posConfig.closedLoop
+      //     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+      //     //Set PID values for position control
+      //     .p(0.1)
+      //     .i(0)
+      //     .d(0)
+      //     .outputRange(-0.3, 0.3)
+      //     .feedForward
+      //     .kV(12.0 / 5767, ClosedLoopSlot.kSlot0);
+      // shootHinge.configure(posConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
      //VelocityPID for shooter with Krakens
       var slot0Configs = new Slot0Configs();
@@ -98,11 +98,11 @@ public class ShooterSubsystem extends SubsystemBase{
       encoderVel = shooterMotor.getVelocity().getValueAsDouble();
       
       // ============================================== ROTATION POSITION CODE!
-      encoderPos = hingeEncoder.getPosition();
+      // encoderPos = hingeEncoder.getPosition();
 
-      posClosedLoopController.setSetpoint(targetHoodPos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-      SmartDashboard.putNumber("targetHoodPos", targetHoodPos);
-      SmartDashboard.putNumber("hoodRot", encoderPos);
+      // posClosedLoopController.setSetpoint(targetHoodPos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+      // SmartDashboard.putNumber("targetHoodPos", targetHoodPos);
+      // SmartDashboard.putNumber("hoodRot", encoderPos);
       SmartDashboard.putNumber("shootVel", encoderVel);
       SmartDashboard.putNumber("targetShootVel", targetVelocity);
       
@@ -140,22 +140,22 @@ public class ShooterSubsystem extends SubsystemBase{
 
   public void changeAngle(double xrobot, double yrobot){
 
-    double turretCenterx;
-    double turretCentery;
+    // double turretCenterx;
+    // double turretCentery;
 
-    turretCenterx = xrobot-0.0889;
-    turretCentery = yrobot-0.17145;
+    // turretCenterx = xrobot-0.0889;
+    // turretCentery = yrobot-0.17145;
 
-    // Figure out which hub we need to be aiming at
-    if(DriverStation.getAlliance().get() == Alliance.Blue){
-        // Calculate the angle needed between hood and blue hub in degrees
-        distancetoHub = Math.hypot(turretCenterx-4.6, turretCentery-4);
-    } else{
-        // Calculate the angle needed between hood and red hub in degrees
-        distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
-    }
+    // // Figure out which hub we need to be aiming at
+    // if(DriverStation.getAlliance().get() == Alliance.Blue){
+    //     // Calculate the angle needed between hood and blue hub in degrees
+    //     distancetoHub = Math.hypot(turretCenterx-4.6, turretCentery-4);
+    // } else{
+    //     // Calculate the angle needed between hood and red hub in degrees
+    //     distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
+    // }
     
-    double calcHoodPos = (-2.09*distancetoHub) + 2.89;
+    // double calcHoodPos = (-2.09*distancetoHub) + 2.89;
 
     // if(calcHoodPos < hoodlimitup){
     //   targetHoodPos = hoodlimitup;
@@ -167,8 +167,8 @@ public class ShooterSubsystem extends SubsystemBase{
     //   targetHoodPos = calcHoodPos;
     // }
 
-    SmartDashboard.putNumber("distancetoHub", distancetoHub);
-    SmartDashboard.putNumber("calcHoodPos", calcHoodPos);
+    // SmartDashboard.putNumber("distancetoHub", distancetoHub);
+    // SmartDashboard.putNumber("calcHoodPos", calcHoodPos);
   }      
 
       
@@ -186,6 +186,6 @@ public class ShooterSubsystem extends SubsystemBase{
   // }
 
   public void reBoot(){
-      hingeEncoder.setPosition(0);
+      // hingeEncoder.setPosition(0);
   }
 }
