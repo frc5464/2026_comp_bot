@@ -1,33 +1,22 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Rotation;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.xml.crypto.dsig.Transform;
-
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonTargetSortMode;
 import org.photonvision.PhotonUtils;
-import org.photonvision.proto.Photon;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -40,7 +29,7 @@ public class Vision extends SubsystemBase {
             data = AprilTagFieldLayout.loadFromResource(path);
             return data;
         } catch (Exception e) {
-            // TODO: handle exception
+            System.err.println("FieldSuperConstructor failed to load JSON map!");
             SmartDashboard.putBoolean("Loaded ATF", false);
         }
         return null;
@@ -72,11 +61,6 @@ public class Vision extends SubsystemBase {
 
         public List<PhotonPipelineResult> retrieveItem(String Key) {
             return results.get(keys.indexOf(Key));
-        }
-
-        public void popItem(String Key) {
-            results.remove(keys.indexOf(Key));
-            keys.remove(Key);
         }
 
         public void clear() {
@@ -123,7 +107,7 @@ public class Vision extends SubsystemBase {
     private lookupTable cameraTable = new lookupTable();
 
     public void periodic() {
-        VisionLoop();
+        // VisionLoop();
     }
 
     private void VisionLoop() {
@@ -172,7 +156,7 @@ public class Vision extends SubsystemBase {
                 Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c)
                         .estimateCoprocMultiTagPose(item);
 
-                if (constructorObject.isPresent() && !constructorObject.isEmpty()) {
+                if (constructorObject.isPresent()) {
                     estimatedPositions.add(constructorObject.get());
                     continue;
                 }
@@ -181,12 +165,11 @@ public class Vision extends SubsystemBase {
                 constructorObject = estimatePoseFromCamera(c)
                         .estimateLowestAmbiguityPose(item);
 
-                if (constructorObject.isPresent() && !constructorObject.isEmpty()) {
+                if (constructorObject.isPresent()) {
                     estimatedPositions.add(constructorObject.get());
                     continue;
                 }
-
-                // TODO: handle double failure
+                System.err.println("Both pose estimation types failed to find any tags.");
                 SmartDashboard.putBoolean("failedEstimation", true);
             }
         }
@@ -237,7 +220,6 @@ public class Vision extends SubsystemBase {
             return null;
         } else {
             tagPose3d = tagPose(locatedFID);
-            // TODO: get april tag position
         }
 
         if (fromTurret) {
