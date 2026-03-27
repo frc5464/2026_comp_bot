@@ -23,8 +23,8 @@ public class AutoHoodAngleCommand extends Command{
 
     @Override
     public void execute() {
-        shoot.changeAngle(drivetrain.getState().Pose.getX(),
-                          drivetrain.getState().Pose.getY());
+        // shoot.changeAngle(drivetrain.getState().Pose.getX(),
+        //                   drivetrain.getState().Pose.getY());
     }
 
     @Override
