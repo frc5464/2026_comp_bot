@@ -42,9 +42,8 @@ public class ShootCommand extends Command{
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
             // double velocity = shooter.changeVel();
-            // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(
-            //                                 shooter.targetVelocity = 100));
-            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.changeVel()));
+            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 100));
+            // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.changeVel()));
             if((timer.get() >= 0.75)){
                 shooter.feed();
                 // intake.Intake();

@@ -32,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
     public final TalonFX feederMotor = new TalonFX(17);
-    // public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
+    
 
     //Stuff for shootPosition PID
     // public RelativeEncoder hingeEncoder;
