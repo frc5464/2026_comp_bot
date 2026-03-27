@@ -90,14 +90,43 @@ public class Vision extends SubsystemBase {
             new PhotonCamera("beedril"),
             new PhotonCamera("vespiquen")
     };
+
+    private PhotonPoseEstimator estimatePoseFromCamera(PhotonCamera Camera) {
+        // TODONE: enable multitag in GUI
+        // TODO: get actual offsets for center of robot
+        //      update: info in discord, need to convert to the correct format still
+        Transform3d relativeCameraPosition = null;
+        switch (Camera.getName()) {
+            case "ribombee":
+                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
+                break;
+
+            case "combee":
+                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
+                break;
+
+            case "beedril":
+                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
+                break;
+
+            case "vespiquen":
+                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
+                break;
+
+            default:
+                SmartDashboard.putBoolean("bad cam", true);
+                break;
+        }
+        return new PhotonPoseEstimator(kTagFieldLayout, relativeCameraPosition);
+    }
+
     private lookupTable cameraTable = new lookupTable();
 
     public void periodic() {
-        // dont uncomment and push to main till stable
         VisionLoop();
     }
 
-    public void VisionLoop() {
+    private void VisionLoop() {
 
         cameraTable.clear(); /* clear table before adding items again */
 
@@ -133,40 +162,11 @@ public class Vision extends SubsystemBase {
         return compiledResults;
     }
 
-    private PhotonPoseEstimator estimatePoseFromCamera(PhotonCamera Camera) {
-        // TODO: enable multitag in GUI
-        // TODO: get actual offsets for center of robot
-        Transform3d relativeCameraPosition = null;
-        switch (Camera.getName()) {
-            case "ribombee":
-                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
-                break;
-
-            case "combee":
-                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
-                break;
-
-            case "beedril":
-                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
-                break;
-
-            case "vespiquen":
-                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
-                break;
-
-            default:
-                SmartDashboard.putBoolean("bad cam", true);
-                break;
-        }
-        return new PhotonPoseEstimator(kTagFieldLayout, relativeCameraPosition);
-    }
-
-    public Pose3d compiledCenterPoseMM() {
+    public Pose3d compiledRobotPose() {
         // uses several cameras to result in one position
         // average positions to reduce offset
 
         List<EstimatedRobotPose> estimatedPositions = new ArrayList<>();
-        Translation3d completeTranslation = new Translation3d();
         for (PhotonCamera c : cameras) {
             for (PhotonPipelineResult item : cameraTable.retrieveItem(c.getName())) {
                 Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c)
@@ -209,10 +209,17 @@ public class Vision extends SubsystemBase {
 
         final Transform3d turretOffset = new Transform3d();
 
-        return compiledCenterPoseMM().plus(turretOffset);
+        return compiledRobotPose().plus(turretOffset);
     }
 
-    private Rotation2d rotationToTag(int fidID, Boolean fromTurret) {
+    public Pose3d tagPose(PhotonTrackedTarget AprilTag) {
+        return new Pose3d(
+                new Translation3d(AprilTag.bestCameraToTarget.getX(), AprilTag.bestCameraToTarget.getY(),
+                        AprilTag.bestCameraToTarget.getZ()),
+                new Rotation3d(AprilTag.skew, AprilTag.pitch, AprilTag.yaw));
+    }
+
+    public Rotation2d rotationToTag(int fidID, Boolean fromTurret) {
         // fiducial ID of april tag
         // and True if centered on turret,
         // False if from the center of the robot
@@ -229,17 +236,14 @@ public class Vision extends SubsystemBase {
         if (locatedFID == null) {
             return null;
         } else {
-            tagPose3d = new Pose3d(
-                    new Translation3d(locatedFID.bestCameraToTarget.getX(), locatedFID.bestCameraToTarget.getY(),
-                            locatedFID.bestCameraToTarget.getZ()),
-                    new Rotation3d(locatedFID.skew, locatedFID.pitch, locatedFID.yaw));
+            tagPose3d = tagPose(locatedFID);
             // TODO: get april tag position
         }
 
         if (fromTurret) {
             selfPose3d = turretPose();
         } else {
-            selfPose3d = compiledCenterPoseMM();
+            selfPose3d = compiledRobotPose();
         }
 
         return PhotonUtils.getYawToPose(selfPose3d.toPose2d(), tagPose3d.toPose2d());
