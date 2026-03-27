@@ -129,7 +129,20 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(0);
   }
 
-  public double changeVel(){
+  public double changeVel(double xrobot, double yrobot){
+    double turretCenterx;
+    double turretCentery;
+
+    turretCenterx = xrobot-0.0889;
+    turretCentery = yrobot-0.17145;
+    // // Figure out which hub we need to be aiming at
+    if(DriverStation.getAlliance().get() == Alliance.Blue){
+        // Calculate the angle needed between hood and blue hub in degrees
+        distancetoHub = Math.hypot(turretCenterx-4.6, turretCentery-4);
+    } else{
+        // Calculate the angle needed between hood and red hub in degrees
+        distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
+    }
       double calculatedVelocity = (7.69*distancetoHub) + 65.3;
       if(calculatedVelocity > 100){
         calculatedVelocity = 100;

@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Commands.AutoHoodAngleCommand;
+import frc.robot.Commands.AutoShootCommand;
 import frc.robot.Commands.AutoTurretAngleCommand;
 // import frc.robot.Commands.BeltCommand;
 import frc.robot.Commands.IntakeCommand;
@@ -90,8 +91,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
-        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, intake, false, 3));
-        NamedCommands.registerCommand("LongShoot", new ShootCommand(shoot, belt, intake, false, 8));
+        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, false, 3));
+        NamedCommands.registerCommand("LongShoot", new ShootCommand(shoot, belt, false, 8));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
 
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -164,7 +165,7 @@ public class RobotContainer {
         // shoot.setDefaultCommand(new FeedCommand(shoot));
         // belt.setDefaultCommand(new BeltCommand(belt));
         turret.setDefaultCommand(new AutoTurretAngleCommand(drivetrain, turret));
-        shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
+        // shoot.setDefaultCommand(new AutoHoodAngleCommand(drivetrain, shoot));
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
@@ -189,7 +190,8 @@ public class RobotContainer {
         zackController.povUp().onTrue(new ShooterHoodCommand(shoot, true));
         zackController.povDown().onTrue(new ShooterHoodCommand(shoot, false));
         //rev up feeder motor up to speed, then shoots when up to speed
-        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, intake, false, 67));
+        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, false, 67));
+        driveController.rightBumper().whileTrue(new AutoShootCommand(shoot, belt, drivetrain, false, 67));
 
         zackController.back().whileTrue(new ManualModeCommand());
         zackController.y().whileTrue(new FeedCommand(shoot, belt, true, 67));
@@ -208,7 +210,7 @@ public class RobotContainer {
         zackController.axisGreaterThan(4, 0.5).whileTrue(new ManualTurretCommand(turret, true));
         zackController.axisLessThan(4, -0.5).whileTrue(new ManualTurretCommand(turret, false));
 
-        zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, intake, true, 67));
+        zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, true, 67));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.

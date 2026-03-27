@@ -1,33 +1,26 @@
 package frc.robot.Commands;
 
-// import java.lang.annotation.Target;
-
-// import com.revrobotics.spark.ClosedLoopSlot;
-// import com.revrobotics.spark.SparkBase.ControlType;
-
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.BeltSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-// import frc.robot.Universals;
-// import frc.robot.subsystems.BeltSubsystem;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootCommand extends Command{
-
+public class AutoShootCommand extends Command{
     private ShooterSubsystem shooter;
     // private IntakeSubsystem intake;
     private BeltSubsystem belt;
+    private CommandSwerveDrivetrain drivetrain;
     public Timer timer = new Timer();
     double time;
     public boolean reversed;
 
-    public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, boolean reversed, double time){
+    public AutoShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, CommandSwerveDrivetrain drivetrain, boolean reversed, double time){
         this.shooter = shooter;
         this.belt = belt;
-        // this.intake = intake;
+        this.drivetrain = drivetrain;
         this.time = time;
         this.reversed = reversed;
     }
@@ -42,8 +35,8 @@ public class ShootCommand extends Command{
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
             // double velocity = shooter.changeVel();
-            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 100));
-            // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.changeVel()));
+            // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 100));
+            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.changeVel(drivetrain.getState().Pose.getX(), drivetrain.getState().Pose.getY())));
             if((timer.get() >= 0.75)){
                 shooter.feed();
                 // intake.Intake();
@@ -86,3 +79,4 @@ public class ShootCommand extends Command{
         return false;
     }
 }
+
