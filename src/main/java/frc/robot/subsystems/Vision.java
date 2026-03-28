@@ -77,24 +77,22 @@ public class Vision extends SubsystemBase {
     };
 
     private PhotonPoseEstimator estimatePoseFromCamera(SmartCam Camera) {
-        // TODONE: enable multitag in GUI
-        // TODO: get actual offsets for center of robot
-        // update: info in discord, need to convert to the correct format still
         Transform3d relativeCameraPosition = null;
         switch (Camera.name) {
 
             case "combee": // 270
-                relativeCameraPosition = new Transform3d(new Translation3d(4, -12.75, 16.6875),
-                        new Rotation3d(0, 0, 270));
+                relativeCameraPosition = new Transform3d(new Translation3d(0.1016, -0.32385, 0.4238625),
+                        new Rotation3d(0, 0, Math.toRadians(270)));
                 break;
 
             case "beedril": // 180
-                relativeCameraPosition = new Transform3d(new Translation3d(-10.375, 0.25, 16.25),
-                        new Rotation3d(0, 0, 180));
+                relativeCameraPosition = new Transform3d(new Translation3d(-0.263525, 0.00635, 0.41275),
+                        new Rotation3d(0, 0, Math.toRadians(180)));
                 break;
 
             case "vespiquen": // 90
-                relativeCameraPosition = new Transform3d(new Translation3d(-11, 10.5, 11.75), new Rotation3d(0, 0, 90));
+                relativeCameraPosition = new Transform3d(new Translation3d(-0.2794, 0.2667, 0.29845),
+                        new Rotation3d(0, 0, Math.toRadians(90)));
                 break;
 
             default:
@@ -122,8 +120,6 @@ public class Vision extends SubsystemBase {
     }
 
     private void VisionLoop() {
-        // tested. working
-        // lol no
         for (SmartCam c : cameras) {
             if (c.SafeResults().isEmpty()) {
                 continue;
@@ -131,11 +127,9 @@ public class Vision extends SubsystemBase {
 
             SmartDashboard.putString("results", getAllTargets().toString());
         }
-        // SmartDashboard.putString(c.name,c.SafeResults().get().toString());
     }
 
     public List<PhotonTrackedTarget> getAllTargets() {
-        // TODO: TEST
         List<PhotonTrackedTarget> compiledTargets = new ArrayList<>();
 
         for (SmartCam c : cameras) {
@@ -150,7 +144,6 @@ public class Vision extends SubsystemBase {
     }
 
     public List<PhotonTrackedTarget> getCameraTargets(String cameraName) {
-        // TODO: TEST
         List<PhotonTrackedTarget> compiledResults = new ArrayList<>();
         for (SmartCam c : cameras) {
             if (c.name == cameraName) {
@@ -211,9 +204,7 @@ public class Vision extends SubsystemBase {
     }
 
     public Pose3d turretPose() {
-        // TODO: TEST
         // just completePose modified to be offset from turret point
-        // TODO: get offset from center to the turret
 
         final Transform3d turretOffset = new Transform3d();
 
@@ -221,7 +212,6 @@ public class Vision extends SubsystemBase {
     }
 
     public Pose3d tagPose(PhotonTrackedTarget AprilTag) {
-        // TODO: TEST
         return new Pose3d(
                 new Translation3d(AprilTag.bestCameraToTarget.getX(), AprilTag.bestCameraToTarget.getY(),
                         AprilTag.bestCameraToTarget.getZ()),
@@ -233,8 +223,6 @@ public class Vision extends SubsystemBase {
         // and True if centered on turret,
         // False if from the center of the robot
         // returns a transform from the center to the target tag
-
-        // TODO: TEST
 
         PhotonTrackedTarget locatedFID = null;
         Pose3d tagPose3d;
