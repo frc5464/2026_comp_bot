@@ -150,7 +150,7 @@ public class RobotContainer {
     public void periodic(){
         shoot.periodic();
         intake.periodic();
-        // vision.periodic();
+        vision.periodic();
     }
 
     public void configureBindings() {

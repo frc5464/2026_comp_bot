@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
         m_candleSubsystem = new CandleSubsystem();
         m_robotContainer = new RobotContainer();
         SmartDashboard.putData("Auto Mode", m_robotContainer.autoChooser);
+        SmartDashboard.putBoolean("iswork?", false);
         
         // SmartDashboard.putData("apis", vision.cameras);
         
@@ -48,7 +49,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run(); 
-
+        // SmartDashboard.putString("AHHHH", );
         m_robotContainer.intake.periodic();
         m_robotContainer.shoot.periodic();
         SmartDashboard.putBoolean("Manual Mode", Universals.manualMode);
