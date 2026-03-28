@@ -4,14 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.xml.crypto.dsig.Transform;
+
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonUtils;
+import org.photonvision.estimation.TargetModel;
+import org.photonvision.proto.Photon;
+import org.photonvision.simulation.PhotonCameraSim;
+import org.photonvision.simulation.SimCameraProperties;
+import org.photonvision.simulation.VisionSystemSim;
+import org.photonvision.simulation.VisionTargetSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -19,70 +29,56 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Vision.SmartCam;
 
 public class Vision extends SubsystemBase {
 
-    private static AprilTagFieldLayout FieldSuperConstructor(String path) {
-        AprilTagFieldLayout data = null;
+    // super constructor was buggy, this is static and just works.
+    public static final AprilTagFieldLayout kTagFieldLayout = AprilTagFieldLayout
+            .loadField(AprilTagFields.k2026RebuiltAndymark);
 
-        try {
-            data = AprilTagFieldLayout.loadFromResource(path);
-            return data;
-        } catch (Exception e) {
-            System.err.println("FieldSuperConstructor failed to load JSON map!");
-            SmartDashboard.putBoolean("Loaded ATF", false);
+    private boolean initialized = false;
+
+    public class SmartCam {
+        String name;
+        PhotonCamera obj;
+        List<PhotonPipelineResult> results = new ArrayList<>();
+
+        public SmartCam(String cameraName) {
+            name = cameraName;
+            obj = new PhotonCamera(cameraName);
+            
         }
-        return null;
-    }
 
-    private final static AprilTagFieldLayout kTagFieldLayout = FieldSuperConstructor(
-            "src/main/java/frc/robot/subsystems/vision_extra/2026-rebuilt-welded.json");
+        public void update() {
+            results = obj.getAllUnreadResults();
+        }
 
-    private class lookupTable {
-        // functions as a dictionary,
-        // where the index of a key is used as the index of a result
-        // interact with using functions, not directly
-        // key/result mismatch may otherwise occur
-
-        List<String> keys = new ArrayList<>();
-        List<List<PhotonPipelineResult>> results = new ArrayList<>();
-
-        public int addItem(String Key, List<PhotonPipelineResult> value) {
-
-            if (!keys.contains(Key)) {
-                keys.add(Key);
-                results.add(value);
+        public Optional<List<PhotonPipelineResult>> SafeResults() {
+            Optional<List<PhotonPipelineResult>> optionalResults = Optional.ofNullable(results);
+            if (optionalResults.isPresent() && !optionalResults.isEmpty()) {
+                if (optionalResults.get().size() == 0){ /*seperate if statement incase empty Optional */
+                    return Optional.empty();
+                }
+                return optionalResults;
             } else {
-                results.set(keys.indexOf(Key), value);
+                return Optional.empty();
             }
-
-            if (keys.size() != results.size()) {
-                System.err.println("Size mismatch in lookuptable");
-            }
-
-            return keys.indexOf(Key);
+            
         }
 
-        public List<PhotonPipelineResult> retrieveItem(String Key) {
-            return results.get(keys.indexOf(Key));
-        }
-
-        public void clear() {
-            results.clear();
-            keys.clear();
-        }
     }
-
-    private PhotonCamera[] cameras = {
-            new PhotonCamera("combee"),
-            new PhotonCamera("beedril"),
-            new PhotonCamera("vespiquen")
+    
+    SmartCam cameras[] = {
+        new SmartCam("beedril"),
+        new SmartCam("vespiquen"),
+        new SmartCam("combee")
     };
 
     private PhotonPoseEstimator estimatePoseFromCamera(PhotonCamera Camera) {
         // TODONE: enable multitag in GUI
         // TODO: get actual offsets for center of robot
-        //      update: info in discord, need to convert to the correct format still
+        // update: info in discord, need to convert to the correct format still
         Transform3d relativeCameraPosition = null;
         switch (Camera.getName()) {
             case "ribombee":
@@ -108,56 +104,80 @@ public class Vision extends SubsystemBase {
         return new PhotonPoseEstimator(kTagFieldLayout, relativeCameraPosition);
     }
 
-    private lookupTable cameraTable = new lookupTable();
+    
+
+    public void init() {
+        SmartDashboard.putBoolean("VisionInit", true);
+        initialized = true;
+    }
 
     public void periodic() {
-        // VisionLoop();
+
+      for (SmartCam c : cameras) {
+        c.update();
+      }
+
+        if (!initialized) {
+            init();
+        }
+        VisionLoop();
     }
 
     private void VisionLoop() {
-
-        cameraTable.clear(); /* clear table before adding items again */
-
-        for (PhotonCamera c : cameras) {
-            if (!c.getAllUnreadResults().isEmpty()) {
-                cameraTable.addItem(c.getName(), c.getAllUnreadResults());
+        // tested. working
+        //  lol no
+        for (SmartCam c : cameras) {
+            if (c.SafeResults().isEmpty()){
+                continue;
             }
-
-        }
-
-        for (String key : cameraTable.keys) {
-            if (!cameraTable.retrieveItem(key).isEmpty()) {
-                SmartDashboard.putString(key, cameraTable.retrieveItem(key).toString());
-            }
-
+            SmartDashboard.putString(c.name,c.SafeResults().get().toString());
         }
     }
 
     public List<PhotonTrackedTarget> getAllTargets() {
+        // TODO: TEST
         List<PhotonTrackedTarget> compiledTargets = new ArrayList<>();
 
-        for (PhotonCamera cam : cameras) {
-            compiledTargets.addAll(getCameraTargets(cam.getName()));
+        for (SmartCam c : cameras) {
+            if (c.SafeResults().isEmpty()){
+                continue;
+            }
+            for (PhotonPipelineResult sR : c.SafeResults().get()) {
+                compiledTargets.addAll(sR.getTargets());
+            }
         }
         return compiledTargets;
     }
 
     public List<PhotonTrackedTarget> getCameraTargets(String cameraName) {
+        // TODO: TEST
         List<PhotonTrackedTarget> compiledResults = new ArrayList<>();
-        for (PhotonPipelineResult item : cameraTable.retrieveItem(cameraName)) {
-            compiledResults.addAll(item.getTargets());
+        for (SmartCam c : cameras) {
+            if (c.name == cameraName) {
+                if (c.SafeResults().isEmpty()){
+                    continue;
+                }
+                for (PhotonPipelineResult sR : c.SafeResults().get()) {
+                    compiledResults.addAll(sR.getTargets());
+                }
+            }
         }
+
         return compiledResults;
     }
 
     public Pose3d compiledRobotPose() {
+        // TODO: TEST
         // uses several cameras to result in one position
         // average positions to reduce offset
 
         List<EstimatedRobotPose> estimatedPositions = new ArrayList<>();
-        for (PhotonCamera c : cameras) {
-            for (PhotonPipelineResult item : cameraTable.retrieveItem(c.getName())) {
-                Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c)
+        for (SmartCam c : cameras) {
+            if (c.SafeResults().isEmpty()){
+                continue;
+            }
+            for (PhotonPipelineResult item : c.SafeResults().get()) {
+                Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c.obj)
                         .estimateCoprocMultiTagPose(item);
 
                 if (constructorObject.isPresent()) {
@@ -166,7 +186,7 @@ public class Vision extends SubsystemBase {
                 }
 
                 // backup estimation method
-                constructorObject = estimatePoseFromCamera(c)
+                constructorObject = estimatePoseFromCamera(c.obj)
                         .estimateLowestAmbiguityPose(item);
 
                 if (constructorObject.isPresent()) {
@@ -191,6 +211,7 @@ public class Vision extends SubsystemBase {
     }
 
     public Pose3d turretPose() {
+        // TODO: TEST
         // just completePose modified to be offset from turret point
         // TODO: get offset from center to the turret
 
@@ -200,6 +221,7 @@ public class Vision extends SubsystemBase {
     }
 
     public Pose3d tagPose(PhotonTrackedTarget AprilTag) {
+        // TODO: TEST
         return new Pose3d(
                 new Translation3d(AprilTag.bestCameraToTarget.getX(), AprilTag.bestCameraToTarget.getY(),
                         AprilTag.bestCameraToTarget.getZ()),
@@ -211,6 +233,9 @@ public class Vision extends SubsystemBase {
         // and True if centered on turret,
         // False if from the center of the robot
         // returns a transform from the center to the target tag
+
+        // TODO: TEST
+
         PhotonTrackedTarget locatedFID = null;
         Pose3d tagPose3d;
         Pose3d selfPose3d;

@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
         m_candleSubsystem = new CandleSubsystem();
         m_robotContainer = new RobotContainer();
         SmartDashboard.putData("Auto Mode", m_robotContainer.autoChooser);
+        
         // SmartDashboard.putData("apis", vision.cameras);
         
     }
@@ -71,6 +72,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().schedule(m_autonomousCommand);
         }
+
+        
     }
 
     @Override
