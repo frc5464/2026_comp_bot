@@ -57,7 +57,7 @@ public class TurretSubsystem extends SubsystemBase{
         turretConfig.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             //Set PID values for position control
-            .p(0.05)
+            .p(0.075)
             .i(0)
             .d(0)
             .outputRange(-0.2, 0.2)
