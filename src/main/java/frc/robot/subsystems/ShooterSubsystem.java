@@ -1,21 +1,25 @@
 package frc.robot.subsystems;
 
+// import java.util.Collection;
+
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.revrobotics.PersistMode;
-import com.revrobotics.ResetMode;
+// import com.ctre.phoenix6.jni.OrchestraJNI;
+// import com.revrobotics.PersistMode;
+// import com.revrobotics.ResetMode;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.FeedbackSensor;
+// import com.revrobotics.spark.ClosedLoopSlot;
+// import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
 // import com.revrobotics.spark.SparkFlex;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+// import com.revrobotics.spark.SparkMax;
+// import com.revrobotics.spark.SparkBase.ControlType;
+// import com.revrobotics.spark.SparkLowLevel.MotorType;
 // import com.revrobotics.spark.config.SparkBaseConfig;
 // import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+// import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -32,14 +36,26 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
     public final TalonFX feederMotor = new TalonFX(17);
-    
+    public Orchestra m_orchestra = new Orchestra("output.chrp");
+
+// Add a single device to the orchestra
+// m_orchestra.addr
+
+// // Attempt to load the chrp
+// var status = m_Orchestra.loadMusic("output.chrp");
+
+// if (!status.isok()){
+//     // log error
+// }
+// }
+
 
     //Stuff for shootPosition PID
     // public RelativeEncoder hingeEncoder;
     // public double encoderPos;
     
-    private SparkMaxConfig posConfig = new SparkMaxConfig();
-    private SparkClosedLoopController posClosedLoopController;
+    // private SparkMaxConfig posConfig = new SparkMaxConfig();
+    // private SparkClosedLoopController posClosedLoopController;
 
     // public double targetHoodPos = -0.24;
     public double usualResistance = 1.0;
