@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.BeltSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+
 // import frc.robot.Universals;
 // import frc.robot.subsystems.BeltSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -42,7 +42,7 @@ public class ShootCommand extends Command{
         if(reversed == false){
             SmartDashboard.putBoolean("shooting", true);
             // double velocity = shooter.changeVel();
-            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = -50));
+            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = -57));
             // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.changeVel()));
             if((timer.get() >= 0.75)){
                 shooter.feed();

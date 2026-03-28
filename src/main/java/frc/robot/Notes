@@ -335,3 +335,13 @@ public class CANdleSubsystem extends SubsystemBase {
     // @Override
     public void simulationPeriodic() {}
 }
+
+
+    Distanceinmeters    Setmotorvel
+
+     1.700              42
+     1.929              42
+     2.208              46
+     2.538              48
+     2.843              54
+     3.148              57
