@@ -71,7 +71,7 @@ public class ClimbSubsystem extends SubsystemBase{
     //     // do your pid calculation here (use targetPosition!)
     // }
 
-    // // TODO JAKEREVIEW: This could be called in the same command as the intake zeroing
+    // // JAKEREVIEW: This could be called in the same command as the intake zeroing
     // public void reBoot(){
     //     climbEncoder.setPosition(0);
     // }
@@ -82,5 +82,5 @@ public class ClimbSubsystem extends SubsystemBase{
 
 
 
-    // // TODO JAKEREVIEW: How do you plan on homing to different positions? Any methods to make?
+    // // JAKEREVIEW: How do you plan on homing to different positions? Any methods to make?
 }
