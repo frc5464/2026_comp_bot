@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +48,7 @@ public class Vision extends SubsystemBase {
         public SmartCam(String cameraName) {
             name = cameraName;
             obj = new PhotonCamera(cameraName);
-            
+
         }
 
         public void update() {
@@ -57,44 +58,43 @@ public class Vision extends SubsystemBase {
         public Optional<List<PhotonPipelineResult>> SafeResults() {
             Optional<List<PhotonPipelineResult>> optionalResults = Optional.ofNullable(results);
             if (optionalResults.isPresent() && !optionalResults.isEmpty()) {
-                if (optionalResults.get().size() == 0){ /*seperate if statement incase empty Optional */
+                if (optionalResults.get().size() == 0) { /* seperate if statement incase empty Optional */
                     return Optional.empty();
                 }
                 return optionalResults;
             } else {
                 return Optional.empty();
             }
-            
+
         }
 
     }
-    
+
     SmartCam cameras[] = {
-        new SmartCam("beedril"),
-        new SmartCam("vespiquen"),
-        new SmartCam("combee")
+            new SmartCam("beedril"),
+            new SmartCam("vespiquen"),
+            new SmartCam("combee")
     };
 
-    private PhotonPoseEstimator estimatePoseFromCamera(PhotonCamera Camera) {
+    private PhotonPoseEstimator estimatePoseFromCamera(SmartCam Camera) {
         // TODONE: enable multitag in GUI
         // TODO: get actual offsets for center of robot
         // update: info in discord, need to convert to the correct format still
         Transform3d relativeCameraPosition = null;
-        switch (Camera.getName()) {
-            case "ribombee":
-                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
+        switch (Camera.name) {
+
+            case "combee": // 270
+                relativeCameraPosition = new Transform3d(new Translation3d(4, -12.75, 16.6875),
+                        new Rotation3d(0, 0, 270));
                 break;
 
-            case "combee":
-                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
+            case "beedril": // 180
+                relativeCameraPosition = new Transform3d(new Translation3d(-10.375, 0.25, 16.25),
+                        new Rotation3d(0, 0, 180));
                 break;
 
-            case "beedril":
-                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
-                break;
-
-            case "vespiquen":
-                relativeCameraPosition = new Transform3d(new Translation3d(), new Rotation3d());
+            case "vespiquen": // 90
+                relativeCameraPosition = new Transform3d(new Translation3d(-11, 10.5, 11.75), new Rotation3d(0, 0, 90));
                 break;
 
             default:
@@ -104,8 +104,6 @@ public class Vision extends SubsystemBase {
         return new PhotonPoseEstimator(kTagFieldLayout, relativeCameraPosition);
     }
 
-    
-
     public void init() {
         SmartDashboard.putBoolean("VisionInit", true);
         initialized = true;
@@ -113,9 +111,9 @@ public class Vision extends SubsystemBase {
 
     public void periodic() {
 
-      for (SmartCam c : cameras) {
-        c.update();
-      }
+        for (SmartCam c : cameras) {
+            c.update();
+        }
 
         if (!initialized) {
             init();
@@ -125,13 +123,15 @@ public class Vision extends SubsystemBase {
 
     private void VisionLoop() {
         // tested. working
-        //  lol no
+        // lol no
         for (SmartCam c : cameras) {
-            if (c.SafeResults().isEmpty()){
+            if (c.SafeResults().isEmpty()) {
                 continue;
             }
-            SmartDashboard.putString(c.name,c.SafeResults().get().toString());
+
+            SmartDashboard.putString("results", getAllTargets().toString());
         }
+        // SmartDashboard.putString(c.name,c.SafeResults().get().toString());
     }
 
     public List<PhotonTrackedTarget> getAllTargets() {
@@ -139,11 +139,11 @@ public class Vision extends SubsystemBase {
         List<PhotonTrackedTarget> compiledTargets = new ArrayList<>();
 
         for (SmartCam c : cameras) {
-            if (c.SafeResults().isEmpty()){
+            if (c.SafeResults().isEmpty()) {
                 continue;
             }
-            for (PhotonPipelineResult sR : c.SafeResults().get()) {
-                compiledTargets.addAll(sR.getTargets());
+            for (PhotonPipelineResult cR : c.SafeResults().get()) {
+                compiledTargets.addAll(cR.getTargets());
             }
         }
         return compiledTargets;
@@ -154,7 +154,7 @@ public class Vision extends SubsystemBase {
         List<PhotonTrackedTarget> compiledResults = new ArrayList<>();
         for (SmartCam c : cameras) {
             if (c.name == cameraName) {
-                if (c.SafeResults().isEmpty()){
+                if (c.SafeResults().isEmpty()) {
                     continue;
                 }
                 for (PhotonPipelineResult sR : c.SafeResults().get()) {
@@ -173,11 +173,11 @@ public class Vision extends SubsystemBase {
 
         List<EstimatedRobotPose> estimatedPositions = new ArrayList<>();
         for (SmartCam c : cameras) {
-            if (c.SafeResults().isEmpty()){
+            if (c.SafeResults().isEmpty()) {
                 continue;
             }
             for (PhotonPipelineResult item : c.SafeResults().get()) {
-                Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c.obj)
+                Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c)
                         .estimateCoprocMultiTagPose(item);
 
                 if (constructorObject.isPresent()) {
@@ -186,7 +186,7 @@ public class Vision extends SubsystemBase {
                 }
 
                 // backup estimation method
-                constructorObject = estimatePoseFromCamera(c.obj)
+                constructorObject = estimatePoseFromCamera(c)
                         .estimateLowestAmbiguityPose(item);
 
                 if (constructorObject.isPresent()) {
