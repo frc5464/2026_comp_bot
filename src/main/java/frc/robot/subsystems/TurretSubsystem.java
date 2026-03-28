@@ -114,8 +114,8 @@ public class TurretSubsystem extends SubsystemBase{
         double calculatedPosition;
         double calculatedTurretAngle;
 
-        turretCenterx = xrobot-0.0889;
-        turretCentery = yrobot-0.17145;
+        turretCenterx = xrobot + (-Math.sin(heading + (3*Math.PI/4))*0.1778);
+        turretCentery = yrobot + (Math.cos(heading + (3*Math.PI/4))*0.1778);
 
         // Figure out which hub we need to be aiming at
         if(DriverStation.getAlliance().get() == Alliance.Blue){
