@@ -212,7 +212,7 @@ public class ShooterSubsystem extends SubsystemBase{
   //   }
   // }
 
-  public void reBoot(){
+  // public void reBoot(){
       // hingeEncoder.setPosition(0);
-  }
+  // }
 }

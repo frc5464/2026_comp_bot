@@ -191,7 +191,7 @@ public class RobotContainer {
         zackController.povDown().onTrue(new ShooterHoodCommand(shoot, false));
         //rev up feeder motor up to speed, then shoots when up to speed
         driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, false, 67));
-        // driveController.rightBumper().whileTrue(new AutoShootCommand(shoot, belt, drivetrain, false, 67));
+        driveController.rightBumper().whileTrue(new AutoShootCommand(shoot, belt, drivetrain, false, 67));
 
         zackController.back().whileTrue(new ManualModeCommand());
         zackController.y().whileTrue(new FeedCommand(shoot, belt, true, 67));
