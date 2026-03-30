@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -27,9 +28,12 @@ public class Vision extends SubsystemBase {
     public static final AprilTagFieldLayout kTagFieldLayout = AprilTagFieldLayout
             .loadField(AprilTagFields.k2026RebuiltAndymark);
 
-    private boolean initialized = false;
     public final static int MIN_POS_SAMPLE = 1;
-    public final static double BAD_AGE = 4;
+    public int failed_samples, multitag_samples, basic_samples = 0;
+
+    public double vpos_x, vpos_y, vpos_z = 0;
+    public Field2d vision_robot_pose = new Field2d();
+    public Rotation3d vpos_rot = new Rotation3d();
 
     public class SmartCam {
         String name;
@@ -44,7 +48,7 @@ public class Vision extends SubsystemBase {
 
         public void update() {
             List<PhotonPipelineResult> cacheResults = obj.getAllUnreadResults();
-            if (!cacheResults.isEmpty()){
+            if (!cacheResults.isEmpty()) {
                 results = cacheResults;
             }
             SmartDashboard.putString(this.name, this.SafeResults().toString());
@@ -68,8 +72,8 @@ public class Vision extends SubsystemBase {
     };
 
     public SmartCam cameras[] = {
-            // new SmartCam("beedril"),
-            // new SmartCam("vespiquen"),
+            new SmartCam("beedril"),
+            new SmartCam("vespiquen"),
             new SmartCam("combee")
     };
 
@@ -99,15 +103,8 @@ public class Vision extends SubsystemBase {
         return new PhotonPoseEstimator(kTagFieldLayout, relativeCameraPosition);
     }
 
-    public void init() {
-        initialized = true;
-    }
-
     public void periodic() {
-        if (!initialized) {
-            init();
-        }
-
+        // this is in a seperate function so it can be quickly disabled if needed
         VisionLoop();
     }
 
@@ -115,14 +112,19 @@ public class Vision extends SubsystemBase {
         for (SmartCam c : cameras) {
             c.update();
         }
-        SmartDashboard.putString("visionEstPos",compiledRobotPose().toString());
+        prettySmartDashboardPose(compiledRobotPose(), "all");
+
+        SmartDashboard.putNumber("failed_samples", failed_samples);
+        SmartDashboard.putNumber("multitag_samples", multitag_samples);
+        SmartDashboard.putNumber("basic_samples", basic_samples);
+
     }
 
     public List<PhotonTrackedTarget> getAllTargets() {
         List<PhotonTrackedTarget> compiledTargets = new ArrayList<>();
 
         for (SmartCam c : cameras) {
-            if (!c.SafeResSafe()){
+            if (!c.SafeResSafe()) {
                 continue;
             }
             for (PhotonPipelineResult cR : c.SafeResults().get()) {
@@ -136,7 +138,7 @@ public class Vision extends SubsystemBase {
         List<PhotonTrackedTarget> compiledResults = new ArrayList<>();
         for (SmartCam c : cameras) {
             if (c.name == cameraName) {
-                if (!c.SafeResSafe()){
+                if (!c.SafeResSafe()) {
                     continue;
                 }
                 for (PhotonPipelineResult sR : c.SafeResults().get()) {
@@ -148,6 +150,41 @@ public class Vision extends SubsystemBase {
         return compiledResults;
     }
 
+    public void prettySmartDashboardPose(Optional<Pose3d> inputPose, String logMode) {
+        // log modes:
+        // "all" - logs x,y,z,rot,field
+        // "posbasic" - logs x,y,z
+        // "posfull" - logs x,y,z,rot
+        // "field" - just field
+
+        if (inputPose.isPresent()) {
+            Pose3d goodPose = inputPose.get();
+            switch (logMode) {
+                case "field":
+                    vision_robot_pose.setRobotPose(goodPose.getX(), goodPose.getY(),
+                            goodPose.getRotation().toRotation2d());
+                    SmartDashboard.putData("vision_est_field", vision_robot_pose);
+                    break;
+                case "posbasic":
+                    SmartDashboard.putNumber("vposx", goodPose.getX());
+                    SmartDashboard.putNumber("vposy", goodPose.getY());
+                    SmartDashboard.putNumber("vposz", goodPose.getZ());
+                    break;
+                case "posfull":
+                    SmartDashboard.putString("vposrot", goodPose.getRotation().toString());
+                    prettySmartDashboardPose(inputPose, "posbasic");
+                    break;
+                case "all":
+                    prettySmartDashboardPose(inputPose, "posfull");
+                    prettySmartDashboardPose(inputPose, "field");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
     public Optional<Pose3d> compiledRobotPose() {
         // TODO: TEST
         // uses several cameras to result in one position
@@ -155,7 +192,7 @@ public class Vision extends SubsystemBase {
         List<EstimatedRobotPose> estimatedPositions = new ArrayList<>();
         for (SmartCam c : cameras) {
 
-            if (!c.SafeResSafe()){
+            if (!c.SafeResSafe()) {
                 continue;
             }
 
@@ -164,6 +201,7 @@ public class Vision extends SubsystemBase {
                         .estimateCoprocMultiTagPose(item);
 
                 if (constructorObject.isPresent()) {
+                    multitag_samples++;
                     estimatedPositions.add(constructorObject.get());
                     continue;
                 }
@@ -173,12 +211,12 @@ public class Vision extends SubsystemBase {
                         .estimateLowestAmbiguityPose(item);
 
                 if (constructorObject.isPresent()) {
-
+                    basic_samples++;
                     estimatedPositions.add(constructorObject.get());
                     continue;
                 }
                 // System.err.println("Both pose estimation types failed to find any tags.");
-                SmartDashboard.putBoolean("failedEstimation", true);
+                failed_samples++;
             }
         }
 
