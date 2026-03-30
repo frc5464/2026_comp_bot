@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 // import java.util.Collection;
 
 import com.ctre.phoenix6.Orchestra;
+import com.ctre.phoenix6.configs.AudioConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -36,19 +37,6 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
     public final TalonFX feederMotor = new TalonFX(17);
-    public Orchestra m_orchestra = new Orchestra("output.chrp");
-
-// Add a single device to the orchestra
-// m_orchestra.addr
-
-// // Attempt to load the chrp
-// var status = m_Orchestra.loadMusic("output.chrp");
-
-// if (!status.isok()){
-//     // log error
-// }
-// }
-
 
     //Stuff for shootPosition PID
     // public RelativeEncoder hingeEncoder;
@@ -74,9 +62,21 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public double distancetoHub;
 
+    public Orchestra m_orchestra = new Orchestra("output.chrp");
+    public AudioConfigs audio = new AudioConfigs();
+
   public ShooterSubsystem(){
+    audio.AllowMusicDurDisable = true;
+    m_orchestra.addInstrument(shooterMotor);
+    var status = m_orchestra.loadMusic("output.chrp");
+    m_orchestra.play();
+    
     initPidShoot();
     SmartDashboard.putBoolean("shooting", false);
+
+    if (!status.isOK()) {
+      // log error
+    }
   }
 
   private void initPidShoot(){
