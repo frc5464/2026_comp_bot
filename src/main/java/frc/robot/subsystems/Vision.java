@@ -97,7 +97,7 @@ public class Vision extends SubsystemBase {
                 break;
 
             default:
-                SmartDashboard.putBoolean("bad cam", true);
+                System.err.println("bad camera name");
                 break;
         }
         return new PhotonPoseEstimator(kTagFieldLayout, relativeCameraPosition);
@@ -112,7 +112,7 @@ public class Vision extends SubsystemBase {
         for (SmartCam c : cameras) {
             c.update();
         }
-        prettySmartDashboardPose(compiledRobotPose(), "all");
+        prettySmartDashboardPose(compiledRobotPose(), "all", false);
 
         SmartDashboard.putNumber("failed_samples", failed_samples);
         SmartDashboard.putNumber("multitag_samples", multitag_samples);
@@ -150,12 +150,14 @@ public class Vision extends SubsystemBase {
         return compiledResults;
     }
 
-    public void prettySmartDashboardPose(Optional<Pose3d> inputPose, String logMode) {
+    public void prettySmartDashboardPose(Optional<Pose3d> inputPose, String logMode, boolean outputInches) {
         // log modes:
         // "all" - logs x,y,z,rot,field
         // "posbasic" - logs x,y,z
         // "posfull" - logs x,y,z,rot
         // "field" - just field
+
+        // default output is in meters
 
         if (inputPose.isPresent()) {
             Pose3d goodPose = inputPose.get();
@@ -166,17 +168,23 @@ public class Vision extends SubsystemBase {
                     SmartDashboard.putData("vision_est_field", vision_robot_pose);
                     break;
                 case "posbasic":
-                    SmartDashboard.putNumber("vposx", goodPose.getX());
-                    SmartDashboard.putNumber("vposy", goodPose.getY());
-                    SmartDashboard.putNumber("vposz", goodPose.getZ());
+                    if (outputInches) {
+                        SmartDashboard.putNumber("vposx", goodPose.getX() * 39.37008);
+                        SmartDashboard.putNumber("vposy", goodPose.getY() * 39.37008);
+                        SmartDashboard.putNumber("vposz", goodPose.getZ() * 39.37008);
+                    } else {
+                        SmartDashboard.putNumber("vposx", goodPose.getX());
+                        SmartDashboard.putNumber("vposy", goodPose.getY());
+                        SmartDashboard.putNumber("vposz", goodPose.getZ());
+                    }
                     break;
                 case "posfull":
                     SmartDashboard.putString("vposrot", goodPose.getRotation().toString());
-                    prettySmartDashboardPose(inputPose, "posbasic");
+                    prettySmartDashboardPose(inputPose, "posbasic", outputInches);
                     break;
                 case "all":
-                    prettySmartDashboardPose(inputPose, "posfull");
-                    prettySmartDashboardPose(inputPose, "field");
+                    prettySmartDashboardPose(inputPose, "posfull", outputInches);
+                    prettySmartDashboardPose(inputPose, "field", outputInches);
                     break;
                 default:
                     break;
@@ -186,7 +194,7 @@ public class Vision extends SubsystemBase {
     }
 
     public Optional<Pose3d> compiledRobotPose() {
-        // TODO: TEST
+        // tested and functional !!!!!!!!!
         // uses several cameras to result in one position
         // average positions to reduce miss
         List<EstimatedRobotPose> estimatedPositions = new ArrayList<>();
@@ -252,6 +260,7 @@ public class Vision extends SubsystemBase {
     }
 
     public Pose3d tagPose(PhotonTrackedTarget AprilTag) {
+        // untested?
         return new Pose3d(
                 new Translation3d(AprilTag.bestCameraToTarget.getX(), AprilTag.bestCameraToTarget.getY(),
                         AprilTag.bestCameraToTarget.getZ()),
@@ -259,6 +268,7 @@ public class Vision extends SubsystemBase {
     }
 
     public Optional<Rotation2d> rotationToTag(int fidID, Boolean fromTurret) {
+        // untested
         // fiducial ID of april tag
         // and True if centered on turret,
         // False if from the center of the robot
