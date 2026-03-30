@@ -39,7 +39,6 @@ public class Robot extends TimedRobot {
         m_candleSubsystem = new CandleSubsystem();
         m_robotContainer = new RobotContainer();
         SmartDashboard.putData("Auto Mode", m_robotContainer.autoChooser);
-        SmartDashboard.putBoolean("iswork?", false);
         
         // SmartDashboard.putData("apis", vision.cameras);
         
