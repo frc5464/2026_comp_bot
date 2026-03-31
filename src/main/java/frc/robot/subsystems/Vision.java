@@ -33,9 +33,9 @@ public class Vision extends SubsystemBase {
 
     // things that can be configured
     public final static int MIN_POS_SAMPLE = 1; // minimum detected apriltags for a camera to attempt pose estimation
-    public final static int ROUNDED_DECIMAL = 2; // how many decimal places the position is rounded to
-    public final static int POSITION_CACHE_LEN = 5; // max length of position cache
-    public final static double CACHE_WEIGHT = 0.05; //  weight of cache on position
+    public final static int ROUNDED_DECIMAL = 4; // how many decimal places the position is rounded to
+    public final static int POSITION_CACHE_LEN = 10; // max length of position cache
+    public final static double CACHE_WEIGHT = 0.5; //  weight of cache on position
     
     // smartdashboard values
     public int failed_samples, multitag_samples, basic_samples = 0; 
