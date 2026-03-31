@@ -35,8 +35,8 @@ public class TurretSubsystem extends SubsystemBase{
 
     public double turrettargetPosition = 0;
 
-    public double turretlimitleft = 7.2;
-    public double turretlimitright = -7.2;
+    public double turretlimitleft = 18;
+    public double turretlimitright = -15.5;
 
     public boolean turretAimedtoShoot = false;
 
@@ -57,7 +57,7 @@ public class TurretSubsystem extends SubsystemBase{
         turretConfig.closedLoop
             .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             //Set PID values for position control
-            .p(0.05)
+            .p(0.075)
             .i(0)
             .d(0)
             .outputRange(-0.2, 0.2)
@@ -114,8 +114,8 @@ public class TurretSubsystem extends SubsystemBase{
         double calculatedPosition;
         double calculatedTurretAngle;
 
-        turretCenterx = xrobot-0.0889;
-        turretCentery = yrobot-0.17145;
+        turretCenterx = xrobot + (-Math.sin(heading + (3*Math.PI/4))*0.1778);
+        turretCentery = yrobot + (Math.cos(heading + (3*Math.PI/4))*0.1778);
 
         // Figure out which hub we need to be aiming at
         if(DriverStation.getAlliance().get() == Alliance.Blue){

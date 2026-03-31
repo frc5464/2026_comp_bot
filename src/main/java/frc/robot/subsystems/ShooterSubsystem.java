@@ -1,22 +1,25 @@
 package frc.robot.subsystems;
 
+// import java.util.Collection;
+
 import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.revrobotics.PersistMode;
-import com.revrobotics.ResetMode;
+// import com.ctre.phoenix6.jni.OrchestraJNI;
+// import com.revrobotics.PersistMode;
+// import com.revrobotics.ResetMode;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.FeedbackSensor;
+// import com.revrobotics.spark.ClosedLoopSlot;
+// import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
 // import com.revrobotics.spark.SparkFlex;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+// import com.revrobotics.spark.SparkMax;
+// import com.revrobotics.spark.SparkBase.ControlType;
+// import com.revrobotics.spark.SparkLowLevel.MotorType;
 // import com.revrobotics.spark.config.SparkBaseConfig;
 // import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+// import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -33,30 +36,17 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public final TalonFX shooterMotor = new TalonFX(16/*ShooterConstants.kShooterMotorPort*/);
     public final TalonFX feederMotor = new TalonFX(17);
+
     // public final SparkMax shootHinge = new SparkMax(18, MotorType.kBrushless);
-
-    Orchestra m_orchestra = new Orchestra();
-
-    // // Add a single device to the orchestra
-    // m_orchestra.addInstrument(shooterMotor);
-
-    // // // Attempt to load the chrp
-    // // var status = m_orchestra.loadMusic("track.chrp");
-
-    // if (!status.isOK()) {
-    //   // log error
-    // }
-
-
     
     //Stuff for shootPosition PID
-    public RelativeEncoder hingeEncoder;
-    public double encoderPos;
+    // public RelativeEncoder hingeEncoder;
+    // public double encoderPos;
     
-    private SparkMaxConfig posConfig = new SparkMaxConfig();
-    private SparkClosedLoopController posClosedLoopController;
+    // private SparkMaxConfig posConfig = new SparkMaxConfig();
+    // private SparkClosedLoopController posClosedLoopController;
 
-    public double targetHoodPos = -0.24;
+    // public double targetHoodPos = -0.24;
     public double usualResistance = 1.0;
     //Stuff for shootVelocity PID
     RelativeEncoder flyEncoder;
@@ -66,8 +56,8 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public double targetVelocity = 0; // start out at roughly our max velocity
 
-    public double hoodlimitup = -4;
-    public double hoodlimitdown = -0.4;
+    // public double hoodlimitup = -4;
+    // public double hoodlimitdown = -0.4;
 
     public VelocityVoltage m_request;
 
@@ -124,8 +114,8 @@ public class ShooterSubsystem extends SubsystemBase{
       // encoderPos = hingeEncoder.getPosition();
 
       // posClosedLoopController.setSetpoint(targetHoodPos, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-      SmartDashboard.putNumber("targetHoodPos", targetHoodPos);
-      SmartDashboard.putNumber("hoodRot", encoderPos);
+      // SmartDashboard.putNumber("targetHoodPos", targetHoodPos);
+      // SmartDashboard.putNumber("hoodRot", encoderPos);
       SmartDashboard.putNumber("shootVel", encoderVel);
       SmartDashboard.putNumber("targetShootVel", targetVelocity);
       
@@ -152,24 +142,14 @@ public class ShooterSubsystem extends SubsystemBase{
     feederMotor.set(0);
   }
 
-  public double changeVel(){
-      double calculatedVelocity = (7.69*distancetoHub) + 65.3;
-      if(calculatedVelocity > 100){
-        calculatedVelocity = 100;
-      }
-      SmartDashboard.putNumber("calcShootVel", calculatedVelocity);
-      return calculatedVelocity;
-  }
-
-  public void changeAngle(double xrobot, double yrobot){
-
+  public double changeVel(double xrobot, double yrobot, double heading){
     double turretCenterx;
     double turretCentery;
 
-    turretCenterx = xrobot-0.0889;
-    turretCentery = yrobot-0.17145;
+    turretCenterx = xrobot + (-Math.sin(heading + (3*Math.PI/4))*0.1778);
+    turretCentery = yrobot + (Math.cos(heading + (3*Math.PI/4))*0.1778);
 
-    // Figure out which hub we need to be aiming at
+    // // Figure out which hub we need to be aiming at
     if(DriverStation.getAlliance().get() == Alliance.Blue){
         // Calculate the angle needed between hood and blue hub in degrees
         distancetoHub = Math.hypot(turretCenterx-4.6, turretCentery-4);
@@ -177,8 +157,29 @@ public class ShooterSubsystem extends SubsystemBase{
         // Calculate the angle needed between hood and red hub in degrees
         distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
     }
+      double calculatedVelocity = (11.03234 * distancetoHub)+21.75157;
+      SmartDashboard.putNumber("calcShootVel", calculatedVelocity);
+      return calculatedVelocity;
+  }
+
+  public void changeAngle(double xrobot, double yrobot){
+
+    // double turretCenterx;
+    // double turretCentery;
+
+    // turretCenterx = xrobot-0.0889;
+    // turretCentery = yrobot-0.17145;
+
+    // // Figure out which hub we need to be aiming at
+    // if(DriverStation.getAlliance().get() == Alliance.Blue){
+    //     // Calculate the angle needed between hood and blue hub in degrees
+    //     distancetoHub = Math.hypot(turretCenterx-4.6, turretCentery-4);
+    // } else{
+    //     // Calculate the angle needed between hood and red hub in degrees
+    //     distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
+    // }
     
-    double calcHoodPos = (-2.09*distancetoHub) + 2.89;
+    // double calcHoodPos = (-2.09*distancetoHub) + 2.89;
 
     // if(calcHoodPos < hoodlimitup){
     //   targetHoodPos = hoodlimitup;
@@ -190,8 +191,8 @@ public class ShooterSubsystem extends SubsystemBase{
     //   targetHoodPos = calcHoodPos;
     // }
 
-    SmartDashboard.putNumber("distancetoHub", distancetoHub);
-    SmartDashboard.putNumber("calcHoodPos", calcHoodPos);
+    // SmartDashboard.putNumber("distancetoHub", distancetoHub);
+    // SmartDashboard.putNumber("calcHoodPos", calcHoodPos);
   }      
 
       
@@ -208,7 +209,7 @@ public class ShooterSubsystem extends SubsystemBase{
   //   }
   // }
 
-  public void reBoot(){
-      hingeEncoder.setPosition(0);
-  }
+  // public void reBoot(){
+      // hingeEncoder.setPosition(0);
+  // }
 }
