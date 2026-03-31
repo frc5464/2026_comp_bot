@@ -24,6 +24,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Vision.SmartCam;
 
 public class Vision extends SubsystemBase {
 
@@ -33,9 +34,9 @@ public class Vision extends SubsystemBase {
 
     // things that can be configured
     public final static int MIN_POS_SAMPLE = 1; // minimum detected apriltags for a camera to attempt pose estimation
-    public final static int ROUNDED_DECIMAL = 4; // how many decimal places the position is rounded to
-    public final static int POSITION_CACHE_LEN = 1; // max length of position cache
-    public final static double CACHE_WEIGHT = 0.01; //  weight of cache on position
+    public final static int ROUNDED_DECIMAL = 3; // how many decimal places the position is rounded to
+    public final static int POSITION_CACHE_LEN = 5; // max length of position cache
+    public final static double CACHE_WEIGHT = 0.05; //  weight of cache on position
     
     // smartdashboard values
     public int failed_samples, multitag_samples, basic_samples = 0; 
@@ -97,9 +98,9 @@ public class Vision extends SubsystemBase {
     }
 
     public SmartCam cameras[] = {
-            new SmartCam("beedril"), // 270 rotation from forward
+            new SmartCam("beedril"), // 180 rotation from forward
             new SmartCam("vespiquen"), // 90 rotation from forward
-            new SmartCam("combee") // 180 rotation from forward
+            new SmartCam("combee") // 270 rotation from forward
     };
 
     private PositionCache latestPoses = new PositionCache(POSITION_CACHE_LEN);
@@ -139,12 +140,24 @@ public class Vision extends SubsystemBase {
         for (SmartCam c : cameras) {
             c.update();
         }
-        prettySmartDashboardPose(compiledRobotPose(false), "all", false);
+        prettySmartDashboardPose(compiledRobotPose(true), "all", false);
 
         SmartDashboard.putNumber("failed_samples", failed_samples);
         SmartDashboard.putNumber("multitag_samples", multitag_samples);
         SmartDashboard.putNumber("basic_samples", basic_samples);
 
+        for (SmartCam c : cameras) {
+            List<Integer> constructor = new ArrayList<>();
+            if (!c.SafeResSafe()){
+                continue;
+            }
+            for (PhotonPipelineResult p : c.SafeResults().get()) {
+                for (PhotonTrackedTarget t : p.getTargets()) {
+                    constructor.add(t.fiducialId);
+                }
+            }
+            SmartDashboard.putString(c.name+"TAGS", constructor.toString());
+        }
     }
 
     public List<PhotonTrackedTarget> getAllTargets() {
@@ -179,7 +192,7 @@ public class Vision extends SubsystemBase {
 
     public void prettySmartDashboardPose(Optional<Pose3d> inputPose, String logMode, boolean outputInches) {
         // log modes:
-        // "all" - logs x,y,z,rot,field
+        // "all" - logs x,y,z,rot,field 
         // "posbasic" - logs x,y,z
         // "posfull" - logs x,y,z,rot
         // "field" - just field
@@ -225,6 +238,7 @@ public class Vision extends SubsystemBase {
         // uses several cameras to result in one position
         // average positions to reduce miss
         List<EstimatedRobotPose> estimatedPositions = new ArrayList<>();
+        
         for (SmartCam c : cameras) {
 
             if (!c.SafeResSafe()) {
@@ -232,19 +246,20 @@ public class Vision extends SubsystemBase {
             }
 
             for (PhotonPipelineResult item : c.SafeResults().get()) {
-                Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c)
+                /*Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c)
                         .estimateCoprocMultiTagPose(item);
+                // Optional<EstimatedRobotPose> constructorObject = Optional.empty();
 
                 if (constructorObject.isPresent()) {
                     multitag_samples++;
                     estimatedPositions.add(constructorObject.get());
                     continue;
-                }
+                }*/
 
                 // backup estimation method
-                constructorObject = estimatePoseFromCamera(c)
+                Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c)
                         .estimateLowestAmbiguityPose(item);
-
+                SmartDashboard.putString("imscreaming",item.toString());
                 if (constructorObject.isPresent()) {
                     basic_samples++;
                     estimatedPositions.add(constructorObject.get());
