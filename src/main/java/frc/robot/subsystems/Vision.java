@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import java.lang.StackWalker.Option;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,19 +27,23 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
 
-    // super constructor was buggy, this is static and just works.
+    // the apriltag field
     public static final AprilTagFieldLayout kTagFieldLayout = AprilTagFieldLayout
             .loadField(AprilTagFields.k2026RebuiltAndymark);
 
-    public final static int MIN_POS_SAMPLE = 1;
-
-    public final static int DECI_ACC = 6;
-    public int failed_samples, multitag_samples, basic_samples = 0;
-
+    // things that can be configured
+    public final static int MIN_POS_SAMPLE = 1; // minimum detected apriltags for a camera to attempt pose estimation
+    public final static int ROUNDED_DECIMAL = 2; // how many decimal places the position is rounded to
+    public final static int POSITION_CACHE_LEN = 5; // max length of position cache
+    public final static double CACHE_WEIGHT = 0.05; //  weight of cache on position
+    
+    // smartdashboard values
+    public int failed_samples, multitag_samples, basic_samples = 0; 
     public double vpos_x, vpos_y, vpos_z = 0;
     public Field2d vision_robot_pose = new Field2d();
     public Rotation3d vpos_rot = new Rotation3d();
 
+    // includes a cameras PhotonCamera object, data, name, and allows for safegetting
     public class SmartCam {
         String name;
         PhotonCamera obj;
@@ -74,12 +79,30 @@ public class Vision extends SubsystemBase {
             }
         }
     };
+    // ArrayList wrapper with extra utility (FILO)
+    public class PositionCache {
+        List<Optional<Pose3d>> buffer = new ArrayList<>();
+        int maxSize;
+
+        public PositionCache(int len) {
+            maxSize = len;
+        }
+
+        public void add(Optional<Pose3d> target) {
+            buffer.add(target);
+            if (buffer.size() > maxSize) {
+                buffer.remove(0);
+            }
+        }
+    }
 
     public SmartCam cameras[] = {
-            new SmartCam("beedril"),
-            new SmartCam("vespiquen"),
-            new SmartCam("combee")
+            new SmartCam("beedril"), // 270 rotation from forward
+            new SmartCam("vespiquen"), // 90 rotation from forward
+            new SmartCam("combee") // 180 rotation from forward
     };
+
+    private PositionCache latestPoses = new PositionCache(POSITION_CACHE_LEN);
 
     private PhotonPoseEstimator estimatePoseFromCamera(SmartCam Camera) {
         Transform3d relativeCameraPosition = null;
@@ -116,7 +139,7 @@ public class Vision extends SubsystemBase {
         for (SmartCam c : cameras) {
             c.update();
         }
-        prettySmartDashboardPose(compiledRobotPose(), "all", false);
+        prettySmartDashboardPose(compiledRobotPose(true), "all", false);
 
         SmartDashboard.putNumber("failed_samples", failed_samples);
         SmartDashboard.putNumber("multitag_samples", multitag_samples);
@@ -197,7 +220,7 @@ public class Vision extends SubsystemBase {
 
     }
 
-    public Optional<Pose3d> compiledRobotPose() {
+    public Optional<Pose3d> compiledRobotPose(boolean includeCache) {
         // tested and functional !!!!!!!!!
         // uses several cameras to result in one position
         // average positions to reduce miss
@@ -245,7 +268,17 @@ public class Vision extends SubsystemBase {
                                                                                          // seperately
             avgRotation = avgRotation.plus(estPos.estimatedPose.getRotation());
         }
-
+        
+        if (includeCache) {
+            for (int i = 0; i < latestPoses.buffer.size(); i++) {
+                if (latestPoses.buffer.get(i).isEmpty()) {
+                    continue;
+                }
+                Pose3d bufferPose = latestPoses.buffer.get(i).get();
+                avgRotation = avgRotation.plus(bufferPose.getRotation().times(CACHE_WEIGHT));
+                avgTranslation = avgTranslation.plus(bufferPose.getTranslation().times(CACHE_WEIGHT));
+            }
+        }
         Pose3d completePose = new Pose3d(avgTranslation, avgRotation); // recombine
         completePose = completePose.div(estimatedPositions.size()); // divide by len
 
@@ -265,7 +298,8 @@ public class Vision extends SubsystemBase {
                 constructorPose.getZ()
         };
         for (int i = 0; i < positionArray.length; i++) {
-            positionArray[i] = (Math.round(positionArray[i] * Math.pow(10, DECI_ACC))) / Math.pow(10, DECI_ACC);
+            positionArray[i] = (Math.round(positionArray[i] * Math.pow(10, ROUNDED_DECIMAL)))
+                    / Math.pow(10, ROUNDED_DECIMAL);
         }
         // rounding rotation really isnt worth the performance hit
 
@@ -278,9 +312,9 @@ public class Vision extends SubsystemBase {
         // just completePose modified to be offset from turret point
 
         final Transform3d turretOffset = new Transform3d();
-        final Optional<Pose3d> crp = compiledRobotPose();
+        final Optional<Pose3d> crp = compiledRobotPose(true);
         if (crp.isPresent()) {
-            return Optional.of(compiledRobotPose().get().plus(turretOffset));
+            return Optional.of(compiledRobotPose(true).get().plus(turretOffset));
         } else {
             return Optional.empty();
         }
@@ -308,7 +342,7 @@ public class Vision extends SubsystemBase {
         if (fromTurret) {
             selfPose3d = turretPose();
         } else {
-            selfPose3d = compiledRobotPose();
+            selfPose3d = compiledRobotPose(true);
         }
         if (selfPose3d.isEmpty()) {
             return Optional.empty();
