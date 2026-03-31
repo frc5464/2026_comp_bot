@@ -21,7 +21,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "RSL2_B2_CollectUp_Down"
+                        "pathName": "RSL2_backitup"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RSL2-backitup_B2_CollectUp_Down"
                       }
                     },
                     {
@@ -33,7 +39,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "CollectDown_B2_TW2"
+                        "pathName": "CollectDown_B2_RSL3"
                       }
                     }
                   ]
