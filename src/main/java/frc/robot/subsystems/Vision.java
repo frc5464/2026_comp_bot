@@ -139,7 +139,7 @@ public class Vision extends SubsystemBase {
         for (SmartCam c : cameras) {
             c.update();
         }
-        prettySmartDashboardPose(compiledRobotPose(true), "all", false);
+        prettySmartDashboardPose(compiledRobotPose(false), "all", false);
 
         SmartDashboard.putNumber("failed_samples", failed_samples);
         SmartDashboard.putNumber("multitag_samples", multitag_samples);
