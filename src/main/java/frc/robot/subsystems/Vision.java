@@ -32,7 +32,7 @@ public class Vision extends SubsystemBase {
 
     public final static int MIN_POS_SAMPLE = 1;
 
-    public final static int DECI_ACC = 4;
+    public final static int DECI_ACC = 6;
     public int failed_samples, multitag_samples, basic_samples = 0;
 
     public double vpos_x, vpos_y, vpos_z = 0;
