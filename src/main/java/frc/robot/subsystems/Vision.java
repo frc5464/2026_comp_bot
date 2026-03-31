@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.lang.StackWalker.Option;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +31,8 @@ public class Vision extends SubsystemBase {
             .loadField(AprilTagFields.k2026RebuiltAndymark);
 
     public final static int MIN_POS_SAMPLE = 1;
+
+    public final static int DECI_ACC = 4;
     public int failed_samples, multitag_samples, basic_samples = 0;
 
     public double vpos_x, vpos_y, vpos_z = 0;
@@ -241,9 +245,33 @@ public class Vision extends SubsystemBase {
                                                                                          // seperately
             avgRotation = avgRotation.plus(estPos.estimatedPose.getRotation());
         }
+
         Pose3d completePose = new Pose3d(avgTranslation, avgRotation); // recombine
         completePose = completePose.div(estimatedPositions.size()); // divide by len
-        return Optional.of(completePose);
+
+        return roundPose3d(Optional.of(completePose));
+    }
+
+    public Optional<Pose3d> roundPose3d(Optional<Pose3d> inp) {
+        if (inp.isEmpty()) {
+            return Optional.empty();
+        }
+        Pose3d constructorPose = inp.get();
+
+        // position
+        double[] positionArray = {
+                constructorPose.getX(),
+                constructorPose.getY(),
+                constructorPose.getZ()
+        };
+        for (int i = 0; i < positionArray.length; i++) {
+            positionArray[i] = (Math.round(positionArray[i] * Math.pow(10, DECI_ACC))) / Math.pow(10, DECI_ACC);
+        }
+        // rounding rotation really isnt worth the performance hit
+
+        inp = Optional.of(new Pose3d(positionArray[0], positionArray[1], positionArray[2], inp.get().getRotation()));
+
+        return inp;
     }
 
     public Optional<Pose3d> turretPose() {
