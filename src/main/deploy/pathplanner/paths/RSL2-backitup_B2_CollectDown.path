@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
+        "x": 2.9,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.026423563648954,
-        "y": 4.819152044288992
+        "x": 2.9,
+        "y": 2.0
       },
       "isLocked": false,
-      "linkedName": "RSL2"
+      "linkedName": "backitup_RSL2"
     },
     {
       "anchor": {
         "x": 4.625,
-        "y": 5.66
+        "y": 2.4
       },
       "prevControl": {
-        "x": 3.625,
-        "y": 5.66
+        "x": 4.125,
+        "y": 2.4
       },
       "nextControl": {
-        "x": 5.625,
-        "y": 5.66
+        "x": 6.625,
+        "y": 2.4
       },
       "isLocked": false,
-      "linkedName": "B1"
+      "linkedName": "B2"
     },
     {
       "anchor": {
-        "x": 6.25,
-        "y": 6.3
+        "x": 6.4,
+        "y": 1.6500000000000001
       },
       "prevControl": {
-        "x": 6.25,
-        "y": 5.8
+        "x": 6.4,
+        "y": 2.0970000000000004
       },
       "nextControl": {
-        "x": 6.25,
-        "y": 6.8
+        "x": 6.4,
+        "y": 1.203310790369859
       },
       "isLocked": false,
       "linkedName": null
@@ -49,15 +49,15 @@
     {
       "anchor": {
         "x": 8.0,
-        "y": 7.15
+        "y": 0.8
       },
       "prevControl": {
         "x": 7.0,
-        "y": 7.15
+        "y": 0.8000000000000002
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CollectUp_Down"
+      "linkedName": "CollectDown"
     }
   ],
   "rotationTargets": [
@@ -70,7 +70,31 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
+      "name": "Shoot",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 3.0
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "IntakeDown",
       "waypointRelativePos": 2.0,
       "endWaypointRelativePos": null,
       "command": {
@@ -91,7 +115,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": null,

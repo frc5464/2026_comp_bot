@@ -40,7 +40,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "RSL3_B2_CollectDown"
+                        "pathName": "RSL2_backitup"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RSL2-backitup_B2_CollectDown"
                       }
                     },
                     {
@@ -115,6 +121,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Asian (Pos3)",
+  "folder": "Mexican (Pos2)",
   "choreoAuto": false
 }
