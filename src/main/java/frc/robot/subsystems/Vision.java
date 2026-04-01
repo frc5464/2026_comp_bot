@@ -222,9 +222,9 @@ public class Vision extends SubsystemBase {
 
         for (SmartCam c : cameras) {
 
-            // if (!c.SafeResSafe()) {
-            // continue;
-            // }
+            if (!c.SafeResSafe()) {
+            continue;
+            }
 
             for (PhotonPipelineResult item : c.SafeResults().get()) {
                 /*
@@ -242,17 +242,18 @@ public class Vision extends SubsystemBase {
                 if (!item.hasTargets()) {
                     continue;
                 }
+                
 
                 // backup estimation method
-                Optional<EstimatedRobotPose> constructorObject = c.est
-                        .estimateLowestAmbiguityPose(item);
-                SmartDashboard.putString("imscreaming", constructorObject.toString());
-                if (constructorObject.isPresent()) {
+                Optional<EstimatedRobotPose> constructorObject = c.est.estimateCoprocMultiTagPose(item);
+
+                if (!constructorObject.isEmpty()){
                     basic_samples++;
                     estimatedPositions.add(constructorObject.get());
                     continue;
                 }
-                // System.err.println("Both pose estimation types failed to find any tags.");
+                
+                
                 failed_samples++;
             }
         }
