@@ -24,7 +24,6 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.Vision.SmartCam;
 
 public class Vision extends SubsystemBase {
 
@@ -34,28 +33,25 @@ public class Vision extends SubsystemBase {
 
     // things that can be configured
     public final static int MIN_POS_SAMPLE = 1; // minimum detected apriltags for a camera to attempt pose estimation
-    public final static int ROUNDED_DECIMAL = 3; // how many decimal places the position is rounded to
-    public final static int POSITION_CACHE_LEN = 5; // max length of position cache
-    public final static double CACHE_WEIGHT = 0.05; // weight of cache on position
-
+    public final static int ROUNDED_DECIMAL = 4; // how many decimal places the position is rounded to
+    public final static int POSITION_CACHE_LEN = 1; // max length of position cache
+    public final static double CACHE_WEIGHT = 0.01; //  weight of cache on position
+    
     // smartdashboard values
-    public int failed_samples, multitag_samples, basic_samples = 0;
+    public int failed_samples, multitag_samples, basic_samples = 0; 
     public double vpos_x, vpos_y, vpos_z = 0;
     public Field2d vision_robot_pose = new Field2d();
     public Rotation3d vpos_rot = new Rotation3d();
 
-    // includes a cameras PhotonCamera object, data, name, and allows for
-    // safegetting
+    // includes a cameras PhotonCamera object, data, name, and allows for safegetting
     public class SmartCam {
         String name;
         PhotonCamera obj;
         List<PhotonPipelineResult> results = new ArrayList<>();
-        PhotonPoseEstimator est;
 
-        public SmartCam(String cameraName, Transform3d offset) {
+        public SmartCam(String cameraName) {
             name = cameraName;
             obj = new PhotonCamera(cameraName);
-            est = new PhotonPoseEstimator(kTagFieldLayout, offset);
 
         }
 
@@ -83,7 +79,6 @@ public class Vision extends SubsystemBase {
             }
         }
     };
-
     // ArrayList wrapper with extra utility (FILO)
     public class PositionCache {
         List<Optional<Pose3d>> buffer = new ArrayList<>();
@@ -102,15 +97,38 @@ public class Vision extends SubsystemBase {
     }
 
     public SmartCam cameras[] = {
-            new SmartCam("beedril", new Transform3d(new Translation3d(-0.263525, 0.00635, 0.41275),
-                    new Rotation3d(0, 0, Math.toRadians(180)))), // 180 rotation from forward
-            new SmartCam("vespiquen", new Transform3d(new Translation3d(-0.2794, 0.2667, 0.29845),
-                    new Rotation3d(0, 0, Math.toRadians(90)))), // 90 rotation from forward
-            new SmartCam("combee", new Transform3d(new Translation3d(0.1016, -0.32385, 0.4238625),
-                    new Rotation3d(0, 0, Math.toRadians(270)))) // 270 rotation from forward
+            new SmartCam("beedril"), 
+            new SmartCam("vespiquen"),
+            new SmartCam("combee") // 
     };
 
     private PositionCache latestPoses = new PositionCache(POSITION_CACHE_LEN);
+
+    private PhotonPoseEstimator estimatePoseFromCamera(SmartCam Camera) {
+        Transform3d relativeCameraPosition = null;
+        switch (Camera.name) {
+
+            case "combee": // 270
+                relativeCameraPosition = new Transform3d(new Translation3d(0.1016, -0.32385, 0.4238625),
+                        new Rotation3d(0, 0, Math.toRadians(270)));
+                break;
+
+            case "beedril": // 180
+                relativeCameraPosition = new Transform3d(new Translation3d(-0.263525, 0.00635, 0.41275),
+                        new Rotation3d(0, 0, Math.toRadians(180)));
+                break;
+
+            case "vespiquen": // 90
+                relativeCameraPosition = new Transform3d(new Translation3d(-0.2794, 0.2667, 0.29845),
+                        new Rotation3d(0, 0, Math.toRadians(90)));
+                break;
+
+            default:
+                System.err.println("bad camera name");
+                break;
+        }
+        return new PhotonPoseEstimator(kTagFieldLayout, relativeCameraPosition);
+    }
 
     public void periodic() {
         // this is in a seperate function so it can be quickly disabled if needed
@@ -127,18 +145,6 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putNumber("multitag_samples", multitag_samples);
         SmartDashboard.putNumber("basic_samples", basic_samples);
 
-        for (SmartCam c : cameras) {
-            List<Integer> constructor = new ArrayList<>();
-            if (!c.SafeResSafe()) {
-                continue;
-            }
-            for (PhotonPipelineResult p : c.SafeResults().get()) {
-                for (PhotonTrackedTarget t : p.getTargets()) {
-                    constructor.add(t.fiducialId);
-                }
-            }
-            SmartDashboard.putString(c.name + "TAGS", constructor.toString());
-        }
     }
 
     public List<PhotonTrackedTarget> getAllTargets() {
@@ -219,41 +225,32 @@ public class Vision extends SubsystemBase {
         // uses several cameras to result in one position
         // average positions to reduce miss
         List<EstimatedRobotPose> estimatedPositions = new ArrayList<>();
-
         for (SmartCam c : cameras) {
 
             if (!c.SafeResSafe()) {
-            continue;
+                continue;
             }
 
             for (PhotonPipelineResult item : c.SafeResults().get()) {
-                /*
-                 * Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c)
-                 * .estimateCoprocMultiTagPose(item);
-                 * // Optional<EstimatedRobotPose> constructorObject = Optional.empty();
-                 * 
-                 * if (constructorObject.isPresent()) {
-                 * multitag_samples++;
-                 * estimatedPositions.add(constructorObject.get());
-                 * continue;
-                 * }
-                 */
+                Optional<EstimatedRobotPose> constructorObject = estimatePoseFromCamera(c)
+                        .estimateCoprocMultiTagPose(item);
 
-                if (!item.hasTargets()) {
+                if (constructorObject.isPresent()) {
+                    multitag_samples++;
+                    estimatedPositions.add(constructorObject.get());
                     continue;
                 }
-                
 
                 // backup estimation method
-                Optional<EstimatedRobotPose> constructorObject = c.est.estimateCoprocMultiTagPose(item);
+                constructorObject = estimatePoseFromCamera(c)
+                        .estimateLowestAmbiguityPose(item);
 
-                if (!constructorObject.isEmpty()){
+                if (constructorObject.isPresent()) {
                     basic_samples++;
                     estimatedPositions.add(constructorObject.get());
                     continue;
                 }
-                
-                
+                // System.err.println("Both pose estimation types failed to find any tags.");
                 failed_samples++;
             }
         }
@@ -271,7 +268,7 @@ public class Vision extends SubsystemBase {
                                                                                          // seperately
             avgRotation = avgRotation.plus(estPos.estimatedPose.getRotation());
         }
-
+        
         if (includeCache) {
             for (int i = 0; i < latestPoses.buffer.size(); i++) {
                 if (latestPoses.buffer.get(i).isEmpty()) {
