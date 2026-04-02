@@ -48,56 +48,31 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "RSL3_B2_CollectDown"
+                                    "pathName": "RSL2_backitup"
                                   }
                                 },
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "CollectDown_BL4-5"
+                                    "pathName": "RSL2-backitup_B1_CollectUp_Down"
                                   }
                                 },
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "BL4-5_B2_RSL3"
+                                    "pathName": "CollectUp_1-5"
                                   }
                                 },
                                 {
-                                  "type": "parallel",
+                                  "type": "path",
                                   "data": {
-                                    "commands": [
-                                      {
-                                        "type": "wait",
-                                        "data": {
-                                          "waitTime": 2.0
-                                        }
-                                      },
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "Shoot"
-                                        }
-                                      }
-                                    ]
+                                    "pathName": "BL1-5_RSL1"
                                   }
                                 }
                               ]
                             }
                           }
                         ]
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "RSL3_B2_BL3"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "BL3_B2_RSL3"
                       }
                     },
                     {
@@ -129,6 +104,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Asian (Pos3)",
+  "folder": "Mexican (Pos2)",
   "choreoAuto": false
 }
