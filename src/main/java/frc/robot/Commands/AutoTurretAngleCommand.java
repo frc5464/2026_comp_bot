@@ -30,7 +30,7 @@ public class AutoTurretAngleCommand extends Command {
             turret.autoAim(
                     dashboardVision[0],
                     dashboardVision[1],
-                    dashboardVision[3]);
+                    dashboardVision[2]);
         }
         /*
          * turret.autoAim(drivetrain.getState().Pose.getX(),
