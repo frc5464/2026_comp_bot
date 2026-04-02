@@ -22,7 +22,7 @@ public class IntakeCommand extends Command{
     public void initialize() {
         timer.reset();
         timer.start();
-        SmartDashboard.putNumber("timer", time);
+        // SmartDashboard.putNumber("timer", time);
     }
 
     @Override
