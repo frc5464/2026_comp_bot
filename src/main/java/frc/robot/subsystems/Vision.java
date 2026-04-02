@@ -63,12 +63,17 @@ public class Vision extends SubsystemBase {
     }
     // index to ESTIMATORS to allow for static estimators but dynamic transformation
     linkedCamera[] cameras = {
-            new linkedCamera(new PhotonCamera("ZSC"), 0),
-            new linkedCamera(new PhotonCamera("LPC"), 1)
+            new linkedCamera(new PhotonCamera("vespiquen"), 0),
+            new linkedCamera(new PhotonCamera("combee"), 1),
+            new linkedCamera(new PhotonCamera("beedril"), 2),
     };
     static final PhotonPoseEstimator[] ESTIMATORS = {
-            new PhotonPoseEstimator(kTagFieldLayout, Transform3d.kZero),
-            new PhotonPoseEstimator(kTagFieldLayout, Transform3d.kZero)
+            new PhotonPoseEstimator(kTagFieldLayout, new Transform3d(new Translation3d(-0.2794, 0.2667, 0.29845),
+                    new Rotation3d(0, 0, Math.toRadians(90)))),
+            new PhotonPoseEstimator(kTagFieldLayout, new Transform3d(new Translation3d(0.1016, -0.32385, 0.4238625),
+                    new Rotation3d(0, 0, Math.toRadians(270)))),
+            new PhotonPoseEstimator(kTagFieldLayout,new Transform3d(new Translation3d(-0.263525, 0.00635, 0.41275),
+                    new Rotation3d(0, 0, Math.toRadians(180)))),
     };
 
     // define every variable now
@@ -80,7 +85,7 @@ public class Vision extends SubsystemBase {
     int poseCount = 0;
 
     public void periodic() {
-        // visionPeriodic();
+        visionPeriodic();
     }
 
     public void visionPeriodic() {
@@ -93,6 +98,7 @@ public class Vision extends SubsystemBase {
                 continue;
             }
             constructorPose = ESTIMATORS[c.ESTID].estimateLowestAmbiguityPose(c.lastResults.get(0));
+            
             if (constructorPose.isEmpty()) {
                 continue;
             }
