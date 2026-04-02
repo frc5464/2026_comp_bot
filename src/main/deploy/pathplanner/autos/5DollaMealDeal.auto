@@ -56,25 +56,6 @@
                                   "data": {
                                     "pathName": "BL1-5_RSL1"
                                   }
-                                },
-                                {
-                                  "type": "parallel",
-                                  "data": {
-                                    "commands": [
-                                      {
-                                        "type": "wait",
-                                        "data": {
-                                          "waitTime": 2.0
-                                        }
-                                      },
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "Shoot"
-                                        }
-                                      }
-                                    ]
-                                  }
                                 }
                               ]
                             }
@@ -83,6 +64,25 @@
                             "type": "named",
                             "data": {
                               "name": "LongIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 2.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Shoot"
                             }
                           }
                         ]
