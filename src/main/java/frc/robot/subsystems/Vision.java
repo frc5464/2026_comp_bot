@@ -16,6 +16,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -65,9 +66,9 @@ public class Vision extends SubsystemBase {
     }
     // index to ESTIMATORS to allow for static estimators but dynamic transformation
     linkedCamera[] cameras = {
-            new linkedCamera(new PhotonCamera("vespiquen"), 0),
-            new linkedCamera(new PhotonCamera("combee"), 1),
-            new linkedCamera(new PhotonCamera("beedril"), 2),
+            new linkedCamera(new PhotonCamera("vespiquen"), 1),
+            new linkedCamera(new PhotonCamera("combee"), 2),
+            new linkedCamera(new PhotonCamera("beedril"), 0),
     };
     static final PhotonPoseEstimator[] ESTIMATORS = {
             new PhotonPoseEstimator(kTagFieldLayout, new Transform3d(new Translation3d(-0.2794, 0.2667, 0.29845),
@@ -75,7 +76,7 @@ public class Vision extends SubsystemBase {
             new PhotonPoseEstimator(kTagFieldLayout, new Transform3d(new Translation3d(0.1016, -0.32385, 0.4238625),
                     new Rotation3d(0, 0, Math.toRadians(270)))),
             new PhotonPoseEstimator(kTagFieldLayout,new Transform3d(new Translation3d(-0.263525, 0.00635, 0.41275),
-                    new Rotation3d(0, 0, Math.toRadians(180)))),
+                    new Rotation3d(0, 0, Math.toRadians(270)))),
     };
 
     // define every variable now
@@ -121,12 +122,13 @@ public class Vision extends SubsystemBase {
         if (poseCount != 0) {
             constructorRotation = constructorRotation.div(poseCount);
             constructorTranslation = constructorTranslation.div(poseCount);
+            Rotation2d debug_Test = new Rotation2d(constructorRotation.getX(),constructorRotation.getY());
             robotPose = new Pose3d(constructorTranslation, constructorRotation).toPose2d();
             visionField.setRobotPose(robotPose);
             SmartDashboard.putNumberArray("robopose", new double[] {
                 robotPose.getX(),
                 robotPose.getY(),
-                robotPose.getRotation().getDegrees()
+                debug_Test.getDegrees()
             });
             
             SmartDashboard.putData("visionField", visionField);

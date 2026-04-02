@@ -22,20 +22,24 @@ public class AutoTurretAngleCommand extends Command {
 
     @Override
     public void execute() {
-        dashboardVision = SmartDashboard.getNumberArray("robopose", new double[] { 0, 0, 0 });
-        if (dashboardVision == new double[] { 0, 0, 0 }) {
-            turret.autoAim(drivetrain.getState().Pose.getX(), drivetrain.getState().Pose.getY(),
-                    drivetrain.getState().Pose.getRotation().getDegrees());
-        } else {
-            turret.autoAim(
-                    dashboardVision[0],
-                    dashboardVision[1],
-                    dashboardVision[2]);
-        }
         /*
+         * dashboardVision = SmartDashboard.getNumberArray("robopose", new double[] { 0,
+         * 0, 0 });
+         * if (dashboardVision == new double[] { 0, 0, 0 }) {
          * turret.autoAim(drivetrain.getState().Pose.getX(),
          * drivetrain.getState().Pose.getY(),
          * drivetrain.getState().Pose.getRotation().getDegrees());
+         * } else {
+         * turret.autoAim(
+         * dashboardVision[0],
+         * dashboardVision[1],
+         * dashboardVision[2]);
+         * }
          */
+
+        turret.autoAim(drivetrain.getState().Pose.getX(),
+                drivetrain.getState().Pose.getY(),
+                drivetrain.getState().Pose.getRotation().getDegrees());
+
     }
 }

@@ -36,7 +36,10 @@ public class AutoShootCommand extends Command{
             SmartDashboard.putBoolean("shooting", true);
             // double velocity = shooter.changeVel();
             // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 100));
-            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.changeVel(drivetrain.getState().Pose.getX(), drivetrain.getState().Pose.getY(), drivetrain.getState().Pose.getRotation().getDegrees())));
+            shooter.shooterMotor.setControl(shooter.m_request.withVelocity(
+                shooter.changeVel(drivetrain.getState().Pose.getX(),
+                                  drivetrain.getState().Pose.getY(),
+                                  drivetrain.getState().Pose.getRotation().getDegrees())));
             if((timer.get() >= 0.75)){
                 shooter.feed();
                 // intake.Intake();
