@@ -3,52 +3,64 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.9,
-        "y": 3.0
+        "x": 2.9,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.995248498505759,
-        "y": 3.0
+        "x": 2.326423563648954,
+        "y": 4.819152044288992
       },
       "isLocked": false,
-      "linkedName": "BL4"
+      "linkedName": "backitup_RSL2"
     },
     {
       "anchor": {
         "x": 4.625,
-        "y": 2.4
+        "y": 5.66
       },
       "prevControl": {
-        "x": 5.125,
-        "y": 2.4
+        "x": 3.625,
+        "y": 5.66
       },
       "nextControl": {
-        "x": 4.125,
-        "y": 2.4
+        "x": 5.625,
+        "y": 5.66
       },
       "isLocked": false,
-      "linkedName": "B2"
+      "linkedName": "B1"
     },
     {
       "anchor": {
-        "x": 1.07,
-        "y": 2.75
+        "x": 6.25,
+        "y": 6.3
       },
       "prevControl": {
-        "x": 1.07,
-        "y": 1.25
+        "x": 6.25,
+        "y": 5.8
+      },
+      "nextControl": {
+        "x": 6.25,
+        "y": 6.8
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.8,
+        "y": 7.15
+      },
+      "prevControl": {
+        "x": 6.8,
+        "y": 7.15
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TW2"
+      "linkedName": "CollectUp_Down"
     }
   ],
   "rotationTargets": [
-    {
-      "waypointRelativePos": 0.6,
-      "rotationDegrees": 0.0
-    },
     {
       "waypointRelativePos": 1.4,
       "rotationDegrees": 0.0
@@ -58,24 +70,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "IntakeUp",
-      "waypointRelativePos": 1.4496365524403005,
+      "name": "Intake",
+      "waypointRelativePos": 2.0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "IntakeUp"
-        }
-      }
-    },
-    {
-      "name": "Shoot",
-      "waypointRelativePos": 1.4529346622369939,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Shoot"
+          "name": "IntakeDown"
         }
       }
     }
@@ -93,10 +94,10 @@
     "rotation": -90.0
   },
   "reversed": false,
-  "folder": "ABSOLUTE GARBAGE",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
