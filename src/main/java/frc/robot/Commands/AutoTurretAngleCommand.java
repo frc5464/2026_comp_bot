@@ -1,13 +1,18 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+// import frc.robot.Constants.Vision;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.TurretSubsystem;
-
+import frc.robot.subsystems.Vision;
+import frc.robot.Robot;
 public class AutoTurretAngleCommand extends Command {
     
     private CommandSwerveDrivetrain drivetrain;
     private TurretSubsystem turret;
+
+    double[] dashboardVision;
 
     public AutoTurretAngleCommand(CommandSwerveDrivetrain drivetrain, TurretSubsystem turret){
         this.drivetrain = drivetrain;
@@ -17,8 +22,14 @@ public class AutoTurretAngleCommand extends Command {
 
         @Override
         public void execute(){
-            turret.autoAim(drivetrain.getState().Pose.getX(),
+            dashboardVision = SmartDashboard.getNumberArray("robopose", new double[]{0,0,0});
+            turret.autoAim(
+                dashboardVision[0], 
+                dashboardVision[1],
+                dashboardVision[3]);
+            
+            /*turret.autoAim(drivetrain.getState().Pose.getX(),
                            drivetrain.getState().Pose.getY(), 
-                           drivetrain.getState().Pose.getRotation().getDegrees());
+                           drivetrain.getState().Pose.getRotation().getDegrees());*/
         }
 }
