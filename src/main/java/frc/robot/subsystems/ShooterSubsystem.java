@@ -157,7 +157,7 @@ public class ShooterSubsystem extends SubsystemBase{
         // Calculate the angle needed between hood and red hub in degrees
         distancetoHub =  Math.hypot(turretCenterx-11.9, turretCentery-4);  
     }
-      double calculatedVelocity = (11.03234 * distancetoHub)+21.75157;
+      double calculatedVelocity = -((11.03234 * distancetoHub)+45);
       SmartDashboard.putNumber("calcShootVel", calculatedVelocity);
       return calculatedVelocity;
   }
