@@ -17,7 +17,9 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.SerialPort.Parity;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -83,7 +85,7 @@ public class Vision extends SubsystemBase {
     Rotation3d constructorRotation = new Rotation3d();
     List<EstimatedRobotPose> calcPose = new ArrayList<>();
     int poseCount = 0;
-
+    public Pose2d robotPose = new Pose2d();
     public void periodic() {
         visionPeriodic();
     }
@@ -119,7 +121,14 @@ public class Vision extends SubsystemBase {
         if (poseCount != 0) {
             constructorRotation = constructorRotation.div(poseCount);
             constructorTranslation = constructorTranslation.div(poseCount);
-            visionField.setRobotPose(new Pose3d(constructorTranslation, constructorRotation).toPose2d());
+            robotPose = new Pose3d(constructorTranslation, constructorRotation).toPose2d();
+            visionField.setRobotPose(robotPose);
+            SmartDashboard.putNumberArray("robopose", new double[] {
+                robotPose.getX(),
+                robotPose.getY(),
+                robotPose.getRotation().getDegrees()
+            });
+            
             SmartDashboard.putData("visionField", visionField);
         }
 
