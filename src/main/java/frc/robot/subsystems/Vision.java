@@ -39,7 +39,11 @@ public class Vision extends SubsystemBase {
 
         public linkedCamera(PhotonCamera camImport, int estimatorIndex) {
             this.photonCam = camImport;
-            this.ESTID = estimatorIndex;
+            // max fps for 20ms periodic
+            if (this.photonCam.getFPSLimit() > 50) {
+                this.photonCam.setFPSLimit(50);
+                this.ESTID = estimatorIndex;
+            }
         }
 
         public void update() {
@@ -57,7 +61,7 @@ public class Vision extends SubsystemBase {
         }
 
     }
-
+    // index to ESTIMATORS to allow for static estimators but dynamic transformation
     linkedCamera[] cameras = {
             new linkedCamera(new PhotonCamera("ZSC"), 0),
             new linkedCamera(new PhotonCamera("LPC"), 1)
@@ -66,17 +70,22 @@ public class Vision extends SubsystemBase {
             new PhotonPoseEstimator(kTagFieldLayout, Transform3d.kZero),
             new PhotonPoseEstimator(kTagFieldLayout, Transform3d.kZero)
     };
-    Field2d visionField = new Field2d();
 
+    // define every variable now
+    Field2d visionField = new Field2d();
     Optional<EstimatedRobotPose> constructorPose = Optional.empty();
     Translation3d constructorTranslation = new Translation3d();
     Rotation3d constructorRotation = new Rotation3d();
     List<EstimatedRobotPose> calcPose = new ArrayList<>();
     int poseCount = 0;
-    public void periodic(){
+
+    public void periodic() {
         // visionPeriodic();
     }
+
     public void visionPeriodic() {
+        // clear pose before starting
+        // doesn't reset to 0,0,0 due to checks later
         calcPose.clear();
         for (linkedCamera c : cameras) {
             c.update();
@@ -94,11 +103,13 @@ public class Vision extends SubsystemBase {
         constructorTranslation = new Translation3d();
         poseCount = 0;
 
+        // mean (again)
         for (EstimatedRobotPose pose : calcPose) {
             constructorRotation = constructorRotation.plus(pose.estimatedPose.getRotation());
             constructorTranslation = constructorTranslation.plus(pose.estimatedPose.getTranslation());
             poseCount++;
         }
+        // poseCount checked to prevent 0,0,0
         if (poseCount != 0) {
             constructorRotation = constructorRotation.div(poseCount);
             constructorTranslation = constructorTranslation.div(poseCount);
