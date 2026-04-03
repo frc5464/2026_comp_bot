@@ -67,14 +67,16 @@ public class Vision extends SubsystemBase {
     // index to ESTIMATORS to allow for static estimators but dynamic transformation
     linkedCamera[] cameras = {
             new linkedCamera(new PhotonCamera("vespiquen"), 1),
-            new linkedCamera(new PhotonCamera("combee"), 2),
+            // new linkedCamera(new PhotonCamera("combee"), 2),
             // new linkedCamera(new PhotonCamera("beedril"), 0),
     };
     static final PhotonPoseEstimator[] ESTIMATORS = {
             new PhotonPoseEstimator(kTagFieldLayout, new Transform3d(new Translation3d(-0.2794, 0.2667, 0.29845),
-                    new Rotation3d(0, 0, Math.toRadians(90)))),
+                    new Rotation3d(
+                        0, 0, Math.toRadians(90)))),
             new PhotonPoseEstimator(kTagFieldLayout, new Transform3d(new Translation3d(0.1016, -0.32385, 0.4238625),
-                    new Rotation3d(0, 0, Math.toRadians(270)))),
+                    new Rotation3d(
+                        Math.toRadians(0), 90, Math.toRadians(270)))),
             new PhotonPoseEstimator(kTagFieldLayout,new Transform3d(new Translation3d(-0.263525, 0.00635, 0.41275),
                     new Rotation3d(Math.toRadians(180), Math.toRadians(0), Math.toRadians(0)))),
     };
@@ -89,7 +91,7 @@ public class Vision extends SubsystemBase {
     public Pose2d robotPose = new Pose2d();
 
     public void periodic() {
-        // visionPeriodic();
+        visionPeriodic();
     }
 
     public void visionPeriodic() {

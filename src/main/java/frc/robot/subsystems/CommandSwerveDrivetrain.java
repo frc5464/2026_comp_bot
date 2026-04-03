@@ -341,18 +341,18 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         
         // This block of code takes vision data and corrects the drivetrain - Jake
         // ***********************************************************************
-        dashboardVision = SmartDashboard.getNumberArray("robopose", new double[] { 0, 0, 0, 0 });
-        if(dashboardVision[3]!=0){  // don't do anything with vision if there are no valid poses
-            double visionTimeStamp = dashboardVision[3];    // grab the ts in seconds from pose est
-            if(visionTimeStamp!=lastVisionTimestamp){   // new data? do something.
-                addVisionMeasurement(new Pose2d(
-                    dashboardVision[0],
-                    dashboardVision[1],
-                    Rotation2d.fromDegrees(dashboardVision[2])
-                ), visionTimeStamp);
-                lastVisionTimestamp = visionTimeStamp;
-            }
-        }
+        // dashboardVision = SmartDashboard.getNumberArray("robopose", new double[] { 0, 0, 0, 0 });
+        // if(dashboardVision[3]!=0){  // don't do anything with vision if there are no valid poses
+        //     double visionTimeStamp = dashboardVision[3];    // grab the ts in seconds from pose est
+        //     if(visionTimeStamp!=lastVisionTimestamp){   // new data? do something.
+        //         addVisionMeasurement(new Pose2d(
+        //             dashboardVision[0],
+        //             dashboardVision[1],
+        //             Rotation2d.fromDegrees(dashboardVision[2])
+        //         ), visionTimeStamp);
+        //         lastVisionTimestamp = visionTimeStamp;
+        //     }
+        // }
         // ***********************************************************************
     }
 
