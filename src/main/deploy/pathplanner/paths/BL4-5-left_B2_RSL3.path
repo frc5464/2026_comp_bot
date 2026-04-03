@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5900000000000003,
+        "x": 8.3,
         "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8400000000000003,
+        "x": 7.12506571332672,
         "y": 2.5
       },
       "isLocked": false,
-      "linkedName": "RSL3"
+      "linkedName": "BL4-5_Left"
     },
     {
       "anchor": {
@@ -20,11 +20,11 @@
         "y": 2.4
       },
       "prevControl": {
-        "x": 4.375,
+        "x": 5.176792168674699,
         "y": 2.4
       },
       "nextControl": {
-        "x": 5.625,
+        "x": 4.073207831325301,
         "y": 2.4
       },
       "isLocked": false,
@@ -32,50 +32,46 @@
     },
     {
       "anchor": {
-        "x": 8.3,
-        "y": 4.0
+        "x": 3.5900000000000003,
+        "y": 2.5
       },
       "prevControl": {
-        "x": 8.3,
-        "y": 2.0
+        "x": 3.8400000000000003,
+        "y": 2.5
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BL3_up"
+      "linkedName": "RSL3-left"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.25,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 0.25,
+      "rotationDegrees": 180.0
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.25,
+      "maxWaypointRelativePos": 1.2,
+      "constraints": {
+        "maxVelocity": 1.75,
+        "maxAcceleration": 1.8,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 1.2,
-      "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeDown"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Intake"
-              }
-            }
-          ]
-        }
-      }
+      "name": "",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
     }
   ],
   "globalConstraints": {
@@ -87,14 +83,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 90.0
+    "velocity": 0.0,
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

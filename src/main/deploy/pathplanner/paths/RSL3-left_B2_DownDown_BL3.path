@@ -12,7 +12,23 @@
         "y": 2.5
       },
       "isLocked": false,
-      "linkedName": "RSL3"
+      "linkedName": "RSL3-left"
+    },
+    {
+      "anchor": {
+        "x": 2.27,
+        "y": 2.5
+      },
+      "prevControl": {
+        "x": 2.02,
+        "y": 2.5
+      },
+      "nextControl": {
+        "x": 2.520000000000005,
+        "y": 2.5
+      },
+      "isLocked": false,
+      "linkedName": null
     },
     {
       "anchor": {
@@ -32,52 +48,51 @@
     },
     {
       "anchor": {
-        "x": 8.3,
-        "y": 4.0
+        "x": 7.079643366619065,
+        "y": 1.6
       },
       "prevControl": {
-        "x": 8.3,
-        "y": 2.0
+        "x": 6.473393366619065,
+        "y": 1.575
+      },
+      "nextControl": {
+        "x": 7.685893366619066,
+        "y": 1.6250000000000004
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.7,
+        "y": 3.4
+      },
+      "prevControl": {
+        "x": 7.7,
+        "y": 1.4
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BL3_up"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.25,
+      "waypointRelativePos": 1,
       "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 2.3048897411313582,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 3.0,
+      "rotationDegrees": 75.0
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake",
-      "waypointRelativePos": 1.2,
-      "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeDown"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Intake"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
@@ -88,13 +103,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 59.99999999999999
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
