@@ -328,7 +328,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
-        
+
+        /*
+         *  if(we have new vision poses){
+         *          addvisionMeasurement(vision pose, photonvision timestamp?)
+         *  }
+         */
+
         SmartDashboard.putNumber("DriveX",getState().Pose.getX());
         SmartDashboard.putNumber("DriveY",getState().Pose.getY());
         SmartDashboard.putNumber("DriveRot",getState().Pose.getRotation().getRotations());
