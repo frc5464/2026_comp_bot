@@ -95,17 +95,18 @@ public class Vision extends SubsystemBase {
         // clear pose before starting
         // doesn't reset to 0,0,0 due to checks later
         calcPose.clear();
+        double lastEstPoseTimeStamp = 0;
         for (linkedCamera c : cameras) {
             c.update();
             if (c.lastResults.size() == 0) {
                 continue;
             }
-            constructorPose = ESTIMATORS[c.ESTID].estimateLowestAmbiguityPose(c.lastResults.get(0));
-            
+            constructorPose = ESTIMATORS[c.ESTID].estimateLowestAmbiguityPose(c.lastResults.get(0));      
             if (constructorPose.isEmpty()) {
                 continue;
             }
             calcPose.add(constructorPose.get());
+            lastEstPoseTimeStamp = c.lastResults.get(0).getTimestampSeconds();
         }
         // clear variables before new iteration
         constructorRotation = new Rotation3d();
@@ -128,7 +129,8 @@ public class Vision extends SubsystemBase {
             SmartDashboard.putNumberArray("robopose", new double[] {
                 robotPose.getX(),
                 robotPose.getY(),
-                debug_Test.getDegrees()
+                debug_Test.getDegrees(),
+                lastEstPoseTimeStamp
             });
             
             SmartDashboard.putData("visionField", visionField);

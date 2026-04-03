@@ -45,9 +45,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final double kSimLoopPeriod = 0.004; // 4 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
-
+    private double lastVisionTimestamp = 0;
     // private final Telemetry telemetry = new Telemetry(kNumConfigAttempts);
-
+    double[] dashboardVision;
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
@@ -332,6 +332,22 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("DriveX",getState().Pose.getX());
         SmartDashboard.putNumber("DriveY",getState().Pose.getY());
         SmartDashboard.putNumber("DriveRot",getState().Pose.getRotation().getRotations());
+        
+        // This block of code takes vision data and corrects the drivetrain - Jake
+        // ***********************************************************************
+        dashboardVision = SmartDashboard.getNumberArray("robopose", new double[] { 0, 0, 0, 0 });
+        if(dashboardVision[3]!=0){  // don't do anything with vision if there are no valid poses
+            double visionTimeStamp = dashboardVision[3];    // grab the ts in seconds from pose est
+            if(visionTimeStamp!=lastVisionTimestamp){   // new data? do something.
+                addVisionMeasurement(new Pose2d(
+                    dashboardVision[0],
+                    dashboardVision[1],
+                    Rotation2d.fromDegrees(dashboardVision[2])
+                ), visionTimeStamp);
+                lastVisionTimestamp = visionTimeStamp;
+            }
+        }
+        // ***********************************************************************
     }
 
     public void seedFieldCentric180() {
