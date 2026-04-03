@@ -55,7 +55,7 @@ import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
 
-    private double MaxSpeed = 0.8 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxSpeed = 0.65 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(1.0).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     
     /* Setting up bindings for necessary control of the swerve drive platform */
@@ -202,7 +202,7 @@ public class RobotContainer {
         driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, false, 67));
         driveController.rightBumper().whileTrue(new AutoShootCommand(shoot, belt, drivetrain, false, 67));
         driveController.leftBumper().whileTrue(new ShuttleCommand(shoot, belt, false, 67));
-        
+
         zackController.back().whileTrue(new ManualModeCommand());
         zackController.y().whileTrue(new FeedCommand(shoot, belt, true, 67));
         // zackController.a().toggleOnTrue(new BeltCommand(belt));
