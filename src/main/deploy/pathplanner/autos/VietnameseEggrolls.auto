@@ -74,15 +74,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "wait",
+                            "type": "path",
                             "data": {
-                              "waitTime": 1.75
+                              "pathName": "RSL3-flip"
                             }
                           },
                           {
                             "type": "named",
                             "data": {
-                              "name": "Shoot"
+                              "name": "LongIntake"
                             }
                           }
                         ]
@@ -93,15 +93,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "path",
+                            "type": "wait",
                             "data": {
-                              "pathName": "RSL3-left_B2_DownDown_BL3"
+                              "waitTime": 5.0
                             }
                           },
                           {
                             "type": "named",
                             "data": {
-                              "name": "LongIntake"
+                              "name": "Shoot"
                             }
                           }
                         ]
