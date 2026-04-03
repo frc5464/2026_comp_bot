@@ -45,8 +45,9 @@ public class Vision extends SubsystemBase {
             // max fps for 20ms periodic
             if (this.photonCam.getFPSLimit() > 50) {
                 this.photonCam.setFPSLimit(50);
-                this.ESTID = estimatorIndex;
+                
             }
+            this.ESTID = estimatorIndex;
         }
 
         public void update() {
@@ -66,20 +67,44 @@ public class Vision extends SubsystemBase {
     }
     // index to ESTIMATORS to allow for static estimators but dynamic transformation
     linkedCamera[] cameras = {
+            new linkedCamera(new PhotonCamera("beedril"), 0),
             new linkedCamera(new PhotonCamera("vespiquen"), 1),
             new linkedCamera(new PhotonCamera("combee"), 2),
-            new linkedCamera(new PhotonCamera("beedril"), 0),
     };
-    static final PhotonPoseEstimator[] ESTIMATORS = {
+
+    static final PhotonPoseEstimator beedril =
             new PhotonPoseEstimator(kTagFieldLayout, new Transform3d(new Translation3d(-0.2794, 0.2667, 0.29845),
                     new Rotation3d(
-                        0, 0, Math.toRadians(180)))),
+                        0, 
+                        0, 
+                        Math.toRadians(180))));
+    static final PhotonPoseEstimator vespiquen = 
             new PhotonPoseEstimator(kTagFieldLayout, new Transform3d(new Translation3d(0.1016, -0.32385, 0.4238625),
                     new Rotation3d(
-                        Math.toRadians(0), 0, Math.toRadians(90)))),
+                        Math.toRadians(0), 
+                        0, 
+                        Math.toRadians(90))));
+    static final PhotonPoseEstimator combee =
             new PhotonPoseEstimator(kTagFieldLayout,new Transform3d(new Translation3d(-0.263525, 0.00635, 0.41275),
                     new Rotation3d(
-                        Math.toRadians(180), 0, Math.toRadians(0)))),
+                        Math.toRadians(0), 
+                        0, 
+                        Math.toRadians(270))));
+
+
+    static final PhotonPoseEstimator[] ESTIMATORS = {
+            beedril,
+            vespiquen,
+            combee
+            // new PhotonPoseEstimator(kTagFieldLayout, new Transform3d(new Translation3d(-0.2794, 0.2667, 0.29845),
+            //         new Rotation3d(
+            //             0, 0, Math.toRadians(180)))),
+            // new PhotonPoseEstimator(kTagFieldLayout, new Transform3d(new Translation3d(0.1016, -0.32385, 0.4238625),
+            //         new Rotation3d(
+            //             Math.toRadians(0), 0, Math.toRadians(90)))),
+            // new PhotonPoseEstimator(kTagFieldLayout,new Transform3d(new Translation3d(-0.263525, 0.00635, 0.41275),
+            //         new Rotation3d(
+            //             Math.toRadians(180), 0, Math.toRadians(0)))),
     };
 
     // define every variable now
