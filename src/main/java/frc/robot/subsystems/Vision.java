@@ -156,13 +156,12 @@ public class Vision extends SubsystemBase {
             robotPose = new Pose3d(constructorTranslation, constructorRotation).toPose2d();
             visionField.setRobotPose(robotPose);
             
-            SmartDashboard.putNumberArray("robopose", new double[] {
+            
+            SmartDashboard.putNumberArray("visionInternalPose", new double[] {
                 robotPose.getX(),
                 robotPose.getY(),
-                robotPose.getRotation().getDegrees(),
-                lastEstPoseTimeStamp
+                robotPose.getRotation().getRadians()
             });
-            
             SmartDashboard.putData("visionField", visionField);
         }
 
