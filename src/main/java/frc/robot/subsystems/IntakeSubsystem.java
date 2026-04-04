@@ -40,8 +40,8 @@ public class IntakeSubsystem extends SubsystemBase{
     private SparkMaxConfig leftjawMotorConfig = new SparkMaxConfig();
     public SparkClosedLoopController leftjawClosedLoopController;
 
-    public double lefttargetPositionInt = -19;
-
+    public double lefttargetPositionInt = -0.2;
+//was -19
     private CandleSubsystem candel;
 
 
