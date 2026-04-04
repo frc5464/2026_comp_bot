@@ -91,7 +91,7 @@ public class RobotContainer {
     public BeltSubsystem belt = new BeltSubsystem();
 
     public CandleSubsystem candle = new CandleSubsystem();
-    public Vision vision = new Vision();
+    // public Vision vision = new Vision();
 
     // public OldVision vision = new OldVision();
     // public VisionRetry vision;
@@ -152,7 +152,7 @@ public class RobotContainer {
     public void periodic(){
         shoot.periodic();
         intake.periodic();
-        vision.periodic();
+        // vision.periodic();
     }
 
     public void configureBindings() {

@@ -67,9 +67,9 @@ public class Vision extends SubsystemBase {
     }
     // index to ESTIMATORS to allow for static estimators but dynamic transformation
     linkedCamera[] cameras = {
-            new linkedCamera(new PhotonCamera("beedril"), 0),
-            new linkedCamera(new PhotonCamera("vespiquen"), 1),
-            new linkedCamera(new PhotonCamera("combee"), 2),
+            // new linkedCamera(new PhotonCamera("beedril"), 0),
+            // new linkedCamera(new PhotonCamera("vespiquen"), 1),
+            // new linkedCamera(new PhotonCamera("combee"), 2),
     };
 
     static final PhotonPoseEstimator beedril =
