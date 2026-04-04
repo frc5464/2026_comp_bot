@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.BeltSubsystem;
-
+import frc.robot.subsystems.IntakeSubsystem;
 // import frc.robot.Universals;
 // import frc.robot.subsystems.BeltSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -18,16 +18,16 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShootCommand extends Command{
 
     private ShooterSubsystem shooter;
-    // private IntakeSubsystem intake;
+    private IntakeSubsystem intake;
     private BeltSubsystem belt;
     public Timer timer = new Timer();
     double time;
     public boolean reversed;
 
-    public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, boolean reversed, double time){
+    public ShootCommand(ShooterSubsystem shooter, BeltSubsystem belt, IntakeSubsystem intake, boolean reversed, double time){
         this.shooter = shooter;
         this.belt = belt;
-        // this.intake = intake;
+        this.intake = intake;
         this.time = time;
         this.reversed = reversed;
     }
@@ -46,14 +46,14 @@ public class ShootCommand extends Command{
             // shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.changeVel()));
             if((timer.get() >= 0.75)){
                 shooter.feed();
-                // intake.Intake();
+                intake.Intake();
                 SmartDashboard.putBoolean("feeding", true);
                 if(timer.get() >= 2){
                     belt.runBelt(-0.75);
                 } else{
                     belt.runBelt(-1);
                 }
-                // SmartDashboard.putBoolean("intaking", true);
+                SmartDashboard.putBoolean("intaking", true);
             }
 
 
@@ -70,10 +70,10 @@ public class ShootCommand extends Command{
         shooter.shooterMotor.setControl(shooter.m_request.withVelocity(shooter.targetVelocity = 0));
         shooter.disableFeed();
         belt.stopBelt();
-        // intake.DisableIntake();
+        intake.DisableIntake();
         SmartDashboard.putBoolean("shooting", false);
         SmartDashboard.putBoolean("feeding", false);
-        // SmartDashboard.putBoolean("intaking", false);
+        SmartDashboard.putBoolean("intaking", false);
 
     }
 

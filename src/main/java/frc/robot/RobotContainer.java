@@ -100,8 +100,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
-        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, false, 3));
-        NamedCommands.registerCommand("LongShoot", new ShootCommand(shoot, belt, false, 8));
+        NamedCommands.registerCommand("Shoot", new ShootCommand(shoot, belt, intake, false, 3));
+        NamedCommands.registerCommand("LongShoot", new ShootCommand(shoot, belt, intake, false, 8));
         NamedCommands.registerCommand("LongIntake", new IntakeCommand(intake, 18, true));
 
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -199,7 +199,7 @@ public class RobotContainer {
         zackController.povUp().onTrue(new ShooterHoodCommand(shoot, true));
         zackController.povDown().onTrue(new ShooterHoodCommand(shoot, false));
         //rev up feeder motor up to speed, then shoots when up to speed
-        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, false, 67));
+        driveController.rightTrigger().whileTrue(new ShootCommand(shoot, belt, intake, false, 67));
         driveController.rightBumper().whileTrue(new AutoShootCommand(shoot, belt, drivetrain, false, 67));
         driveController.leftBumper().whileTrue(new ShuttleCommand(shoot, belt, false, 67));
 
@@ -220,7 +220,7 @@ public class RobotContainer {
         zackController.axisGreaterThan(4, 0.5).whileTrue(new ManualTurretCommand(turret, true));
         zackController.axisLessThan(4, -0.5).whileTrue(new ManualTurretCommand(turret, false));
 
-        zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, true, 67));
+        zackController.leftBumper().whileTrue(new ShootCommand(shoot, belt, intake, true, 67));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
