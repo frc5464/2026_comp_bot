@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -98,7 +100,17 @@ public class RobotContainer {
     // public OldVision vision = new OldVision();
     // public VisionRetry vision;
 
+    //Create wait chooser
+    private final SendableChooser<Double> m_waitChooser = new SendableChooser<>();
+
     public RobotContainer() {
+        //Add options for wait times
+        m_waitChooser.setDefaultOption("O seconds (No Delay)", 0.0);
+        m_waitChooser.addOption("1 second", 1.0);
+        m_waitChooser.addOption("3 second", 3.0);
+        m_waitChooser.addOption("5 second", 5.0);
+        SmartDashboard.putData("Auto Wait Time", m_waitChooser);
+
         NamedCommands.registerCommand("IntakeDown", new IntakeToPositionCommand(intake, 1));
         NamedCommands.registerCommand("IntakeUp", new IntakeToPositionCommand(intake, 0));
         NamedCommands.registerCommand("Intake", new IntakeCommand(intake, 3.25, true));
@@ -250,6 +262,11 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand() {
+        //Get selected delay from SmartDashboard
+        double waitTime = m_waitChooser.getSelected();
+        // return m_waitChooser.getSelected();
+        new WaitCommand(waitTime);
+
         return autoChooser.getSelected();
 
         // // // Simple drive forward auton
