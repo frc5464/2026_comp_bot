@@ -104,6 +104,8 @@ public class RobotContainer {
     private final SendableChooser<Double> m_waitChooser = new SendableChooser<>();
 
     public RobotContainer() {
+        shoot.audio.AllowMusicDurDisable = true;
+        // shoot.play();
         //Add options for wait times
         m_waitChooser.setDefaultOption("O seconds (No Delay)", 0.0);
         m_waitChooser.addOption("1 second", 1.0);
