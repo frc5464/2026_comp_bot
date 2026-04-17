@@ -154,12 +154,12 @@ public class TurretSubsystem extends SubsystemBase{
         calculatedPosition = -(calculatedTurretAngle / degrees_per_rotation);
 
         // always shoot straight forward if not in our scoring zone
-        if((xrobot > 5) && xrobot < 11.4){
-            turrettargetPosition = 0;
-            turretAimedtoShoot = true;
-        }
+        // if((xrobot > 5) && xrobot < 11.4){
+        //     turrettargetPosition = 0;
+        //     turretAimedtoShoot = true;
+        // }
         // keep our values within safe limits if in scoring zone
-        else if(calculatedPosition > turretlimitleft){
+        if(calculatedPosition > turretlimitleft){
             turrettargetPosition = turretlimitleft;
             turretAimedtoShoot = false;
         }
