@@ -64,21 +64,21 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public double distancetoHub;
 
-    public Orchestra m_orchestra = new Orchestra("supermario.chrp");
-    public AudioConfigs audio = new AudioConfigs();
+    // public Orchestra m_orchestra = new Orchestra("supermario.chrp");
+    // public AudioConfigs audio = new AudioConfigs();
 
   public ShooterSubsystem(){
-    audio.AllowMusicDurDisable = true;
-    m_orchestra.addInstrument(shooterMotor);
-    var status = m_orchestra.loadMusic("supermario.chrp");
-    m_orchestra.play();
+    // audio.AllowMusicDurDisable = true;
+    // m_orchestra.addInstrument(shooterMotor);
+    // var status = m_orchestra.loadMusic("supermario.chrp");
+    // m_orchestra.play();
       
-    if (!status.isOK()) {
-    //   // log error
-    }
+    // if (!status.isOK()) {
+    // //   // log error
+    // }
     
     initPidShoot();
-    
+
     SmartDashboard.putBoolean("shooting", false);
 
     // if (!status.isOK()) {
